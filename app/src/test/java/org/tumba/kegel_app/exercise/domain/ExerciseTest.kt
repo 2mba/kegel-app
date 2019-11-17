@@ -3,7 +3,10 @@ package org.tumba.kegel_app.exercise.domain
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should equal`
 import org.junit.Test
-
+import org.tumba.kegel_app.exercise.domain.entity.Exercise
+import org.tumba.kegel_app.exercise.domain.entity.ExerciseConfig
+import org.tumba.kegel_app.exercise.domain.entity.ExerciseEvent
+import org.tumba.kegel_app.exercise.domain.entity.Time
 import java.util.concurrent.TimeUnit
 
 class ExerciseTest {
@@ -15,10 +18,19 @@ class ExerciseTest {
     @Test
     fun `should repeat one time and receive all events`() {
         val exercise = Exercise(
-            Config(
-                preparationDuration = Time(1, TimeUnit.SECONDS),
-                holdingDuration = Time(1, TimeUnit.SECONDS),
-                relaxDuration = Time(1, TimeUnit.SECONDS),
+            ExerciseConfig(
+                preparationDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
+                holdingDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
+                relaxDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
                 repeats = 1
             )
         )
@@ -43,10 +55,19 @@ class ExerciseTest {
     @Test
     fun `should repeat three time and receive 3 holding and 3 relax events`() {
         val exercise = Exercise(
-            Config(
-                preparationDuration = Time(1, TimeUnit.SECONDS),
-                holdingDuration = Time(1, TimeUnit.SECONDS),
-                relaxDuration = Time(1, TimeUnit.SECONDS),
+            ExerciseConfig(
+                preparationDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
+                holdingDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
+                relaxDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
                 repeats = 3
             )
         )

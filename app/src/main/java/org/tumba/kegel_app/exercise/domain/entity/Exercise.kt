@@ -1,12 +1,12 @@
-package org.tumba.kegel_app.exercise.domain
+package org.tumba.kegel_app.exercise.domain.entity
 
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import org.tumba.kegel_app.exercise.domain.State.CurrentState
+import org.tumba.kegel_app.exercise.domain.entity.State.CurrentState
 import java.util.concurrent.TimeUnit
 
-class Exercise(private val config: Config) {
+class Exercise(private val config: ExerciseConfig) {
 
     companion object {
         private const val UPDATE_INTERVAL_SECONDS = 1L
@@ -16,7 +16,8 @@ class Exercise(private val config: Config) {
     val events: Observable<ExerciseEvent>
         get() = eventsSubject
     private val eventsSubject = PublishSubject.create<ExerciseEvent>()
-    private var state: State = State.None
+    private var state: State =
+        State.None
     private var intervalDisposable: Disposable? = null
 
     fun start() {
@@ -201,13 +202,6 @@ sealed class ExerciseEvent {
 
     object Finish : ExerciseEvent()
 }
-
-data class Config(
-    val preparationDuration: Time,
-    val holdingDuration: Time,
-    val relaxDuration: Time,
-    val repeats: Int
-)
 
 data class Time(
     val quantity: Long,
