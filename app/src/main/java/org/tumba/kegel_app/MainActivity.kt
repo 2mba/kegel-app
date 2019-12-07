@@ -3,28 +3,33 @@ package org.tumba.kegel_app
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import org.tumba.kegel_app.exercise.utils.gone
+import org.tumba.kegel_app.exercise.utils.show
 
 class MainActivity : AppCompatActivity() {
+
+    private val navBarScreens = listOf(
+        R.id.screen_home,
+        R.id.screen_notifications
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        initNavigation()
+    }
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+    private fun initNavigation() {
+        val navController = findNavController(R.id.navFragment)
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in navBarScreens) {
+                navView.show()
+            } else {
+                navView.gone()
+            }
+        }
     }
 }
