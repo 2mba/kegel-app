@@ -2,51 +2,75 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemExercise"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_medium"
     android:layout_marginEnd="@dimen/margin_medium"
-    android:foreground="?selectableItemBackground"
     android:transitionName="itemExercise">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemExerciseTitle"
             style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Упражнение"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:transitionName="itemTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/day"
             style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5й день/\n4 уровень"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="5-й день"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:drawableTint="@color/colorPrimary"
+            app:drawableTopCompat="@drawable/ic_sun"
+            app:layout_constraintEnd_toStartOf="@+id/level"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/itemExerciseTitle"
+            app:textAllCaps="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/level"
+            style="@style/Widget.MaterialComponents.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 уровень"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:drawableTint="@color/colorPrimary"
+            app:drawableTopCompat="@drawable/ic_cup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/day"
+            app:layout_constraintTop_toTopOf="@+id/day"
+            app:textAllCaps="true" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartExercise"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
             android:text="Приступить к тренировке"
-            android:layout_gravity="end"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

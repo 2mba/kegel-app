@@ -7,10 +7,23 @@
     android:transitionName="itemExercise"
     tools:background="@color/black">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:transitionName="itemTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:title="@string/title_exercise" />
+
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:id="@+id/progressBar"
         android:layout_width="250dp"
         android:layout_height="250dp"
+        android:layout_marginTop="@dimen/margin_medium"
         app:cpb_background_progressbar_color="@color/transparent"
         app:cpb_background_progressbar_width="2dp"
         app:cpb_progress_direction="to_right"
@@ -19,7 +32,7 @@
         app:cpb_round_border="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/timer"
@@ -188,13 +201,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="64dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnStop"

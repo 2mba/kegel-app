@@ -10,6 +10,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.home_item_exercise.*
+import kotlinx.android.synthetic.main.home_item_hint.*
 import org.tumba.kegel_app.R
 
 
@@ -33,8 +34,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController()
-        itemExercise.setOnClickListener { navigateToExercise() }
         btnStartExercise.setOnClickListener { navigateToExercise() }
+        itemHint.setOnClickListener { }
     }
 
     private fun navigateToExercise() {
@@ -43,7 +44,8 @@ class HomeFragment : Fragment() {
             null,
             null,
             FragmentNavigatorExtras(
-                itemExercise to "itemExercise"
+                itemExercise to "itemExercise",
+                itemExerciseTitle to "itemTitle"
             )
         )
     }

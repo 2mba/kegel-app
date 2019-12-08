@@ -9,16 +9,17 @@
     android:layout_marginEnd="@dimen/margin_medium"
     android:foreground="?selectableItemBackground">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_large"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleStatistic"
             style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,22 +29,56 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exercisesTitle"
             style="@style/Widget.MaterialComponents.TextView"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Упражнений пройдено: 5\nДлительность 5 мин" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Посмотреть"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="Упражнений"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:drawableTint="@color/colorPrimary"
+            app:drawableTopCompat="@drawable/ic_run"
+            app:layout_constraintEnd_toStartOf="@+id/level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleStatistic"
+            app:textAllCaps="true" />
 
-    </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exercisesValue"
+            style="@style/Widget.MaterialComponents.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@id/exercisesTitle"
+            app:layout_constraintTop_toBottomOf="@id/exercisesTitle"
+            app:layout_constraintEnd_toEndOf="@id/exercisesTitle"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/level"
+            style="@style/Widget.MaterialComponents.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Длительность"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:drawableTint="@color/colorPrimary"
+            app:drawableTopCompat="@drawable/ic_clock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/exercisesTitle"
+            app:layout_constraintTop_toTopOf="@+id/exercisesTitle"
+            app:textAllCaps="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Widget.MaterialComponents.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="56 мин"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@id/level"
+            app:layout_constraintTop_toBottomOf="@id/level"
+            app:layout_constraintEnd_toEndOf="@id/level" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
