@@ -3,10 +3,16 @@ package org.tumba.kegel_app.exercise.domain.entity
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import org.tumba.kegel_app.core.system.IVibrationManager
+import org.tumba.kegel_app.core.system.IVibrationManager.Strength
 import org.tumba.kegel_app.exercise.domain.entity.State.CurrentState
 import java.util.concurrent.TimeUnit
 
-class Exercise(private val config: ExerciseConfig) {
+class Exercise(
+    private val config: ExerciseConfig,
+    private val vibrationManager: IVibrationManager,
+    private val vibrationEnabledStateProvider: () -> Boolean
+) {
 
     companion object {
         private const val UPDATE_INTERVAL_SECONDS = 1L
@@ -45,6 +51,7 @@ class Exercise(private val config: ExerciseConfig) {
             repeatRemain = config.repeats - 1,
             startTime = System.currentTimeMillis()
         )
+        vibrate(Strength.Low)
         notifyState()
     }
 
@@ -86,6 +93,7 @@ class Exercise(private val config: ExerciseConfig) {
                 repeatRemain = state.repeatRemain,
                 startTime = System.currentTimeMillis()
             )
+            vibrate(Strength.Medium)
         }
         notifyState()
     }
@@ -103,6 +111,7 @@ class Exercise(private val config: ExerciseConfig) {
                     repeatRemain = state.repeatRemain - 1,
                     startTime = System.currentTimeMillis()
                 )
+                vibrate(Strength.Medium)
             }
         }
         notifyState()
@@ -122,7 +131,8 @@ class Exercise(private val config: ExerciseConfig) {
             CurrentState.PREPARATION -> {
                 eventsSubject.onNext(
                     ExerciseEvent.Preparation(
-                        remainSeconds = remainSeconds
+                        remainSeconds = remainSeconds,
+                        exerciseDurationSeconds = config.preparationDuration.toSeconds()
                     )
                 )
             }
@@ -130,7 +140,8 @@ class Exercise(private val config: ExerciseConfig) {
                 eventsSubject.onNext(
                     ExerciseEvent.Holding(
                         remainSeconds = remainSeconds,
-                        repeatRemains = state.repeatRemain
+                        repeatRemains = state.repeatRemain,
+                        exerciseDurationSeconds = config.holdingDuration.toSeconds()
                     )
                 )
             }
@@ -138,13 +149,20 @@ class Exercise(private val config: ExerciseConfig) {
                 eventsSubject.onNext(
                     ExerciseEvent.Relax(
                         remainSeconds = remainSeconds,
-                        repeatsRemain = state.repeatRemain
+                        repeatsRemain = state.repeatRemain,
+                        exerciseDurationSeconds = config.relaxDuration.toSeconds()
                     )
                 )
             }
         }
     }
 
+    private fun vibrate(strength: Strength) {
+        val isVibrationEnabled = vibrationEnabledStateProvider()
+        if (isVibrationEnabled) {
+            vibrationManager.vibrate(strength)
+        }
+    }
 
     private fun getDurationState(state: State.InProgress): Long {
         return when (state.currentState) {
@@ -190,11 +208,22 @@ private sealed class State {
 
 sealed class ExerciseEvent {
 
-    data class Preparation(val remainSeconds: Long) : ExerciseEvent()
+    data class Preparation(
+        val remainSeconds: Long,
+        val exerciseDurationSeconds: Long
+    ) : ExerciseEvent()
 
-    data class Holding(val remainSeconds: Long, val repeatRemains: Int) : ExerciseEvent()
+    data class Holding(
+        val remainSeconds: Long,
+        val repeatRemains: Int,
+        val exerciseDurationSeconds: Long
+    ) : ExerciseEvent()
 
-    data class Relax(val remainSeconds: Long, val repeatsRemain: Int) : ExerciseEvent()
+    data class Relax(
+        val remainSeconds: Long,
+        val repeatsRemain: Int,
+        val exerciseDurationSeconds: Long
+    ) : ExerciseEvent()
 
     data class Pause(val remainSeconds: Long, val repeatsRemain: Int) : ExerciseEvent()
 
@@ -209,3 +238,5 @@ data class Time(
 )
 
 fun Time.toMillis(): Long = unit.toMillis(quantity)
+
+fun Time.toSeconds(): Long = unit.toSeconds(quantity)

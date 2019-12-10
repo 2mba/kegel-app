@@ -1,11 +1,12 @@
 package org.tumba.kegel_app.exercise.presentation.view
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.lifecycle.Observer
 import androidx.transition.TransitionInflater
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.presentation.fragment.BaseFragment
@@ -14,16 +15,23 @@ import org.tumba.kegel_app.core.presentation.viewmodel.getViewModel
 import org.tumba.kegel_app.di.Scope.SCOPE_APP
 import org.tumba.kegel_app.di.Scope.SCOPE_EXERCISE
 import org.tumba.kegel_app.exercise.di.getExerciseModule
+import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel.Paused
+import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel.Playing
 import org.tumba.kegel_app.exercise.presentation.viewmodel.ExerciseViewModel
+import org.tumba.kegel_app.exercise.utils.observe
 import toothpick.Toothpick
-import javax.inject.Inject
 
 
 class ExerciseFragment : BaseFragment(
     viewCreationStrategy = ResourceCreationStrategy(R.layout.fragment_exercise)
 ) {
-    @Inject
-    lateinit var viewModel: ExerciseViewModel
+    companion object {
+        private const val DELAY_BUTTONS_APPEARING_MILLIS = 400L
+        private const val PROGRESS_MAX = 1000
+    }
+
+    private lateinit var viewModel: ExerciseViewModel
+    private val progressInterpolator = AccelerateDecelerateInterpolator()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,50 +53,79 @@ class ExerciseFragment : BaseFragment(
     }
 
     private fun initUi() {
-        progressBar.progressMax = 1F
-        progressBar.progress = 1F
         btnPlay.visibility = View.INVISIBLE
-        btnStop.visibility = View.INVISIBLE
+        btnNotification.visibility = View.INVISIBLE
+        btnVibration.visibility = View.INVISIBLE
 
-        btnPlay.postDelayed({ btnPlay.show() }, 400)
-        btnStop.postDelayed({ btnStop.show() }, 400)
+        btnPlay.postDelayed({ btnPlay.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
+        btnNotification.postDelayed({ btnNotification.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
+        btnVibration.postDelayed({ btnVibration.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
+
+        btnPlay.setOnClickListener { viewModel.onClickPlay() }
+        btnNotification.setOnClickListener { viewModel.onClickNotification() }
+        btnVibration.setOnClickListener { viewModel.onClickVibration() }
+        progress.max = PROGRESS_MAX
     }
 
     private fun observeViewModel() {
-        // viewModel.logs.observe(this, Observer { log -> this.log.text = log })
-        var bool = true
-        viewModel.exercise.observe(
+        observeExerciseKind()
+        observeExerciseState()
+        observeVibrationState()
+
+        observe(viewModel.repeatsRemain) { repeatsRemain ->
+            repeats.text = repeatsRemain.toString()
+        }
+        observe(viewModel.secondsRemain) { secondsRemain -> timer.text = "00:0$secondsRemain" }
+        observe(viewModel.exerciseProgress) { progressValue ->
+            val interpolatedProgress = progressInterpolator.getInterpolation(progressValue)
+            progress.progress = (interpolatedProgress * progress.max).toInt()
+        }
+        observe(viewModel.day) { dayValue -> day.text = dayValue.toString() }
+        observe(viewModel.level) { levelValue -> level.text = levelValue.toString() }
+    }
+
+    private fun observeExerciseKind() {
+        viewModel.exerciseKind.observe(
             this,
-            Observer { exercise ->
-                if (this.exercise.text == exercise) return@Observer
-                this.exercise.text = exercise
-                val colorTo = if (bool) {
-                    requireContext().getColor(R.color.colorAccent)
-                } else {
-                    requireContext().getColor(R.color.colorPrimary)
+            Observer { exerciseValue -> exercise.text = exerciseValue }
+        )
+    }
+
+    private fun observeExerciseState() {
+        observe(viewModel.exerciseState) { exerciseState ->
+            val btnPlayText: String
+            val btnPlayIcon: Int
+            when (exerciseState) {
+                Playing -> {
+                    btnPlayText = getString(R.string.screen_exercise_btn_pause)
+                    btnPlayIcon = R.drawable.ic_pause_animated
                 }
-                val colorFrom = if (bool) {
-                    requireContext().getColor(R.color.colorPrimary)
-                } else {
-                    requireContext().getColor(R.color.colorAccent)
+                Paused -> {
+                    btnPlayText = getString(R.string.screen_exercise_btn_play)
+                    btnPlayIcon = R.drawable.ic_play_animated
                 }
-                ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo).apply {
-                    addUpdateListener { value ->
-                        progressBar.progressBarColor = value.animatedValue as Int
-                        this@ExerciseFragment.exercise.setTextColor(value.animatedValue as Int)
-                    }
-                    start()
-                }
-                bool = !bool
+                else -> throw IllegalStateException("exerciseState should be not null")
             }
-        )
-        viewModel.repeatsRemain.observe(
+            val iconDrawable = AnimatedVectorDrawableCompat.create(
+                requireContext(),
+                btnPlayIcon
+            )
+            btnPlay.text = btnPlayText
+            btnPlay.icon = iconDrawable
+            iconDrawable?.start()
+        }
+    }
+
+    private fun observeVibrationState() {
+        viewModel.isVibrationEnabled.observe(
             this,
-            Observer { repeatsRemain -> repeats.text = "$repeatsRemain" }
-        )
-        viewModel.secondsRemain.observe(
-            this,
-            Observer { secondsRemain -> timer.text = "00:0$secondsRemain" }
+            Observer { isVibrationEnabled ->
+                btnVibration.icon = if (isVibrationEnabled) {
+                    VectorDrawableCompat.create(resources, R.drawable.ic_notification_off, null)
+                } else {
+                    VectorDrawableCompat.create(resources, R.drawable.ic_vibration, null)
+                }
+            }
         )
     }
 }

@@ -44,8 +44,7 @@ class HomeFragment : Fragment() {
             null,
             null,
             FragmentNavigatorExtras(
-                itemExercise to "itemExercise",
-                itemExerciseTitle to "itemTitle"
+                itemExercise to "itemExercise"
             )
         )
     }

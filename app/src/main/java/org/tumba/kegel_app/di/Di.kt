@@ -2,10 +2,16 @@ package org.tumba.kegel_app.di
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
+import org.tumba.kegel_app.core.system.IResourceProvider
+import org.tumba.kegel_app.core.system.IVibrationManager
+import org.tumba.kegel_app.core.system.ResourceProviderImpl
+import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.di.Scope.SCOPE_APP
 import toothpick.Toothpick
 import toothpick.ktp.binding.bind
 import toothpick.ktp.binding.module
+import toothpick.ktp.binding.toClass
 
 object Scope {
     const val SCOPE_APP = "SCOPE_APP"
@@ -21,4 +27,7 @@ fun initAppScope(application: Application) {
 private fun getAppModule(application: Application) = module {
     bind(Application::class).toInstance(application)
     bind(Context::class).toInstance(application)
+    bind(Resources::class).toInstance(application.resources)
+    bind(IResourceProvider::class).toClass(ResourceProviderImpl::class)
+    bind(IVibrationManager::class).toClass(VibrationManager::class)
 }
