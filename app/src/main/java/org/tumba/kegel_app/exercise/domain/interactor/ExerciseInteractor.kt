@@ -4,6 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.exercise.data.ExerciseRepository
+import org.tumba.kegel_app.exercise.data.ExerciseSettingsRepository
 import org.tumba.kegel_app.exercise.domain.entity.Exercise
 import org.tumba.kegel_app.exercise.domain.entity.ExerciseConfig
 import org.tumba.kegel_app.exercise.domain.entity.ExerciseEvent
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 class ExerciseInteractor @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
+    private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val vibrationManager: IVibrationManager
 ) {
 
@@ -31,12 +33,22 @@ class ExerciseInteractor @Inject constructor(
             .ignoreElement()
     }
 
-    fun setVibrationEnabled(enabled: Boolean): Completable {
-        return exerciseRepository.setVibrationEnabled(enabled)
+    fun stopExercise(): Completable {
+        return exerciseRepository.getExercise()
+            .map { it.stop() }
+            .ignoreElement()
     }
 
-    fun isVibrationEnabled(): Observable<Boolean> {
-        return exerciseRepository.isVibrationEnabled()
+    fun pauseExercise(): Completable {
+        return exerciseRepository.getExercise()
+            .map { it.pause() }
+            .ignoreElement()
+    }
+
+    fun resumeExercise(): Completable {
+        return exerciseRepository.getExercise()
+            .map { it.resume() }
+            .ignoreElement()
     }
 
     private fun createExerciseFrom(config: ExerciseConfig): Exercise {
@@ -44,7 +56,7 @@ class ExerciseInteractor @Inject constructor(
             config = config,
             vibrationManager = vibrationManager,
             vibrationEnabledStateProvider = {
-                exerciseRepository.isVibrationEnabled().blockingFirst()
+                exerciseSettingsRepository.isVibrationEnabled().blockingFirst()
             }
         )
     }

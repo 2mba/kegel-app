@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
@@ -16,11 +17,13 @@ import org.tumba.kegel_app.exercise.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel
 import org.tumba.kegel_app.exercise.utils.Empty
 import org.tumba.kegel_app.exercise.utils.async
+import org.tumba.kegel_app.home.domain.ExerciseSettingsInteractor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ExerciseViewModel @Inject constructor(
     private val exerciseInteractor: ExerciseInteractor,
+    private val exerciseSettingsInteractor: ExerciseSettingsInteractor,
     private val resourceProvider: IResourceProvider
 ) : CoreViewModel() {
 
@@ -34,8 +37,8 @@ class ExerciseViewModel @Inject constructor(
     val repeatsRemain = MutableLiveData(0)
     val secondsRemain = MutableLiveData(0L)
     val exerciseProgress = MutableLiveData(0F)
-    val level = MutableLiveData(5)
-    val day = MutableLiveData(2)
+    val level = MutableLiveData(0)
+    val day = MutableLiveData(0)
     val isVibrationEnabled = MutableLiveData(true)
 
     private var exerciseDuration = 0L
@@ -45,31 +48,42 @@ class ExerciseViewModel @Inject constructor(
 
     init {
         loadVibrationState()
+        loadLevelAndDay()
         startExercise()
     }
 
     fun onClickPlay() {
         when (exerciseState.value) {
             ExerciseStateUiModel.Playing -> {
+                stopRemainTimer()
                 exerciseState.value = ExerciseStateUiModel.Paused
+                exerciseInteractor.pauseExercise()
+                    .async()
+                    .subscribe()
             }
             ExerciseStateUiModel.Paused -> {
                 exerciseState.value = ExerciseStateUiModel.Playing
+                exerciseInteractor.resumeExercise()
+                    .async()
+                    .subscribe()
             }
         }
     }
 
     fun onClickNotification() {
-
     }
 
     fun onClickVibration() {
         val isVibrationEnabled = isVibrationEnabled.value ?: true
-        this.isVibrationEnabled.value = !isVibrationEnabled
-        exerciseInteractor.setVibrationEnabled(!isVibrationEnabled)
+        exerciseSettingsInteractor.setVibrationEnabled(!isVibrationEnabled)
             .async()
             .subscribe()
             .disposeOnDestroy(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopExercise()
     }
 
     private fun startExercise() {
@@ -117,7 +131,7 @@ class ExerciseViewModel @Inject constructor(
                 restartRemainTimer()
             }
             is ExerciseEvent.Finish -> {
-                stopRemainTimer()
+                finishExercise()
             }
         }
         currentState = event
@@ -148,11 +162,40 @@ class ExerciseViewModel @Inject constructor(
     }
 
     private fun loadVibrationState() {
-        exerciseInteractor.isVibrationEnabled()
+        exerciseSettingsInteractor.isVibrationEnabled()
             .async()
             .subscribeBy(
                 onNext = { isVibrationEnabled.value = it }
             )
             .disposeOnDestroy(this)
     }
+
+    private fun loadLevelAndDay() {
+        Observables.zip(
+            exerciseSettingsInteractor.getExerciseLevel(),
+            exerciseSettingsInteractor.getExerciseDay()
+        )
+            .firstElement()
+            .async()
+            .subscribe { (exerciseLevel, exerciseDay) ->
+                level.value = exerciseLevel
+                day.value = exerciseDay
+            }
+            .disposeOnDestroy(this)
+    }
+
+    private fun stopExercise() {
+        stopRemainTimer()
+        exerciseInteractor.stopExercise()
+            .async()
+            .subscribe()
+    }
+
+    private fun finishExercise() {
+        stopRemainTimer()
+        exerciseSettingsInteractor.incrementExerciseLevel()
+            .async()
+            .subscribe()
+    }
+
 }

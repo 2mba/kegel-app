@@ -22,8 +22,7 @@ class Exercise(
     val events: Observable<ExerciseEvent>
         get() = eventsSubject
     private val eventsSubject = PublishSubject.create<ExerciseEvent>()
-    private var state: State =
-        State.None
+    private var state: State = State.None
     private var intervalDisposable: Disposable? = null
 
     fun start() {
@@ -31,11 +30,28 @@ class Exercise(
         startTickUpdates()
     }
 
+    fun resume() {
+        val state = state
+        if (state is State.Pause) {
+            this.state = state.pausedState
+            notifyState()
+            startTickUpdates()
+        }
+    }
+
     fun pause() {
-        check(state is State.InProgress) { "Exercise should be started" }
+        val state = state
+        if (state is State.InProgress) {
+            stopTickUpdates()
+            this.state = State.Pause(state)
+            notifyState()
+        }
     }
 
     fun stop() {
+        stopTickUpdates()
+        state = State.None
+        notifyState()
     }
 
     private fun tick() {
@@ -181,6 +197,10 @@ class Exercise(
         )
             .subscribe { tick() }
     }
+
+    private fun stopTickUpdates() {
+        intervalDisposable?.dispose()
+    }
 }
 
 private sealed class State {
@@ -194,9 +214,7 @@ private sealed class State {
     ) : State()
 
     data class Pause(
-        val repeats: Int,
-        val currentState: CurrentState,
-        val remainTimeMillis: Long
+        val pausedState: InProgress
     ) : State()
 
     enum class CurrentState {
