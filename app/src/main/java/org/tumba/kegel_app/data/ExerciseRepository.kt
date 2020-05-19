@@ -1,8 +1,7 @@
-package org.tumba.kegel_app.exercise.data
+package org.tumba.kegel_app.data
 
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import org.tumba.kegel_app.exercise.domain.entity.Exercise
 import javax.inject.Inject
 
 class ExerciseRepository @Inject constructor() {

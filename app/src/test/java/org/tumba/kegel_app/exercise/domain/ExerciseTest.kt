@@ -3,10 +3,10 @@ package org.tumba.kegel_app.exercise.domain
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should equal`
 import org.junit.Test
-import org.tumba.kegel_app.exercise.domain.entity.Exercise
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseConfig
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseEvent
-import org.tumba.kegel_app.exercise.domain.entity.Time
+import org.tumba.kegel_app.data.Exercise
+import org.tumba.kegel_app.data.ExerciseConfig
+import org.tumba.kegel_app.data.ExerciseEvent
+import org.tumba.kegel_app.data.Time
 import java.util.concurrent.TimeUnit
 
 class ExerciseTest {

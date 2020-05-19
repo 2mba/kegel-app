@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.presentation.viewmodel
+package org.tumba.kegel_app.exercise
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
@@ -8,16 +8,14 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
-import org.tumba.kegel_app.exercise.core.presentation.CoreViewModel
-import org.tumba.kegel_app.exercise.core.presentation.disposeOnDestroy
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseConfig
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseEvent
-import org.tumba.kegel_app.exercise.domain.entity.Time
-import org.tumba.kegel_app.exercise.domain.interactor.ExerciseInteractor
-import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel
-import org.tumba.kegel_app.exercise.utils.Empty
-import org.tumba.kegel_app.exercise.utils.async
-import org.tumba.kegel_app.home.domain.ExerciseSettingsInteractor
+import org.tumba.kegel_app.core.CoreViewModel
+import org.tumba.kegel_app.core.disposeOnDestroy
+import org.tumba.kegel_app.data.ExerciseConfig
+import org.tumba.kegel_app.data.ExerciseEvent
+import org.tumba.kegel_app.data.Time
+import org.tumba.kegel_app.utils.Empty
+import org.tumba.kegel_app.utils.async
+import org.tumba.kegel_app.home.ExerciseSettingsInteractor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -89,9 +87,18 @@ class ExerciseViewModel @Inject constructor(
     private fun startExercise() {
         exerciseInteractor.createExercise(
             config = ExerciseConfig(
-                preparationDuration = Time(3, TimeUnit.SECONDS),
-                holdingDuration = Time(1, TimeUnit.SECONDS),
-                relaxDuration = Time(1, TimeUnit.SECONDS),
+                preparationDuration = Time(
+                    3,
+                    TimeUnit.SECONDS
+                ),
+                holdingDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
+                relaxDuration = Time(
+                    1,
+                    TimeUnit.SECONDS
+                ),
                 repeats = 5
             )
         )

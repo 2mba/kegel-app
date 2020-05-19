@@ -1,13 +1,9 @@
-package org.tumba.kegel_app.exercise.domain.interactor
+package org.tumba.kegel_app.exercise
 
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.core.system.IVibrationManager
-import org.tumba.kegel_app.exercise.data.ExerciseRepository
-import org.tumba.kegel_app.exercise.data.ExerciseSettingsRepository
-import org.tumba.kegel_app.exercise.domain.entity.Exercise
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseConfig
-import org.tumba.kegel_app.exercise.domain.entity.ExerciseEvent
+import org.tumba.kegel_app.data.*
 import javax.inject.Inject
 
 class ExerciseInteractor @Inject constructor(

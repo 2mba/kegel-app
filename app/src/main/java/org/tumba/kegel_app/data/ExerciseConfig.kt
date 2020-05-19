@@ -1,4 +1,6 @@
-package org.tumba.kegel_app.exercise.domain.entity
+package org.tumba.kegel_app.data
+
+import org.tumba.kegel_app.data.Time
 
 data class ExerciseConfig(
     val preparationDuration: Time,

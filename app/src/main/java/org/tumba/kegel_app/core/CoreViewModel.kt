@@ -1,12 +1,14 @@
-package org.tumba.kegel_app.exercise.core.presentation
+package org.tumba.kegel_app.core
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class CoreViewModel : ViewModel(), ILifecycleOwner<ViewModelLifecycleEvent> {
+open class CoreViewModel : ViewModel(),
+    ILifecycleOwner<ViewModelLifecycleEvent> {
 
-    override val lifecycleObservable: LifecycleProxy<ViewModelLifecycleEvent> = LifecycleProxy()
+    override val lifecycleObservable: LifecycleProxy<ViewModelLifecycleEvent> =
+        LifecycleProxy()
 
     override fun onCleared() {
         super.onCleared()
@@ -47,7 +49,12 @@ class LifecycleProxy<T> : ILifecycleObservable<T> {
 }
 
 fun Disposable.disposeOnDestroy(lifecycleOwner: ILifecycleOwner<ViewModelLifecycleEvent>): Disposable {
-    return disposeBy(LifecycleDisposer.of(lifecycleOwner, ViewModelLifecycleEvent.OnDestroy))
+    return disposeBy(
+        LifecycleDisposer.of(
+            lifecycleOwner,
+            ViewModelLifecycleEvent.OnDestroy
+        )
+    )
 }
 
 fun Disposable.disposeBy(disposer: IDisposer): Disposable {
@@ -76,7 +83,8 @@ class Disposer private constructor() : IDisposer {
 
     companion object {
 
-        fun create(): Disposer = Disposer()
+        fun create(): Disposer =
+            Disposer()
     }
 }
 
@@ -86,7 +94,8 @@ class LifecycleDisposer<T> private constructor(
 ) : IDisposer by Disposer.create() {
 
     init {
-        lifecycleOwner.lifecycleObservable.observeLifecycle(object : ILifecycleObserver<T> {
+        lifecycleOwner.lifecycleObservable.observeLifecycle(object :
+            ILifecycleObserver<T> {
             override fun onLifecycleEvent(event: T) {
                 if (lifecycleEvent == event) {
                     dispose()
@@ -98,7 +107,10 @@ class LifecycleDisposer<T> private constructor(
     companion object {
 
         fun <T> of(lifecycleOwner: ILifecycleOwner<T>, lifecycleEvent: T): LifecycleDisposer<T> {
-            return LifecycleDisposer(lifecycleOwner, lifecycleEvent)
+            return LifecycleDisposer(
+                lifecycleOwner,
+                lifecycleEvent
+            )
         }
     }
 }

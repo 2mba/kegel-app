@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.data
+package org.tumba.kegel_app.data
 
 import io.reactivex.Completable
 import io.reactivex.Observable

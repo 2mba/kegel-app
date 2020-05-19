@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.di
+package org.tumba.kegel_app.exercise
 
 import toothpick.ktp.binding.module
 

@@ -1,11 +1,10 @@
-package org.tumba.kegel_app.home.presentation.viewmodel
+package org.tumba.kegel_app.home
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxkotlin.Observables
-import org.tumba.kegel_app.exercise.core.presentation.CoreViewModel
-import org.tumba.kegel_app.exercise.core.presentation.disposeOnDestroy
-import org.tumba.kegel_app.exercise.utils.async
-import org.tumba.kegel_app.home.domain.ExerciseSettingsInteractor
+import org.tumba.kegel_app.core.CoreViewModel
+import org.tumba.kegel_app.core.disposeOnDestroy
+import org.tumba.kegel_app.utils.async
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(

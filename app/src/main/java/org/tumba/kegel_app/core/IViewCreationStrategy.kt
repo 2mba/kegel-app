@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.core.presentation.fragment
+package org.tumba.kegel_app.core
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.core.presentation.viewmodel
+package org.tumba.kegel_app.core
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -18,6 +18,8 @@ class ViewModelFactory @Inject constructor(
 }
 
 fun <T : ViewModel> Fragment.getViewModel(viewModelClass: KClass<T>, scope: Any): T {
-    return ViewModelProviders.of(this, ViewModelFactory(scope)).get(viewModelClass.java)
+    return ViewModelProviders.of(this,
+        ViewModelFactory(scope)
+    ).get(viewModelClass.java)
 }
 

@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.home.presentation.view
+package org.tumba.kegel_app.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,11 +13,9 @@ import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.home_item_exercise.*
 import kotlinx.android.synthetic.main.home_item_hint.*
 import org.tumba.kegel_app.R
-import org.tumba.kegel_app.core.presentation.viewmodel.getViewModel
+import org.tumba.kegel_app.core.getViewModel
 import org.tumba.kegel_app.di.Scope
-import org.tumba.kegel_app.exercise.utils.observe
-import org.tumba.kegel_app.home.di.getHomeModule
-import org.tumba.kegel_app.home.presentation.viewmodel.HomeViewModel
+import org.tumba.kegel_app.utils.observe
 import toothpick.Toothpick
 
 

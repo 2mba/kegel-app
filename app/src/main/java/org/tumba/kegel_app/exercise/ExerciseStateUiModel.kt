@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.presentation.model
+package org.tumba.kegel_app.exercise
 
 enum class ExerciseStateUiModel {
     Playing,

@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.utils
+package org.tumba.kegel_app.utils
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

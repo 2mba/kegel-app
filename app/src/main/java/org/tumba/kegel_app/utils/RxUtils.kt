@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.utils
+package org.tumba.kegel_app.utils
 
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers

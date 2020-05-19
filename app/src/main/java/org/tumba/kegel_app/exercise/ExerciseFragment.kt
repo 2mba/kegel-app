@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise.presentation.view
+package org.tumba.kegel_app.exercise
 
 import android.os.Bundle
 import android.view.View
@@ -9,16 +9,14 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import org.tumba.kegel_app.R
-import org.tumba.kegel_app.core.presentation.fragment.BaseFragment
-import org.tumba.kegel_app.core.presentation.fragment.ResourceCreationStrategy
-import org.tumba.kegel_app.core.presentation.viewmodel.getViewModel
+import org.tumba.kegel_app.core.BaseFragment
+import org.tumba.kegel_app.core.ResourceCreationStrategy
+import org.tumba.kegel_app.core.getViewModel
 import org.tumba.kegel_app.di.Scope.SCOPE_APP
 import org.tumba.kegel_app.di.Scope.SCOPE_EXERCISE
-import org.tumba.kegel_app.exercise.di.getExerciseModule
-import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel.Paused
-import org.tumba.kegel_app.exercise.presentation.model.ExerciseStateUiModel.Playing
-import org.tumba.kegel_app.exercise.presentation.viewmodel.ExerciseViewModel
-import org.tumba.kegel_app.exercise.utils.observe
+import org.tumba.kegel_app.exercise.ExerciseStateUiModel.Paused
+import org.tumba.kegel_app.exercise.ExerciseStateUiModel.Playing
+import org.tumba.kegel_app.utils.observe
 import toothpick.Toothpick
 
 
@@ -57,14 +55,21 @@ class ExerciseFragment : BaseFragment(
         btnNotification.visibility = View.INVISIBLE
         btnVibration.visibility = View.INVISIBLE
 
-        btnPlay.postDelayed({ btnPlay.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
-        btnNotification.postDelayed({ btnNotification.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
-        btnVibration.postDelayed({ btnVibration.show() }, DELAY_BUTTONS_APPEARING_MILLIS)
+        btnPlay.postDelayed({ btnPlay.show() },
+            DELAY_BUTTONS_APPEARING_MILLIS
+        )
+        btnNotification.postDelayed({ btnNotification.show() },
+            DELAY_BUTTONS_APPEARING_MILLIS
+        )
+        btnVibration.postDelayed({ btnVibration.show() },
+            DELAY_BUTTONS_APPEARING_MILLIS
+        )
 
         btnPlay.setOnClickListener { viewModel.onClickPlay() }
         btnNotification.setOnClickListener { viewModel.onClickNotification() }
         btnVibration.setOnClickListener { viewModel.onClickVibration() }
-        progress.max = PROGRESS_MAX
+        progress.max =
+            PROGRESS_MAX
     }
 
     private fun observeViewModel() {
@@ -86,7 +91,7 @@ class ExerciseFragment : BaseFragment(
 
     private fun observeExerciseKind() {
         viewModel.exerciseKind.observe(
-            this,
+            viewLifecycleOwner,
             Observer { exerciseValue -> exercise.text = exerciseValue }
         )
     }
@@ -118,7 +123,7 @@ class ExerciseFragment : BaseFragment(
 
     private fun observeVibrationState() {
         viewModel.isVibrationEnabled.observe(
-            this,
+            viewLifecycleOwner,
             Observer { isVibrationEnabled ->
                 btnVibration.icon = if (isVibrationEnabled) {
                     VectorDrawableCompat.create(resources, R.drawable.ic_notification_off, null)

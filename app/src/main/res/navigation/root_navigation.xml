@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/screen_exercise"
-        android:name="org.tumba.kegel_app.exercise.presentation.view.ExerciseFragment"
+        android:name="org.tumba.kegel_app.exercise.ExerciseFragment"
         android:label="@string/title_exercise"
         tools:layout="@layout/fragment_exercise" />
 

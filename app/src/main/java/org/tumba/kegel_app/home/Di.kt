@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.home.di
+package org.tumba.kegel_app.home
 
 import toothpick.ktp.binding.module
 

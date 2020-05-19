@@ -1,11 +1,11 @@
-package org.tumba.kegel_app.exercise.domain.entity
+package org.tumba.kegel_app.data
 
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.core.system.IVibrationManager.Strength
-import org.tumba.kegel_app.exercise.domain.entity.State.CurrentState
+import org.tumba.kegel_app.data.State.CurrentState
 import java.util.concurrent.TimeUnit
 
 class Exercise(
@@ -22,7 +22,8 @@ class Exercise(
     val events: Observable<ExerciseEvent>
         get() = eventsSubject
     private val eventsSubject = PublishSubject.create<ExerciseEvent>()
-    private var state: State = State.None
+    private var state: State =
+        State.None
     private var intervalDisposable: Disposable? = null
 
     fun start() {

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
-import org.tumba.kegel_app.exercise.utils.gone
-import org.tumba.kegel_app.exercise.utils.show
+import org.tumba.kegel_app.utils.gone
+import org.tumba.kegel_app.utils.show
 
 class MainActivity : AppCompatActivity() {
 
