@@ -4,9 +4,8 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.data.*
-import javax.inject.Inject
 
-class ExerciseInteractor @Inject constructor(
+class ExerciseInteractor(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val vibrationManager: IVibrationManager

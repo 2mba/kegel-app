@@ -3,9 +3,8 @@ package org.tumba.kegel_app.data
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.core.system.IPreferences
-import javax.inject.Inject
 
-class ExerciseSettingsRepository @Inject constructor(
+class ExerciseSettingsRepository(
     private val preferences: IPreferences
 ) {
 

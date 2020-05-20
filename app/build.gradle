@@ -72,13 +72,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     // Gson
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
-    // TODO: is it used?
     implementation "com.google.android.gms:play-services-maps:$google_services_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    compileOnly 'javax.annotation:jsr250-api:1.0'
-    implementation 'javax.inject:javax.inject:1'
-    implementation 'com.github.stephanenicolas.toothpick:ktp:3.0.0'
-    kapt 'com.github.stephanenicolas.toothpick:toothpick-compiler:3.0.0'
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
 

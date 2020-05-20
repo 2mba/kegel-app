@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -13,15 +14,18 @@ import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.home_item_exercise.*
 import kotlinx.android.synthetic.main.home_item_hint.*
 import org.tumba.kegel_app.R
-import org.tumba.kegel_app.core.getViewModel
-import org.tumba.kegel_app.di.Scope
+import org.tumba.kegel_app.databinding.FragmentHomeBinding
+import org.tumba.kegel_app.utils.InjectorUtils
 import org.tumba.kegel_app.utils.observe
-import toothpick.Toothpick
 
 
 class HomeFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var binding: FragmentHomeBinding
+
+    private val viewModel: HomeViewModel by viewModels {
+        InjectorUtils.provideHomeViewModelFactory(requireContext())
+    }
 
     private val rootNavController: NavController? by lazy {
         (parentFragment as NavHost?)?.navController
@@ -29,22 +33,17 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initScope()
-        viewModel = getViewModel(HomeViewModel::class, Scope.SCOPE_HOME)
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
     }
 
-    private fun initScope() {
-        Toothpick.openScopes(Scope.SCOPE_APP, Scope.SCOPE_HOME)
-            .installModules(getHomeModule())
-    }
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

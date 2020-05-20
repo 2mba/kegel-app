@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import io.reactivex.Observable
-import javax.inject.Inject
 
 
 interface IPreferences {
@@ -46,7 +45,7 @@ class Preference<T>(private val preference: Preference<T>) : IPreference<T> {
     override fun asObservable(): Observable<T> = preference.asObservable()
 }
 
-class Preferences @Inject constructor(preferences: SharedPreferences) : IPreferences {
+class Preferences(preferences: SharedPreferences) : IPreferences {
 
     private var rxPreferences = RxSharedPreferences.create(preferences)
 

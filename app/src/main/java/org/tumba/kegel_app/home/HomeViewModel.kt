@@ -1,15 +1,14 @@
 package org.tumba.kegel_app.home
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.rxkotlin.Observables
-import org.tumba.kegel_app.core.CoreViewModel
-import org.tumba.kegel_app.core.disposeOnDestroy
+import org.tumba.kegel_app.exercise.ExerciseSettingsInteractor
 import org.tumba.kegel_app.utils.async
-import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(
+class HomeViewModel(
     private val exerciseSettingsInteractor: ExerciseSettingsInteractor
-) : CoreViewModel() {
+) : ViewModel() {
 
     val exerciseLevel = MutableLiveData(0)
     val exerciseDay = MutableLiveData(0)
@@ -29,6 +28,7 @@ class HomeViewModel @Inject constructor(
                 this.exerciseLevel.value = exerciseLevel
                 this.exerciseDay.value = exerciseDay
             }
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 }
+

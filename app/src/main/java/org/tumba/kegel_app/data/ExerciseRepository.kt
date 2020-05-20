@@ -2,9 +2,8 @@ package org.tumba.kegel_app.data
 
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import javax.inject.Inject
 
-class ExerciseRepository @Inject constructor() {
+class ExerciseRepository() {
 
     private var exercise: Exercise? = null
 

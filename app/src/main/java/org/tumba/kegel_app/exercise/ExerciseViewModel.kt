@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.exercise
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -8,22 +9,18 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
-import org.tumba.kegel_app.core.CoreViewModel
-import org.tumba.kegel_app.core.disposeOnDestroy
 import org.tumba.kegel_app.data.ExerciseConfig
 import org.tumba.kegel_app.data.ExerciseEvent
 import org.tumba.kegel_app.data.Time
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.async
-import org.tumba.kegel_app.home.ExerciseSettingsInteractor
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class ExerciseViewModel @Inject constructor(
+class ExerciseViewModel(
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseSettingsInteractor: ExerciseSettingsInteractor,
     private val resourceProvider: IResourceProvider
-) : CoreViewModel() {
+) : ViewModel() {
 
     companion object {
         private const val TIMER_INTERVAL_MILLIS = 20L
@@ -76,7 +73,7 @@ class ExerciseViewModel @Inject constructor(
         exerciseSettingsInteractor.setVibrationEnabled(!isVibrationEnabled)
             .async()
             .subscribe()
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 
     override fun onCleared() {
@@ -108,7 +105,7 @@ class ExerciseViewModel @Inject constructor(
             .subscribeBy(
                 onNext = ::onExerciseEventReceived
             )
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 
     private fun onExerciseEventReceived(event: ExerciseEvent?) {
@@ -161,7 +158,7 @@ class ExerciseViewModel @Inject constructor(
                     millisRemain / (exerciseDuration * MILLIS_IN_SECONDS)
                 }
             }
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 
     private fun stopRemainTimer() {
@@ -174,7 +171,7 @@ class ExerciseViewModel @Inject constructor(
             .subscribeBy(
                 onNext = { isVibrationEnabled.value = it }
             )
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 
     private fun loadLevelAndDay() {
@@ -188,7 +185,7 @@ class ExerciseViewModel @Inject constructor(
                 level.value = exerciseLevel
                 day.value = exerciseDay
             }
-            .disposeOnDestroy(this)
+            //.disposeOnDestroy(this)
     }
 
     private fun stopExercise() {

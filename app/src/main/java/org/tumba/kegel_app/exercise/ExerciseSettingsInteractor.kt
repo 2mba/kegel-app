@@ -1,11 +1,10 @@
-package org.tumba.kegel_app.home
+package org.tumba.kegel_app.exercise
 
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.data.ExerciseSettingsRepository
-import javax.inject.Inject
 
-class ExerciseSettingsInteractor @Inject constructor(
+class ExerciseSettingsInteractor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository
 ) {
 

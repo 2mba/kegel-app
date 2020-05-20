@@ -2,14 +2,13 @@ package org.tumba.kegel_app.core.system
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
-import javax.inject.Inject
 
 interface IResourceProvider {
 
     fun getString(@StringRes resId: Int, vararg args: Any): String
 }
 
-class ResourceProviderImpl @Inject constructor(
+class ResourceProviderImpl(
     private val resources: Resources
 ) : IResourceProvider {
 

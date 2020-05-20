@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.core.system.IVibrationManager.Strength
-import org.tumba.kegel_app.data.State.CurrentState
+import org.tumba.kegel_app.data.ExerciseState.CurrentState
 import java.util.concurrent.TimeUnit
 
 class Exercise(
@@ -22,48 +22,48 @@ class Exercise(
     val events: Observable<ExerciseEvent>
         get() = eventsSubject
     private val eventsSubject = PublishSubject.create<ExerciseEvent>()
-    private var state: State =
-        State.None
+    private var exerciseState: ExerciseState =
+        ExerciseState.None
     private var intervalDisposable: Disposable? = null
 
     fun start() {
-        check(state == State.None) { "Exercise should not be started" }
+        check(exerciseState == ExerciseState.None) { "Exercise should not be started" }
         startTickUpdates()
     }
 
     fun resume() {
-        val state = state
-        if (state is State.Pause) {
-            this.state = state.pausedState
+        val state = exerciseState
+        if (state is ExerciseState.Pause) {
+            this.exerciseState = state.pausedState
             notifyState()
             startTickUpdates()
         }
     }
 
     fun pause() {
-        val state = state
-        if (state is State.InProgress) {
+        val state = exerciseState
+        if (state is ExerciseState.InProgress) {
             stopTickUpdates()
-            this.state = State.Pause(state)
+            this.exerciseState = ExerciseState.Pause(state)
             notifyState()
         }
     }
 
     fun stop() {
         stopTickUpdates()
-        state = State.None
+        exerciseState = ExerciseState.None
         notifyState()
     }
 
     private fun tick() {
-        when (state) {
-            State.None -> tickNone()
-            is State.InProgress -> tickInProgress()
+        when (exerciseState) {
+            ExerciseState.None -> tickNone()
+            is ExerciseState.InProgress -> tickInProgress()
         }
     }
 
     private fun tickNone() {
-        this.state = State.InProgress(
+        this.exerciseState = ExerciseState.InProgress(
             currentState = CurrentState.PREPARATION,
             repeatRemain = config.repeats - 1,
             startTime = System.currentTimeMillis()
@@ -73,7 +73,7 @@ class Exercise(
     }
 
     private fun tickInProgress() {
-        val state = state as? State.InProgress ?: return
+        val state = exerciseState as? ExerciseState.InProgress ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
         val remainSeconds = (getDurationState(state) - timePassed + 1) / 1000
         when (state.currentState) {
@@ -91,7 +91,7 @@ class Exercise(
 
     private fun tickPreparation(remainSeconds: Long) {
         if (remainSeconds <= 0) {
-            this.state = State.InProgress(
+            this.exerciseState = ExerciseState.InProgress(
                 currentState = CurrentState.HOLDING,
                 repeatRemain = config.repeats - 1,
                 startTime = System.currentTimeMillis()
@@ -102,12 +102,12 @@ class Exercise(
 
     private fun tickHolding(
         remainSeconds: Long,
-        state: State.InProgress
+        exerciseState: ExerciseState.InProgress
     ) {
         if (remainSeconds <= 0) {
-            this.state = State.InProgress(
+            this.exerciseState = ExerciseState.InProgress(
                 currentState = CurrentState.RELAX,
-                repeatRemain = state.repeatRemain,
+                repeatRemain = exerciseState.repeatRemain,
                 startTime = System.currentTimeMillis()
             )
             vibrate(Strength.Medium)
@@ -117,15 +117,15 @@ class Exercise(
 
     private fun tickRelax(
         remainSeconds: Long,
-        state: State.InProgress
+        exerciseState: ExerciseState.InProgress
     ) {
         if (remainSeconds <= 0) {
-            if (state.repeatRemain == 0) {
+            if (exerciseState.repeatRemain == 0) {
                 finishExercise()
             } else {
-                this.state = State.InProgress(
+                this.exerciseState = ExerciseState.InProgress(
                     currentState = CurrentState.HOLDING,
-                    repeatRemain = state.repeatRemain - 1,
+                    repeatRemain = exerciseState.repeatRemain - 1,
                     startTime = System.currentTimeMillis()
                 )
                 vibrate(Strength.Medium)
@@ -137,11 +137,11 @@ class Exercise(
     private fun finishExercise() {
         intervalDisposable?.dispose()
         eventsSubject.onNext(ExerciseEvent.Finish)
-        state = State.None
+        exerciseState = ExerciseState.None
     }
 
     private fun notifyState() {
-        val state = (state as? State.InProgress) ?: return
+        val state = (exerciseState as? ExerciseState.InProgress) ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
         val remainSeconds = (getDurationState(state) - timePassed + 1) / 1000
         when (state.currentState) {
@@ -181,8 +181,8 @@ class Exercise(
         }
     }
 
-    private fun getDurationState(state: State.InProgress): Long {
-        return when (state.currentState) {
+    private fun getDurationState(exerciseState: ExerciseState.InProgress): Long {
+        return when (exerciseState.currentState) {
             CurrentState.PREPARATION -> config.preparationDuration.toMillis()
             CurrentState.HOLDING -> config.holdingDuration.toMillis()
             CurrentState.RELAX -> config.relaxDuration.toMillis()
@@ -204,19 +204,19 @@ class Exercise(
     }
 }
 
-private sealed class State {
+private sealed class ExerciseState {
 
-    object None : State()
+    object None : ExerciseState()
 
     data class InProgress(
         val currentState: CurrentState,
         val repeatRemain: Int,
         val startTime: Long
-    ) : State()
+    ) : ExerciseState()
 
     data class Pause(
         val pausedState: InProgress
-    ) : State()
+    ) : ExerciseState()
 
     enum class CurrentState {
         PREPARATION,
