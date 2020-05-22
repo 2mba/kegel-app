@@ -1,11 +1,11 @@
-package org.tumba.kegel_app.data
+package org.tumba.kegel_app.domain
 
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.core.system.IVibrationManager.Strength
-import org.tumba.kegel_app.data.ExerciseState.CurrentState
+import org.tumba.kegel_app.domain.ExerciseState.CurrentState
 import java.util.concurrent.TimeUnit
 
 class Exercise(
@@ -44,7 +44,8 @@ class Exercise(
         val state = exerciseState
         if (state is ExerciseState.InProgress) {
             stopTickUpdates()
-            this.exerciseState = ExerciseState.Pause(state)
+            this.exerciseState =
+                ExerciseState.Pause(state)
             notifyState()
         }
     }
@@ -73,7 +74,8 @@ class Exercise(
     }
 
     private fun tickInProgress() {
-        val state = exerciseState as? ExerciseState.InProgress ?: return
+        val state = exerciseState as? ExerciseState.InProgress
+            ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
         val remainSeconds = (getDurationState(state) - timePassed + 1) / 1000
         when (state.currentState) {
@@ -91,11 +93,12 @@ class Exercise(
 
     private fun tickPreparation(remainSeconds: Long) {
         if (remainSeconds <= 0) {
-            this.exerciseState = ExerciseState.InProgress(
-                currentState = CurrentState.HOLDING,
-                repeatRemain = config.repeats - 1,
-                startTime = System.currentTimeMillis()
-            )
+            this.exerciseState =
+                ExerciseState.InProgress(
+                    currentState = CurrentState.HOLDING,
+                    repeatRemain = config.repeats - 1,
+                    startTime = System.currentTimeMillis()
+                )
         }
         notifyState()
     }
@@ -105,11 +108,12 @@ class Exercise(
         exerciseState: ExerciseState.InProgress
     ) {
         if (remainSeconds <= 0) {
-            this.exerciseState = ExerciseState.InProgress(
-                currentState = CurrentState.RELAX,
-                repeatRemain = exerciseState.repeatRemain,
-                startTime = System.currentTimeMillis()
-            )
+            this.exerciseState =
+                ExerciseState.InProgress(
+                    currentState = CurrentState.RELAX,
+                    repeatRemain = exerciseState.repeatRemain,
+                    startTime = System.currentTimeMillis()
+                )
             vibrate(Strength.Medium)
         }
         notifyState()
@@ -123,11 +127,12 @@ class Exercise(
             if (exerciseState.repeatRemain == 0) {
                 finishExercise()
             } else {
-                this.exerciseState = ExerciseState.InProgress(
-                    currentState = CurrentState.HOLDING,
-                    repeatRemain = exerciseState.repeatRemain - 1,
-                    startTime = System.currentTimeMillis()
-                )
+                this.exerciseState =
+                    ExerciseState.InProgress(
+                        currentState = CurrentState.HOLDING,
+                        repeatRemain = exerciseState.repeatRemain - 1,
+                        startTime = System.currentTimeMillis()
+                    )
                 vibrate(Strength.Medium)
             }
         }

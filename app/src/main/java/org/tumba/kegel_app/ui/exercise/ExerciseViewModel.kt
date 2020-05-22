@@ -1,7 +1,7 @@
-package org.tumba.kegel_app.exercise
+package org.tumba.kegel_app.ui.exercise
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -9,18 +9,22 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
-import org.tumba.kegel_app.data.ExerciseConfig
-import org.tumba.kegel_app.data.ExerciseEvent
-import org.tumba.kegel_app.data.Time
+import org.tumba.kegel_app.domain.ExerciseConfig
+import org.tumba.kegel_app.domain.ExerciseEvent
+import org.tumba.kegel_app.domain.ExerciseInteractor
+import org.tumba.kegel_app.domain.Time
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.ui.common.BaseViewModel
+import org.tumba.kegel_app.ui.common.disposeOnDestroy
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.async
 import java.util.concurrent.TimeUnit
 
 class ExerciseViewModel(
     private val exerciseInteractor: ExerciseInteractor,
-    private val exerciseSettingsInteractor: ExerciseSettingsInteractor,
+    private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val resourceProvider: IResourceProvider
-) : ViewModel() {
+) : BaseViewModel() {
 
     companion object {
         private const val TIMER_INTERVAL_MILLIS = 20L
@@ -51,13 +55,15 @@ class ExerciseViewModel(
         when (exerciseState.value) {
             ExerciseStateUiModel.Playing -> {
                 stopRemainTimer()
-                exerciseState.value = ExerciseStateUiModel.Paused
+                exerciseState.value =
+                    ExerciseStateUiModel.Paused
                 exerciseInteractor.pauseExercise()
                     .async()
                     .subscribe()
             }
             ExerciseStateUiModel.Paused -> {
-                exerciseState.value = ExerciseStateUiModel.Playing
+                exerciseState.value =
+                    ExerciseStateUiModel.Playing
                 exerciseInteractor.resumeExercise()
                     .async()
                     .subscribe()
@@ -70,10 +76,10 @@ class ExerciseViewModel(
 
     fun onClickVibration() {
         val isVibrationEnabled = isVibrationEnabled.value ?: true
-        exerciseSettingsInteractor.setVibrationEnabled(!isVibrationEnabled)
+        exerciseSettingsRepository.setVibrationEnabled(!isVibrationEnabled)
             .async()
             .subscribe()
-            //.disposeOnDestroy(this)
+            .disposeOnDestroy(this)
     }
 
     override fun onCleared() {
@@ -105,7 +111,7 @@ class ExerciseViewModel(
             .subscribeBy(
                 onNext = ::onExerciseEventReceived
             )
-            //.disposeOnDestroy(this)
+            .disposeOnDestroy(this)
     }
 
     private fun onExerciseEventReceived(event: ExerciseEvent?) {
@@ -158,7 +164,7 @@ class ExerciseViewModel(
                     millisRemain / (exerciseDuration * MILLIS_IN_SECONDS)
                 }
             }
-            //.disposeOnDestroy(this)
+            .disposeOnDestroy(this)
     }
 
     private fun stopRemainTimer() {
@@ -166,18 +172,18 @@ class ExerciseViewModel(
     }
 
     private fun loadVibrationState() {
-        exerciseSettingsInteractor.isVibrationEnabled()
+        exerciseSettingsRepository.isVibrationEnabled()
             .async()
             .subscribeBy(
                 onNext = { isVibrationEnabled.value = it }
             )
-            //.disposeOnDestroy(this)
+            .disposeOnDestroy(this)
     }
 
     private fun loadLevelAndDay() {
         Observables.zip(
-            exerciseSettingsInteractor.getExerciseLevel(),
-            exerciseSettingsInteractor.getExerciseDay()
+            exerciseSettingsRepository.getExerciseLevel(),
+            exerciseSettingsRepository.getExerciseDay()
         )
             .firstElement()
             .async()
@@ -185,7 +191,7 @@ class ExerciseViewModel(
                 level.value = exerciseLevel
                 day.value = exerciseDay
             }
-            //.disposeOnDestroy(this)
+            .disposeOnDestroy(this)
     }
 
     private fun stopExercise() {
@@ -197,9 +203,17 @@ class ExerciseViewModel(
 
     private fun finishExercise() {
         stopRemainTimer()
-        exerciseSettingsInteractor.incrementExerciseLevel()
+        incrementExerciseLevel()
             .async()
             .subscribe()
+    }
+
+    private fun incrementExerciseLevel(): Completable {
+        return exerciseSettingsRepository.getExerciseLevel()
+            .firstElement()
+            .flatMapCompletable { level ->
+                exerciseSettingsRepository.setExerciseLevel(level + 1)
+            }
     }
 
 }

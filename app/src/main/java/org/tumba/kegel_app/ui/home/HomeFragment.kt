@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.home
+package org.tumba.kegel_app.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

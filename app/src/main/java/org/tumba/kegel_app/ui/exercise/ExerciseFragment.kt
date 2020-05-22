@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.exercise
+package org.tumba.kegel_app.ui.exercise
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +13,8 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
-import org.tumba.kegel_app.exercise.ExerciseStateUiModel.Paused
-import org.tumba.kegel_app.exercise.ExerciseStateUiModel.Playing
+import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Paused
+import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Playing
 import org.tumba.kegel_app.utils.InjectorUtils
 import org.tumba.kegel_app.utils.observe
 

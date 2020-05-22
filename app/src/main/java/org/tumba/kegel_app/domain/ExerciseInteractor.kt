@@ -1,9 +1,10 @@
-package org.tumba.kegel_app.exercise
+package org.tumba.kegel_app.domain
 
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.tumba.kegel_app.core.system.IVibrationManager
-import org.tumba.kegel_app.data.*
+import org.tumba.kegel_app.repository.ExerciseRepository
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 
 class ExerciseInteractor(
     private val exerciseRepository: ExerciseRepository,

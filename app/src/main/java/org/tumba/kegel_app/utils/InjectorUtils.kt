@@ -5,23 +5,16 @@ import android.content.SharedPreferences
 import org.tumba.kegel_app.core.system.Preferences
 import org.tumba.kegel_app.core.system.ResourceProviderImpl
 import org.tumba.kegel_app.core.system.VibrationManager
-import org.tumba.kegel_app.data.ExerciseRepository
-import org.tumba.kegel_app.data.ExerciseSettingsRepository
-import org.tumba.kegel_app.exercise.ExerciseInteractor
-import org.tumba.kegel_app.exercise.ExerciseSettingsInteractor
-import org.tumba.kegel_app.exercise.ExerciseViewModelFactory
-import org.tumba.kegel_app.home.HomeViewModelFactory
+import org.tumba.kegel_app.domain.ExerciseInteractor
+import org.tumba.kegel_app.repository.ExerciseRepository
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.ui.exercise.ExerciseViewModelFactory
+import org.tumba.kegel_app.ui.home.HomeViewModelFactory
 
 
 object InjectorUtils {
     private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"
 
-    fun provideSharedPreferences(context: Context): SharedPreferences {
-        return context.applicationContext.getSharedPreferences(
-            APP_PREFERENCES_NAME,
-            Context.MODE_PRIVATE
-        )
-    }
     fun provideExerciseViewModelFactory(
         context: Context
     ): ExerciseViewModelFactory {
@@ -29,11 +22,13 @@ object InjectorUtils {
         return ExerciseViewModelFactory(
             ExerciseInteractor(
                 ExerciseRepository(),
-                ExerciseSettingsRepository(preferences),
+                ExerciseSettingsRepository(
+                    preferences
+                ),
                 VibrationManager(context)
             ),
-            ExerciseSettingsInteractor(
-                ExerciseSettingsRepository(preferences)
+            ExerciseSettingsRepository(
+                preferences
             ),
             ResourceProviderImpl(context.resources)
         )
@@ -44,9 +39,16 @@ object InjectorUtils {
     ): HomeViewModelFactory {
         val preferences = Preferences(provideSharedPreferences(context))
         return HomeViewModelFactory(
-            ExerciseSettingsInteractor(
-                ExerciseSettingsRepository(preferences)
+            ExerciseSettingsRepository(
+                preferences
             )
+        )
+    }
+
+    private fun provideSharedPreferences(context: Context): SharedPreferences {
+        return context.applicationContext.getSharedPreferences(
+            APP_PREFERENCES_NAME,
+            Context.MODE_PRIVATE
         )
     }
 }

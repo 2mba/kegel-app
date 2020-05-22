@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.data
+package org.tumba.kegel_app.repository
 
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -20,31 +20,49 @@ class ExerciseSettingsRepository(
 
     fun setExerciseLevel(level: Int): Completable {
         return Completable.fromAction {
-            preferences.getInt(PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL).set(level)
+            preferences.getInt(
+                PREF_KEY_EXERCISE_LEVEL,
+                DEFAULT_EXERCISE_LEVEL
+            ).set(level)
         }
     }
 
     fun getExerciseLevel(): Observable<Int> {
-        return preferences.getInt(PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL).asObservable()
+        return preferences.getInt(
+            PREF_KEY_EXERCISE_LEVEL,
+            DEFAULT_EXERCISE_LEVEL
+        ).asObservable()
     }
 
     fun setExerciseDay(day: Int): Completable {
         return Completable.fromAction {
-            preferences.getInt(PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY).set(day)
+            preferences.getInt(
+                PREF_KEY_EXERCISE_DAY,
+                DEFAULT_EXERCISE_DAY
+            ).set(day)
         }
     }
 
     fun getExerciseDay(): Observable<Int> {
-        return preferences.getInt(PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY).asObservable()
+        return preferences.getInt(
+            PREF_KEY_EXERCISE_DAY,
+            DEFAULT_EXERCISE_DAY
+        ).asObservable()
     }
 
     fun setVibrationEnabled(enabled: Boolean): Completable {
         return Completable.fromAction {
-            preferences.getBoolean(PREF_KEY_VIBRATION, DEFAULT_VIBRATION).set(enabled)
+            preferences.getBoolean(
+                PREF_KEY_VIBRATION,
+                DEFAULT_VIBRATION
+            ).set(enabled)
         }
     }
 
     fun isVibrationEnabled(): Observable<Boolean> {
-        return preferences.getBoolean(PREF_KEY_VIBRATION, DEFAULT_VIBRATION).asObservable()
+        return preferences.getBoolean(
+            PREF_KEY_VIBRATION,
+            DEFAULT_VIBRATION
+        ).asObservable()
     }
 }

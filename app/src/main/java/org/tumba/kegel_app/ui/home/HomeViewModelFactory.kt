@@ -1,15 +1,15 @@
-package org.tumba.kegel_app.home
+package org.tumba.kegel_app.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.tumba.kegel_app.exercise.ExerciseSettingsInteractor
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 
 class HomeViewModelFactory(
-    private val exerciseSettingsInteractor: ExerciseSettingsInteractor
+    private val exerciseSettingsRepository: ExerciseSettingsRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeViewModel(exerciseSettingsInteractor) as T
+        return HomeViewModel(exerciseSettingsRepository) as T
     }
 }
