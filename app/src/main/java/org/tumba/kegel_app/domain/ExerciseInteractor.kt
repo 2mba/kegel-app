@@ -52,7 +52,7 @@ class ExerciseInteractor(
             config = config,
             vibrationManager = vibrationManager,
             vibrationEnabledStateProvider = {
-                exerciseSettingsRepository.isVibrationEnabled().blockingFirst()
+                exerciseSettingsRepository.isVibrationEnabled().value ?: true
             }
         )
     }

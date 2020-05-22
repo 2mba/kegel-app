@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.exercise.ExerciseViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,6 +61,7 @@
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/white"
+                    android:text="@{viewModel.repeatsRemain.toString()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="5" />
@@ -130,6 +138,7 @@
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/white"
+                    android:text="@{viewModel.level.toString()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="2" />
@@ -169,6 +178,7 @@
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/white"
+                    android:text="@{viewModel.day.toString()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="10-й" />
@@ -196,6 +206,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
             android:textColor="@color/white"
+            android:text="@{@string/screen_exercise_remain_time_pattern(viewModel.secondsRemain)}"
             app:layout_constraintBottom_toTopOf="@+id/exercise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +218,7 @@
             android:id="@+id/exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/screen_exercise_exercise_holding"
+            android:text="@{viewModel.exerciseKind}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toTopOf="@id/infoSurface"
@@ -262,7 +273,8 @@
             android:backgroundTint="@color/colorAccent"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            app:icon="@drawable/ic_notification_off"
+            tools:icon="@drawable/ic_notification_off"
+            app:icon="@{viewModel.isVibrationEnabled ? @drawable/ic_notification_off : @drawable/ic_vibration}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnPlayContainer"

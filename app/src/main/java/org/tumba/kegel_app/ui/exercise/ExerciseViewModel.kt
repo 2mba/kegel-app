@@ -1,12 +1,12 @@
 package org.tumba.kegel_app.ui.exercise
 
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Completable
+import androidx.lifecycle.viewModelScope
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
 import org.tumba.kegel_app.domain.ExerciseConfig
@@ -35,10 +35,11 @@ class ExerciseViewModel(
     val exerciseState = MutableLiveData(ExerciseStateUiModel.Playing)
     val repeatsRemain = MutableLiveData(0)
     val secondsRemain = MutableLiveData(0L)
+    val minuteRemain = MutableLiveData(0L)
     val exerciseProgress = MutableLiveData(0F)
-    val level = MutableLiveData(0)
-    val day = MutableLiveData(0)
-    val isVibrationEnabled = MutableLiveData(true)
+    val level = exerciseSettingsRepository.getExerciseLevel()
+    val day = exerciseSettingsRepository.getExerciseDay()
+    val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled()
 
     private var exerciseDuration = 0L
     private var currentState: ExerciseEvent? = null
@@ -46,8 +47,6 @@ class ExerciseViewModel(
     private var isProgressReversed = true
 
     init {
-        loadVibrationState()
-        loadLevelAndDay()
         startExercise()
     }
 
@@ -76,10 +75,9 @@ class ExerciseViewModel(
 
     fun onClickVibration() {
         val isVibrationEnabled = isVibrationEnabled.value ?: true
-        exerciseSettingsRepository.setVibrationEnabled(!isVibrationEnabled)
-            .async()
-            .subscribe()
-            .disposeOnDestroy(this)
+        viewModelScope.launch {
+            exerciseSettingsRepository.setVibrationEnabled(!isVibrationEnabled)
+        }
     }
 
     override fun onCleared() {
@@ -171,29 +169,6 @@ class ExerciseViewModel(
         timerDisposable?.dispose()
     }
 
-    private fun loadVibrationState() {
-        exerciseSettingsRepository.isVibrationEnabled()
-            .async()
-            .subscribeBy(
-                onNext = { isVibrationEnabled.value = it }
-            )
-            .disposeOnDestroy(this)
-    }
-
-    private fun loadLevelAndDay() {
-        Observables.zip(
-            exerciseSettingsRepository.getExerciseLevel(),
-            exerciseSettingsRepository.getExerciseDay()
-        )
-            .firstElement()
-            .async()
-            .subscribe { (exerciseLevel, exerciseDay) ->
-                level.value = exerciseLevel
-                day.value = exerciseDay
-            }
-            .disposeOnDestroy(this)
-    }
-
     private fun stopExercise() {
         stopRemainTimer()
         exerciseInteractor.stopExercise()
@@ -203,17 +178,8 @@ class ExerciseViewModel(
 
     private fun finishExercise() {
         stopRemainTimer()
-        incrementExerciseLevel()
-            .async()
-            .subscribe()
+        viewModelScope.launch {
+            exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
+        }
     }
-
-    private fun incrementExerciseLevel(): Completable {
-        return exerciseSettingsRepository.getExerciseLevel()
-            .firstElement()
-            .flatMapCompletable { level ->
-                exerciseSettingsRepository.setExerciseLevel(level + 1)
-            }
-    }
-
 }

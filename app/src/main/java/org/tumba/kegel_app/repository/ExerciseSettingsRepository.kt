@@ -1,11 +1,12 @@
 package org.tumba.kegel_app.repository
 
-import io.reactivex.Completable
-import io.reactivex.Observable
-import org.tumba.kegel_app.core.system.IPreferences
+import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import org.tumba.kegel_app.core.system.SharedPreferenceBooleanLiveData
+import org.tumba.kegel_app.core.system.SharedPreferenceIntLiveData
 
 class ExerciseSettingsRepository(
-    private val preferences: IPreferences
+    private val preferences: SharedPreferences
 ) {
 
     companion object {
@@ -17,52 +18,43 @@ class ExerciseSettingsRepository(
         private const val DEFAULT_VIBRATION = true
     }
 
-
-    fun setExerciseLevel(level: Int): Completable {
-        return Completable.fromAction {
-            preferences.getInt(
-                PREF_KEY_EXERCISE_LEVEL,
-                DEFAULT_EXERCISE_LEVEL
-            ).set(level)
-        }
+    fun setExerciseLevel(level: Int) {
+        setInt(PREF_KEY_EXERCISE_LEVEL, level)
     }
 
-    fun getExerciseLevel(): Observable<Int> {
-        return preferences.getInt(
+    fun getExerciseLevel(): LiveData<Int> {
+        return SharedPreferenceIntLiveData(
+            preferences,
             PREF_KEY_EXERCISE_LEVEL,
             DEFAULT_EXERCISE_LEVEL
-        ).asObservable()
+        )
     }
 
-    fun setExerciseDay(day: Int): Completable {
-        return Completable.fromAction {
-            preferences.getInt(
-                PREF_KEY_EXERCISE_DAY,
-                DEFAULT_EXERCISE_DAY
-            ).set(day)
-        }
+    fun setExerciseDay(day: Int) {
+        setInt(PREF_KEY_EXERCISE_LEVEL, day)
     }
 
-    fun getExerciseDay(): Observable<Int> {
-        return preferences.getInt(
-            PREF_KEY_EXERCISE_DAY,
-            DEFAULT_EXERCISE_DAY
-        ).asObservable()
+    fun getExerciseDay(): LiveData<Int> {
+        return SharedPreferenceIntLiveData(preferences, PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY)
     }
 
-    fun setVibrationEnabled(enabled: Boolean): Completable {
-        return Completable.fromAction {
-            preferences.getBoolean(
-                PREF_KEY_VIBRATION,
-                DEFAULT_VIBRATION
-            ).set(enabled)
-        }
+    fun setVibrationEnabled(enabled: Boolean) {
+        setBool(PREF_KEY_VIBRATION, enabled)
     }
 
-    fun isVibrationEnabled(): Observable<Boolean> {
-        return preferences.getBoolean(
-            PREF_KEY_VIBRATION,
-            DEFAULT_VIBRATION
-        ).asObservable()
+    fun isVibrationEnabled(): LiveData<Boolean> {
+        return SharedPreferenceBooleanLiveData(preferences, PREF_KEY_VIBRATION, DEFAULT_VIBRATION)
+    }
+
+    private fun setInt(key: String, value: Int) {
+        preferences.edit()
+            .putInt(key, value)
+            .apply()
+    }
+
+    private fun setBool(key: String, value: Boolean) {
+        preferences.edit()
+            .putBoolean(key, value)
+            .apply()
     }
 }

@@ -9,4 +9,7 @@
     <string name="screen_exercise_btn_play">Продолжить</string>
     <string name="screen_exercise_btn_pause">Пауза</string>
     <string name="screen_exercise_exercise_holding">Сжатие</string>
+    <string name="screen_exercise_remain_time_pattern">00:0%s</string>
+    <string name="strings_screen_exercise_title">Упражнение</string>
+    <string name="screen_exercise_btn_start_title">Приступить к тренировке</string>
 </resources>
