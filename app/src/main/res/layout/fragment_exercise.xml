@@ -15,178 +15,14 @@
         android:layout_height="match_parent"
         tools:background="@color/black">
 
-        <androidx.constraintlayout.motion.widget.MotionLayout
-            android:id="@+id/infoSurface"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:animateLayoutChanges="true"
-            android:background="?colorSurface"
-            android:transitionName="itemExercise"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
-                android:id="@+id/repeatsContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toStartOf="@id/allTimeContainer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text2"
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/screen_exercise_repeats"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    app:drawableTint="@color/colorPrimary"
-                    app:drawableTopCompat="@drawable/ic_autorenew"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/repeats"
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/white"
-                    android:text="@{viewModel.repeatsRemain.toString()}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="5" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/allTimeContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/repeatsContainer"
-                app:layout_constraintTop_toTopOf="@id/repeatsContainer">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/screen_exercise_remain_time"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:drawableTint="@color/colorPrimary"
-                    app:drawableTopCompat="@drawable/ic_clock"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/fullTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="02:05" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/levelContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:orientation="vertical"
-                android:transitionName="itemLevel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/dayContainer"
-                app:layout_constraintTop_toBottomOf="@id/repeatsContainer">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/screen_exercise_level"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:drawableTint="@color/colorPrimary"
-                    app:drawableTopCompat="@drawable/ic_cup"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/level"
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/white"
-                    android:text="@{viewModel.level.toString()}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/dayContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:orientation="vertical"
-                android:transitionName="itemDay"
-                app:layout_constraintEnd_toStartOf="@+id/levelContainer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/levelContainer">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/screen_exercise_day"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:drawableTint="@color/colorPrimary"
-                    app:drawableTopCompat="@drawable/ic_sun"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/day"
-                    style="@style/Widget.MaterialComponents.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/white"
-                    android:text="@{viewModel.day.toString()}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="10-й" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.motion.widget.MotionLayout>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -200,13 +36,221 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/infoSurface"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:animateLayoutChanges="true"
+            android:transitionName="itemExercise"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:transitionName="itemExercise">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/repeats"
+                    style="@style/Widget.MaterialComponents.TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@{@string/screen_exercise_repeats(viewModel.repeatsRemain)}"
+                    android:textAllCaps="true"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:drawableStartCompat="@drawable/ic_autorenew"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@+id/day"
+                    app:layout_constraintEnd_toStartOf="@id/remainsTime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Повторний: 5" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/remainsTime"
+                    style="@style/Widget.MaterialComponents.TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@{@string/screen_exercise_repeats(viewModel.timeRemain)}"
+                    android:textAllCaps="true"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:drawableStartCompat="@drawable/ic_clock"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/repeats"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/repeats"
+                    app:layout_constraintTop_toTopOf="@id/repeats"
+                    tools:text="Осталось: 23 сек" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/day"
+                    style="@style/Widget.MaterialComponents.TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@{@string/screen_exercise_day(viewModel.day)}"
+                    android:textAllCaps="true"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:drawableStartCompat="@drawable/ic_sun"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@+id/notificationLayout"
+                    app:layout_constraintEnd_toStartOf="@id/level"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/repeats"
+                    tools:text="День: 2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/level"
+                    style="@style/Widget.MaterialComponents.TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@{@string/screen_exercise_level(viewModel.level)}"
+                    android:textAllCaps="true"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:drawableStartCompat="@drawable/ic_cup"
+                    app:drawableTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/day"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/day"
+                    app:layout_constraintTop_toTopOf="@id/day"
+                    tools:text="Уровень: 1" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="#1fff"
+                    app:layout_constraintBottom_toTopOf="@id/notificationLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/day" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/notificationLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    app:layout_constraintBottom_toTopOf="@+id/vibrationLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/notificationText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="Уведомление"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/notificationSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/notificationSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:useMaterialThemeColors="false" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vibrationLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    app:layout_constraintBottom_toTopOf="@+id/btnPlay"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/vibrationText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="Вибрация"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/vibrationSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/vibrationSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isVibrationEnabled}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:useMaterialThemeColors="false" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlay"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/screen_exercise_btn_pause"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_play_arrow"
+                    app:iconTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:rippleColor="@color/white" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.timeRemain}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
             android:textColor="@color/white"
-            android:text="@{@string/screen_exercise_remain_time_pattern(viewModel.secondsRemain)}"
             app:layout_constraintBottom_toTopOf="@+id/exercise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -227,58 +271,6 @@
             app:layout_constraintTop_toBottomOf="@id/timer"
             app:textAllCaps="true" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/btnNotification"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:backgroundTint="@color/colorAccent"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            app:icon="@drawable/ic_notification"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnPlayContainer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:rippleColor="@color/white" />
-
-        <FrameLayout
-            android:id="@+id/btnPlayContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnVibration"
-            app:layout_constraintStart_toEndOf="@id/btnNotification"
-            app:layout_constraintWidth_min="200dp">
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/btnPlay"
-                style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:backgroundTint="@color/colorAccent"
-                android:text="@string/screen_exercise_btn_pause"
-                app:icon="@drawable/ic_play_arrow"
-                app:rippleColor="@color/white" />
-        </FrameLayout>
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/btnVibration"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:backgroundTint="@color/colorAccent"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            tools:icon="@drawable/ic_notification_off"
-            app:icon="@{viewModel.isVibrationEnabled ? @drawable/ic_notification_off : @drawable/ic_vibration}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnPlayContainer"
-            app:rippleColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

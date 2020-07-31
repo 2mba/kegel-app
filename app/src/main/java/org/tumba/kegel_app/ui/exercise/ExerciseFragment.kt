@@ -2,9 +2,13 @@ package org.tumba.kegel_app.ui.exercise
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.Transformation
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
@@ -13,15 +17,14 @@ import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Paused
 import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Playing
+import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.InjectorUtils
+import org.tumba.kegel_app.utils.fragment.actionBar
+import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
 
 
 class ExerciseFragment : Fragment() {
-    companion object {
-        private const val DELAY_BUTTONS_APPEARING_MILLIS = 400L
-        private const val PROGRESS_MAX = 1000
-    }
 
     private lateinit var binding: FragmentExerciseBinding
 
@@ -51,35 +54,35 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun initUi() {
-        binding.apply {
-            btnPlay.visibility = View.INVISIBLE
-            btnNotification.visibility = View.INVISIBLE
-            btnVibration.visibility = View.INVISIBLE
-
-            btnPlay.postDelayed({ btnPlay.show() },
-                DELAY_BUTTONS_APPEARING_MILLIS
-            )
-            btnNotification.postDelayed({ btnNotification.show() },
-                DELAY_BUTTONS_APPEARING_MILLIS
-            )
-            btnVibration.postDelayed({ btnVibration.show() },
-                DELAY_BUTTONS_APPEARING_MILLIS
-            )
-
-            progress.max = PROGRESS_MAX
-        }
-
+        setupActionBar()
+        binding.progress.max = PROGRESS_MAX
         binding.btnPlay.setOnClickListener { viewModel.onClickPlay() }
-        binding.btnNotification.setOnClickListener { viewModel.onClickNotification() }
-        binding.btnVibration.setOnClickListener { viewModel.onClickVibration() }
+        binding.vibrationSwitch.setOnClickListener { viewModel.onClickNotification() }
+        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onVibrationStateChanged(isChecked)
+        }
+    }
+
+    private fun setupActionBar() {
+        setToolbar(binding.toolbar)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.title = String.Empty
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
     }
 
     private fun observeViewModel() {
         observeExerciseState()
 
         observe(viewModel.exerciseProgress) { progressValue ->
-            val interpolatedProgress = progressInterpolator.getInterpolation(progressValue)
-            binding.progress.progress = (interpolatedProgress * binding.progress.max).toInt()
+            val a = ProgressBarAnimation(
+                progressBar = binding.progress,
+                from = binding.progress.progress.toFloat(),
+                to = progressValue * binding.progress.max
+            ).apply {
+                interpolator = progressInterpolator
+                duration = PROGRESS_ANIMATION_DURATION_MILLIS
+            }
+            binding.progress.startAnimation(a)
         }
     }
 
@@ -105,6 +108,24 @@ class ExerciseFragment : Fragment() {
             binding.btnPlay.text = btnPlayText
             binding.btnPlay.icon = iconDrawable
             iconDrawable?.start()
+        }
+    }
+
+    companion object {
+        private const val PROGRESS_MAX = 1000
+        private const val PROGRESS_ANIMATION_DURATION_MILLIS = 200L
+    }
+
+    private class ProgressBarAnimation(
+        private val progressBar: ProgressBar,
+        private val from: Float,
+        private val to: Float
+    ) : Animation() {
+
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+            super.applyTransformation(interpolatedTime, t)
+            val value = from + (to - from) * interpolatedTime
+            progressBar.progress = value.toInt()
         }
     }
 }

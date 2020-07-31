@@ -3,7 +3,12 @@
     <item android:id="@id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/progressColor" />
+                <gradient
+                    android:angle="90"
+                    android:centerY="0.3"
+                    android:startColor="@color/transparent"
+                    android:centerColor="@color/progressColor"
+                    android:endColor="@color/progressColor" />
             </shape>
         </clip>
     </item>
