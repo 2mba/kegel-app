@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Статистика"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:text="Упражнений"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:drawableTint="@color/colorPrimary"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:drawableTint="?colorAccent"
             app:drawableTopCompat="@drawable/ic_run"
             app:layout_constraintEnd_toStartOf="@+id/level"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,11 +50,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintStart_toStartOf="@id/exercisesTitle"
-            app:layout_constraintTop_toBottomOf="@id/exercisesTitle"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/exercisesTitle"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/exercisesTitle"
+            app:layout_constraintTop_toBottomOf="@id/exercisesTitle" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/level"
@@ -61,9 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Длительность"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:drawableTint="@color/colorPrimary"
-            app:drawableTopCompat="@drawable/ic_clock"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:drawableTint="?colorAccent"
+            app:drawableTopCompat="@drawable/ic_clock_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/exercisesTitle"
             app:layout_constraintTop_toTopOf="@+id/exercisesTitle"
@@ -74,10 +75,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="56 мин"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="@id/level"
             app:layout_constraintStart_toStartOf="@id/level"
-            app:layout_constraintTop_toBottomOf="@id/level"
-            app:layout_constraintEnd_toEndOf="@id/level" />
+            app:layout_constraintTop_toBottomOf="@id/level" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
