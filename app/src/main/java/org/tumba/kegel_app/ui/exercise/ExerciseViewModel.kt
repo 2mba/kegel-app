@@ -1,9 +1,10 @@
 package org.tumba.kegel_app.ui.exercise
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
@@ -13,9 +14,7 @@ import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.Time
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
-import org.tumba.kegel_app.ui.common.disposeOnDestroy
 import org.tumba.kegel_app.utils.Empty
-import org.tumba.kegel_app.utils.async
 import java.util.concurrent.TimeUnit
 
 class ExerciseViewModel(
@@ -49,15 +48,15 @@ class ExerciseViewModel(
         when (exerciseState.value) {
             ExerciseStateUiModel.Playing -> {
                 exerciseState.value = ExerciseStateUiModel.Paused
-                exerciseInteractor.pauseExercise()
-                    .async()
-                    .subscribe()
+                viewModelScope.launch {
+                    exerciseInteractor.pauseExercise()
+                }
             }
             ExerciseStateUiModel.Paused -> {
                 exerciseState.value = ExerciseStateUiModel.Playing
-                exerciseInteractor.resumeExercise()
-                    .async()
-                    .subscribe()
+                viewModelScope.launch {
+                    exerciseInteractor.resumeExercise()
+                }
             }
         }
     }
@@ -77,24 +76,23 @@ class ExerciseViewModel(
     }
 
     private fun startExercise() {
-        exerciseInteractor.createExercise(
-            config = ExerciseConfig(
-                preparationDuration = Time(3, TimeUnit.SECONDS),
-                holdingDuration = Time(5, TimeUnit.SECONDS),
-                relaxDuration = Time(5, TimeUnit.SECONDS),
-                repeats = 3
+        viewModelScope.launch {
+            exerciseInteractor.createExercise(
+                config = ExerciseConfig(
+                    preparationDuration = Time(3, TimeUnit.SECONDS),
+                    holdingDuration = Time(5, TimeUnit.SECONDS),
+                    relaxDuration = Time(5, TimeUnit.SECONDS),
+                    repeats = 3
+                )
             )
-        )
-            .andThen(exerciseInteractor.startExercise())
-            .andThen(exerciseInteractor.subscribeToExerciseEvents())
-            .async()
-            .subscribeBy(
-                onNext = ::onExerciseEventReceived
-            )
-            .disposeOnDestroy(this)
+            exerciseInteractor.startExercise()
+            exerciseInteractor.observeExerciseEvents()
+                .collect { onExerciseEventReceived(it) }
+        }
     }
 
     private fun onExerciseEventReceived(event: ExerciseEvent?) {
+        Log.d("!!!!", "Event: $event")
         when (event) {
             is ExerciseEvent.Preparation -> {
                 exerciseDuration = event.exerciseDurationSeconds
@@ -129,16 +127,16 @@ class ExerciseViewModel(
     private fun updateExerciseProgress() {
         val secondsRemain = secondsRemain.value ?: 0
         exerciseProgress.value = if (isProgressReversed) {
-            1 - secondsRemain / exerciseDuration.toFloat()
+            1 - secondsRemain / (exerciseDuration - 1).toFloat()
         } else {
-            secondsRemain / exerciseDuration.toFloat()
+            secondsRemain / (exerciseDuration - 1).toFloat()
         }
     }
 
     private fun stopExercise() {
-        exerciseInteractor.stopExercise()
-            .async()
-            .subscribe()
+        viewModelScope.launch {
+            exerciseInteractor.stopExercise()
+        }
     }
 
     private fun finishExercise() {

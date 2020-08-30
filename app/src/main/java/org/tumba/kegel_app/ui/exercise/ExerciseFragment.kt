@@ -1,8 +1,8 @@
 package org.tumba.kegel_app.ui.exercise
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -32,6 +32,7 @@ class ExerciseFragment : Fragment() {
         InjectorUtils.provideExerciseViewModelFactory(requireContext())
     }
     private val progressInterpolator = AccelerateDecelerateInterpolator()
+    private var lastAnimation: Animation? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +75,8 @@ class ExerciseFragment : Fragment() {
         observeExerciseState()
 
         observe(viewModel.exerciseProgress) { progressValue ->
-            val a = ProgressBarAnimation(
+            lastAnimation?.cancel()
+            val progressAnimation = ProgressBarAnimation(
                 progressBar = binding.progress,
                 from = binding.progress.progress.toFloat(),
                 to = progressValue * binding.progress.max
@@ -82,7 +84,8 @@ class ExerciseFragment : Fragment() {
                 interpolator = progressInterpolator
                 duration = PROGRESS_ANIMATION_DURATION_MILLIS
             }
-            binding.progress.startAnimation(a)
+            lastAnimation = progressAnimation
+            binding.progress.startAnimation(progressAnimation)
         }
     }
 

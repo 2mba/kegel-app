@@ -1,7 +1,6 @@
 package org.tumba.kegel_app.domain
 
-import io.reactivex.Completable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -12,39 +11,29 @@ class ExerciseInteractor(
     private val vibrationManager: IVibrationManager
 ) {
 
-    fun createExercise(config: ExerciseConfig): Completable {
-        return Completable.defer {
-            exerciseRepository.saveExercise(createExerciseFrom(config))
-        }
+    suspend fun createExercise(config: ExerciseConfig) {
+        exerciseRepository.saveExercise(createExerciseFrom(config))
     }
 
-    fun subscribeToExerciseEvents(): Observable<ExerciseEvent> {
-        return exerciseRepository.getExercise()
-            .flatMapObservable { it.events }
+    suspend fun observeExerciseEvents(): Flow<ExerciseEvent> {
+        return exerciseRepository.getExercise()?.observeEvents()
+            ?: throw IllegalStateException("Exercise not found")
     }
 
-    fun startExercise(): Completable {
-        return exerciseRepository.getExercise()
-            .map { it.start() }
-            .ignoreElement()
+    suspend fun startExercise() {
+        exerciseRepository.getExercise()?.start()
     }
 
-    fun stopExercise(): Completable {
-        return exerciseRepository.getExercise()
-            .map { it.stop() }
-            .ignoreElement()
+    suspend fun stopExercise() {
+        exerciseRepository.getExercise()?.stop()
     }
 
-    fun pauseExercise(): Completable {
-        return exerciseRepository.getExercise()
-            .map { it.pause() }
-            .ignoreElement()
+    suspend fun pauseExercise() {
+        exerciseRepository.getExercise()?.pause()
     }
 
-    fun resumeExercise(): Completable {
-        return exerciseRepository.getExercise()
-            .map { it.resume() }
-            .ignoreElement()
+    suspend fun resumeExercise() {
+        exerciseRepository.getExercise()?.resume()
     }
 
     private fun createExerciseFrom(config: ExerciseConfig): Exercise {

@@ -1,26 +1,19 @@
 package org.tumba.kegel_app.repository
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import org.tumba.kegel_app.domain.Exercise
 
 class ExerciseRepository {
 
     private var exercise: Exercise? = null
 
-    fun getExercise(): Maybe<Exercise> {
-        return Maybe.defer {
-            if (exercise != null) {
-                Maybe.just(exercise)
-            } else {
-                Maybe.empty()
-            }
-        }
+    suspend fun getExercise(): Exercise? {
+        return exercise
     }
 
-    fun saveExercise(exercise: Exercise): Completable {
-        return Completable.fromAction {
-            this.exercise = exercise
-        }
+    suspend fun saveExercise(exercise: Exercise) {
+        this@ExerciseRepository.exercise = exercise
     }
 }

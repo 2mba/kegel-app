@@ -1,30 +1,31 @@
 package org.tumba.kegel_app.domain
 
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import org.tumba.kegel_app.core.system.IVibrationManager
 import org.tumba.kegel_app.core.system.IVibrationManager.Strength
 import org.tumba.kegel_app.domain.ExerciseState.CurrentState
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class Exercise(
     private val config: ExerciseConfig,
     private val vibrationManager: IVibrationManager,
     private val vibrationEnabledStateProvider: () -> Boolean
-) {
+) : CoroutineScope {
 
-    companion object {
-        private const val UPDATE_INTERVAL_SECONDS = 1L
-        private const val UPDATE_INITIAL_DELAY_SECONDS = 0L
-    }
+    override val coroutineContext = Dispatchers.Default + SupervisorJob()
 
-    val events: Observable<ExerciseEvent>
-        get() = eventsSubject
-    private val eventsSubject = PublishSubject.create<ExerciseEvent>()
-    private var exerciseState: ExerciseState =
-        ExerciseState.None
-    private var intervalDisposable: Disposable? = null
+    private var tickJob: Job? = null
+    private val eventsChannel = BroadcastChannel<ExerciseEvent>(CONFLATED)
+    private var exerciseState: ExerciseState = ExerciseState.None
+
+    fun observeEvents(): Flow<ExerciseEvent> = eventsChannel.asFlow()
 
     fun start() {
         check(exerciseState == ExerciseState.None) { "Exercise should not be started" }
@@ -44,8 +45,7 @@ class Exercise(
         val state = exerciseState
         if (state is ExerciseState.InProgress) {
             stopTickUpdates()
-            this.exerciseState =
-                ExerciseState.Pause(state)
+            this.exerciseState = ExerciseState.Pause(state)
             notifyState()
         }
     }
@@ -74,10 +74,9 @@ class Exercise(
     }
 
     private fun tickInProgress() {
-        val state = exerciseState as? ExerciseState.InProgress
-            ?: return
+        val state = exerciseState as? ExerciseState.InProgress ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
-        val remainSeconds = (getDurationState(state) - timePassed + 1) / 1000
+        val remainSeconds = ((getDurationState(state) - timePassed + 1) / 1000.0).roundToLong()
         when (state.currentState) {
             CurrentState.PREPARATION -> {
                 tickPreparation(remainSeconds)
@@ -93,12 +92,11 @@ class Exercise(
 
     private fun tickPreparation(remainSeconds: Long) {
         if (remainSeconds <= 0) {
-            this.exerciseState =
-                ExerciseState.InProgress(
-                    currentState = CurrentState.HOLDING,
-                    repeatRemain = config.repeats - 1,
-                    startTime = System.currentTimeMillis()
-                )
+            this.exerciseState = ExerciseState.InProgress(
+                currentState = CurrentState.HOLDING,
+                repeatRemain = config.repeats - 1,
+                startTime = System.currentTimeMillis()
+            )
         }
         notifyState()
     }
@@ -108,12 +106,11 @@ class Exercise(
         exerciseState: ExerciseState.InProgress
     ) {
         if (remainSeconds <= 0) {
-            this.exerciseState =
-                ExerciseState.InProgress(
-                    currentState = CurrentState.RELAX,
-                    repeatRemain = exerciseState.repeatRemain,
-                    startTime = System.currentTimeMillis()
-                )
+            this.exerciseState = ExerciseState.InProgress(
+                currentState = CurrentState.RELAX,
+                repeatRemain = exerciseState.repeatRemain,
+                startTime = System.currentTimeMillis()
+            )
             vibrate(Strength.Medium)
         }
         notifyState()
@@ -140,8 +137,8 @@ class Exercise(
     }
 
     private fun finishExercise() {
-        intervalDisposable?.dispose()
-        eventsSubject.onNext(ExerciseEvent.Finish)
+        tickJob?.cancel()
+        launch { eventsChannel.send(ExerciseEvent.Finish) }
         exerciseState = ExerciseState.None
     }
 
@@ -149,32 +146,34 @@ class Exercise(
         val state = (exerciseState as? ExerciseState.InProgress) ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
         val remainSeconds = (getDurationState(state) - timePassed + 1) / 1000
-        when (state.currentState) {
-            CurrentState.PREPARATION -> {
-                eventsSubject.onNext(
-                    ExerciseEvent.Preparation(
-                        remainSeconds = remainSeconds,
-                        exerciseDurationSeconds = config.preparationDuration.toSeconds()
+        launch {
+            when (state.currentState) {
+                CurrentState.PREPARATION -> {
+                    eventsChannel.send(
+                        ExerciseEvent.Preparation(
+                            remainSeconds = remainSeconds,
+                            exerciseDurationSeconds = config.preparationDuration.toSeconds()
+                        )
                     )
-                )
-            }
-            CurrentState.HOLDING -> {
-                eventsSubject.onNext(
-                    ExerciseEvent.Holding(
-                        remainSeconds = remainSeconds,
-                        repeatRemains = state.repeatRemain,
-                        exerciseDurationSeconds = config.holdingDuration.toSeconds()
+                }
+                CurrentState.HOLDING -> {
+                    eventsChannel.send(
+                        ExerciseEvent.Holding(
+                            remainSeconds = remainSeconds,
+                            repeatRemains = state.repeatRemain,
+                            exerciseDurationSeconds = config.holdingDuration.toSeconds()
+                        )
                     )
-                )
-            }
-            CurrentState.RELAX -> {
-                eventsSubject.onNext(
-                    ExerciseEvent.Relax(
-                        remainSeconds = remainSeconds,
-                        repeatsRemain = state.repeatRemain,
-                        exerciseDurationSeconds = config.relaxDuration.toSeconds()
+                }
+                CurrentState.RELAX -> {
+                    eventsChannel.send(
+                        ExerciseEvent.Relax(
+                            remainSeconds = remainSeconds,
+                            repeatsRemain = state.repeatRemain,
+                            exerciseDurationSeconds = config.relaxDuration.toSeconds()
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -196,16 +195,20 @@ class Exercise(
 
 
     private fun startTickUpdates() {
-        intervalDisposable = Observable.interval(
-            UPDATE_INITIAL_DELAY_SECONDS,
-            UPDATE_INTERVAL_SECONDS,
-            TimeUnit.SECONDS
-        )
-            .subscribe { tick() }
+        tickJob = launch {
+            while (true) {
+                tick()
+                delay(UPDATE_INTERVAL_MILLIS)
+            }
+        }
     }
 
     private fun stopTickUpdates() {
-        intervalDisposable?.dispose()
+        tickJob?.cancel()
+    }
+
+    companion object {
+        private const val UPDATE_INTERVAL_MILLIS = 1000L
     }
 }
 
