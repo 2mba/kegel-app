@@ -6,7 +6,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 
 
-interface IVibrationManager {
+interface VibrationManager {
 
     fun vibrate(duration: Long)
 
@@ -21,7 +21,7 @@ interface IVibrationManager {
     }
 }
 
-class VibrationManager(private val context: Context) : IVibrationManager {
+class VibrationManagerImpl(private val context: Context) : VibrationManager {
 
     @Suppress("DEPRECATION")
     override fun vibrate(duration: Long) {

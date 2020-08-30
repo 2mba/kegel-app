@@ -5,17 +5,16 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import org.tumba.kegel_app.core.system.IVibrationManager
-import org.tumba.kegel_app.core.system.IVibrationManager.Strength
+import org.tumba.kegel_app.core.system.VibrationManager
+import org.tumba.kegel_app.core.system.VibrationManager.Strength
 import org.tumba.kegel_app.domain.ExerciseState.CurrentState
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class Exercise(
     private val config: ExerciseConfig,
-    private val vibrationManager: IVibrationManager,
+    private val vibrationManager: VibrationManager,
     private val vibrationEnabledStateProvider: () -> Boolean
 ) : CoroutineScope {
 

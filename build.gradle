@@ -29,10 +29,6 @@ buildscript {
         recyclerViewVersion = '1.2.0-alpha03'
         retrofitVersion = '2.5.0'
         roomVersion = '2.2.5'
-        rxAndroidVersion = '2.1.1'
-        rxKotlinVersion = '2.3.0'
-        rxPermissionVersion = '0.10.2'
-        rxVersion = '2.2.6'
         testRunnerVersion = '1.3.0-beta01'
     }
 

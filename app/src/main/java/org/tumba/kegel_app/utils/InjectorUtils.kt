@@ -3,7 +3,7 @@ package org.tumba.kegel_app.utils
 import android.content.Context
 import android.content.SharedPreferences
 import org.tumba.kegel_app.core.system.ResourceProviderImpl
-import org.tumba.kegel_app.core.system.VibrationManager
+import org.tumba.kegel_app.core.system.VibrationManagerImpl
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -21,14 +21,10 @@ object InjectorUtils {
         return ExerciseViewModelFactory(
             ExerciseInteractor(
                 ExerciseRepository(),
-                ExerciseSettingsRepository(
-                    preferences
-                ),
-                VibrationManager(context)
+                ExerciseSettingsRepository(preferences),
+                VibrationManagerImpl(context)
             ),
-            ExerciseSettingsRepository(
-                preferences
-            ),
+            ExerciseSettingsRepository(preferences),
             ResourceProviderImpl(context.resources)
         )
     }
@@ -38,9 +34,7 @@ object InjectorUtils {
     ): HomeViewModelFactory {
         val preferences = provideSharedPreferences(context)
         return HomeViewModelFactory(
-            ExerciseSettingsRepository(
-                preferences
-            )
+            ExerciseSettingsRepository(preferences)
         )
     }
 

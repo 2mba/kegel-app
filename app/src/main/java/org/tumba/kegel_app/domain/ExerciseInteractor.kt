@@ -1,14 +1,14 @@
 package org.tumba.kegel_app.domain
 
 import kotlinx.coroutines.flow.Flow
-import org.tumba.kegel_app.core.system.IVibrationManager
+import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 
 class ExerciseInteractor(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val vibrationManager: IVibrationManager
+    private val vibrationManager: VibrationManager
 ) {
 
     suspend fun createExercise(config: ExerciseConfig) {
