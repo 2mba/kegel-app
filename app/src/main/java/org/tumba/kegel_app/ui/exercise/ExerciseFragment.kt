@@ -1,7 +1,6 @@
 package org.tumba.kegel_app.ui.exercise
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,9 +57,11 @@ class ExerciseFragment : Fragment() {
         setupActionBar()
         binding.progress.max = PROGRESS_MAX
         binding.btnPlay.setOnClickListener { viewModel.onClickPlay() }
-        binding.vibrationSwitch.setOnClickListener { viewModel.onClickNotification() }
-        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+        binding.vibrationSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onVibrationStateChanged(isChecked)
+        }
+        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onNotificationStateChanged(isChecked)
         }
     }
 

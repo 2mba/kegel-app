@@ -8,10 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.IResourceProvider
-import org.tumba.kegel_app.domain.ExerciseConfig
-import org.tumba.kegel_app.domain.ExerciseEvent
-import org.tumba.kegel_app.domain.ExerciseInteractor
-import org.tumba.kegel_app.domain.Time
+import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.utils.Empty
@@ -19,6 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class ExerciseViewModel(
     private val exerciseInteractor: ExerciseInteractor,
+    private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val resourceProvider: IResourceProvider
 ) : BaseViewModel() {
@@ -61,7 +59,12 @@ class ExerciseViewModel(
         }
     }
 
-    fun onClickNotification() {
+    fun onNotificationStateChanged(enabled: Boolean) {
+        if (enabled) {
+            exerciseServiceInteractor.startService()
+        } else {
+            exerciseServiceInteractor.stopService()
+        }
     }
 
     fun onVibrationStateChanged(enabled: Boolean) {
@@ -82,7 +85,7 @@ class ExerciseViewModel(
                     preparationDuration = Time(3, TimeUnit.SECONDS),
                     holdingDuration = Time(5, TimeUnit.SECONDS),
                     relaxDuration = Time(5, TimeUnit.SECONDS),
-                    repeats = 3
+                    repeats = 10
                 )
             )
             exerciseInteractor.startExercise()
