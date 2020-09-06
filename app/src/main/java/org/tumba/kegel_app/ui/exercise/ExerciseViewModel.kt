@@ -6,11 +6,10 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.tumba.kegel_app.R
-import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
+import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import java.util.concurrent.TimeUnit
@@ -20,7 +19,7 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val resourceProvider: ResourceProvider
+    private val exerciseNameProvider: ExerciseNameProvider
 ) : BaseViewModel() {
 
     val exerciseKind = MutableLiveData(String.Empty)
@@ -122,14 +121,12 @@ class ExerciseViewModel @Inject constructor(
         when (state) {
             is ExerciseState.Preparation -> {
                 exerciseDuration = state.exerciseDurationSeconds
-                exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_preparation)
                 secondsRemain.value = state.remainSeconds
                 isProgressReversed = false
                 updateExerciseProgress()
             }
             is ExerciseState.Holding -> {
                 exerciseDuration = state.exerciseDurationSeconds
-                exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_holding)
                 repeatsRemain.value = state.repeatRemains
                 secondsRemain.value = state.remainSeconds
                 isProgressReversed = true
@@ -137,7 +134,6 @@ class ExerciseViewModel @Inject constructor(
             }
             is ExerciseState.Relax -> {
                 exerciseDuration = state.exerciseDurationSeconds
-                exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_relax)
                 repeatsRemain.value = state.repeatsRemain
                 secondsRemain.value = state.remainSeconds
                 isProgressReversed = false
@@ -147,13 +143,13 @@ class ExerciseViewModel @Inject constructor(
                 repeatsRemain.value = state.repeatsRemain
                 secondsRemain.value = state.remainSeconds
                 _exercisePlaybackState.value = Paused
-                exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_paused)
             }
             is ExerciseState.Finish -> {
                 _exercisePlaybackState.value = Stopped
                 finishExercise()
             }
         }
+        exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
         currentState = state
 
         if (state?.isPlayingState() == true) {

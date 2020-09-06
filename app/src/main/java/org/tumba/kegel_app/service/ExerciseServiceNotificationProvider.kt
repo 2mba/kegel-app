@@ -9,8 +9,13 @@ import androidx.core.app.NotificationCompat
 import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.domain.ExerciseState
+import org.tumba.kegel_app.ui.common.ExerciseNameProvider
+import javax.inject.Inject
 
-class ExerciseServiceNotificationProvider(private val context: Context) {
+class ExerciseServiceNotificationProvider @Inject constructor(
+    private val context: Context,
+    private var exerciseNameProvider: ExerciseNameProvider
+) {
 
     init {
         createNotificationChannel()
@@ -21,9 +26,9 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
             PendingIntent.getActivity(context, 0, notificationIntent, 0)
         }
         return NotificationCompat.Builder(context, EXERCISES_CHANNEL_ID)
-            .setContentTitle("Упражнение")
+            .setContentTitle(context.getString(R.string.exercise_notification_title))
             .setContentText(buildNotificationContentText(exerciseState))
-            .setSmallIcon(R.drawable.ic_autorenew)
+            .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .addActions(exerciseState)
             .setNotificationSilent()
@@ -34,7 +39,7 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
     private fun buildNotificationContentText(exerciseState: ExerciseState): String {
         var remainSeconds: Long? = null
         var duration: Long? = null
-        when (exerciseState){
+        when (exerciseState) {
             is ExerciseState.Preparation -> {
                 remainSeconds = exerciseState.remainSeconds
                 duration = exerciseState.exerciseDurationSeconds
@@ -49,8 +54,16 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
             }
         }
         return buildString {
-            append(exerciseState::class.java.simpleName).append(" ")
+            if (exerciseState is ExerciseState.Pause) {
+                append(EMOJI_WALKING_MAN)
+            } else {
+                append(EMOJI_RUNNING_MAN)
+            }
+            append(exerciseNameProvider.exerciseName(exerciseState))
+
             if (remainSeconds != null && duration != null) {
+                append(" ")
+                append(EMOJI_TIMER)
                 append(DateUtils.formatElapsedTime(duration - remainSeconds))
                 append("/").append(DateUtils.formatElapsedTime(duration))
             }
@@ -67,16 +80,28 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
                 exerciseState !is ExerciseState.NotStarted
         if (isPaused) {
             addAction(
-                NotificationCompat.Action(null, "Продолжить", getExerciseActionPendingIntent(ACTION_RESUME_EXERCISE))
+                NotificationCompat.Action(
+                    null,
+                    context.getString(R.string.exercise_notification_action_resume),
+                    getExerciseActionPendingIntent(ACTION_RESUME_EXERCISE)
+                )
             )
         } else if (isInProgress) {
             addAction(
-                NotificationCompat.Action(null, "Пауза", getExerciseActionPendingIntent(ACTION_PAUSE_EXERCISE))
+                NotificationCompat.Action(
+                    null,
+                    context.getString(R.string.exercise_notification_action_pause),
+                    getExerciseActionPendingIntent(ACTION_PAUSE_EXERCISE)
+                )
             )
         }
         if (isInProgress || isPaused) {
             addAction(
-                NotificationCompat.Action(null, "Остановить", getExerciseActionPendingIntent(ACTION_STOP_EXERCISE))
+                NotificationCompat.Action(
+                    null,
+                    context.getString(R.string.exercise_notification_action_stop),
+                    getExerciseActionPendingIntent(ACTION_STOP_EXERCISE)
+                )
             )
         }
         return this
@@ -92,7 +117,7 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(EXERCISES_CHANNEL_ID, "Exercises", importance).apply {
+            val mChannel = NotificationChannel(EXERCISES_CHANNEL_ID, EXERCISES_CHANNEL_NAME, importance).apply {
                 description = "On background run exercise notifications"
             }
             val notificationManager = context.getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
@@ -105,6 +130,10 @@ class ExerciseServiceNotificationProvider(private val context: Context) {
         const val ACTION_PAUSE_EXERCISE = "PAUSE_EXERCISE_ACTION"
         const val ACTION_STOP_EXERCISE = "STOP_EXERCISE_ACTION"
         private const val EXERCISES_CHANNEL_ID = "ExercisesChannel"
+        private const val EXERCISES_CHANNEL_NAME = "Exercises"
         private const val ACTION_REQUEST_CODE = 1000
+        private const val EMOJI_WALKING_MAN = "\uD83D\uDEB6"
+        private const val EMOJI_RUNNING_MAN = "\uD83C\uDFC3️"
+        private const val EMOJI_TIMER = "⌛"
     }
 }

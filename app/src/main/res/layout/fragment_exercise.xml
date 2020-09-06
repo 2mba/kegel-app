@@ -235,7 +235,7 @@
                     android:layout_marginBottom="@dimen/margin_none"
                     app:layout_goneMarginBottom="@dimen/margin_small"
                     android:backgroundTint="@color/colorAccent"
-                    android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_play: @string/screen_exercise_btn_pause}"
+                    android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_pause: @string/screen_exercise_btn_play}"
                     android:onClick="@{(view) -> viewModel.onClickPlay()}"
                     android:textColor="@color/black"
                     app:iconGravity="textStart"

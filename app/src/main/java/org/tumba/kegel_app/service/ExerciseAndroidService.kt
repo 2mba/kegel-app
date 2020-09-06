@@ -87,15 +87,15 @@ class ExerciseAndroidService : Service(), CoroutineScope {
         val notification = notificationProvider.createNotification(exerciseState)
 
         if (isForeground) {
-            startForeground(ONGOING_NOTIFICATION_ID, notification)
+            startForeground(ONGOING_EXERCISE_NOTIFICATION_ID, notification)
             isForegroundService = true
         } else {
             val notificationManager = NotificationManagerCompat.from(this)
-            notificationManager.notify(ONGOING_NOTIFICATION_ID, notification)
+            notificationManager.notify(ONGOING_EXERCISE_NOTIFICATION_ID, notification)
         }
     }
 
     companion object {
-        private const val ONGOING_NOTIFICATION_ID = 1
+        private const val ONGOING_EXERCISE_NOTIFICATION_ID = 1
     }
 }
