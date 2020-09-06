@@ -11,6 +11,7 @@ import org.tumba.kegel_app.core.system.IResourceProvider
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
+import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import java.util.concurrent.TimeUnit
 
@@ -30,7 +31,7 @@ class ExerciseViewModel(
     val day = exerciseSettingsRepository.getExerciseDay()
     val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
     val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
-    private val _exercisePlaybackState = MutableLiveData(ExercisePlaybackStateUiModel.Playing)
+    private val _exercisePlaybackState = MutableLiveData(Playing)
     private val secondsRemain = MutableLiveData(0L)
     private var exerciseDuration = 0L
     private var currentState: ExerciseState? = null
@@ -43,16 +44,24 @@ class ExerciseViewModel(
 
     fun onClickPlay() {
         when (exercisePlaybackState.value) {
-            ExercisePlaybackStateUiModel.Playing -> {
+            Playing -> {
                 viewModelScope.launch {
                     exerciseInteractor.pauseExercise()
                 }
             }
-            ExercisePlaybackStateUiModel.Paused -> {
+            Paused -> {
                 viewModelScope.launch {
                     exerciseInteractor.resumeExercise()
                 }
             }
+            else -> {
+            }
+        }
+    }
+
+    fun onClickStop() {
+        viewModelScope.launch {
+            exerciseInteractor.stopExercise()
         }
     }
 
@@ -136,17 +145,18 @@ class ExerciseViewModel(
             is ExerciseState.Pause -> {
                 repeatsRemain.value = state.repeatsRemain
                 secondsRemain.value = state.remainSeconds
-                _exercisePlaybackState.value = ExercisePlaybackStateUiModel.Paused
+                _exercisePlaybackState.value = Paused
                 exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_paused)
             }
             is ExerciseState.Finish -> {
+                _exercisePlaybackState.value = Stopped
                 finishExercise()
             }
         }
         currentState = state
 
         if (state?.isPlayingState() == true) {
-            _exercisePlaybackState.value = ExercisePlaybackStateUiModel.Playing
+            _exercisePlaybackState.value = Playing
         }
     }
 
@@ -177,7 +187,7 @@ class ExerciseViewModel(
             ExerciseState.Relax::class,
             ExerciseState.Holding::class
         )
-        return playingStates.any { it == this::class  }
+        return playingStates.any { it == this::class }
     }
 
     private fun formatTimeRemains(seconds: Long): String {

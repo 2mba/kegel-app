@@ -15,8 +15,7 @@ import androidx.transition.TransitionInflater
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
-import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.Paused
-import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.Playing
+import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.InjectorUtils
 import org.tumba.kegel_app.utils.fragment.actionBar
@@ -58,7 +57,6 @@ class ExerciseFragment : Fragment() {
     private fun initUi() {
         setupActionBar()
         binding.progress.max = PROGRESS_MAX
-        binding.btnPlay.setOnClickListener { viewModel.onClickPlay() }
         binding.vibrationSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onVibrationStateChanged(isChecked)
         }
@@ -100,27 +98,20 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun updatePlayButtonState(playbackState: ExercisePlaybackStateUiModel) {
-        val btnPlayText: String
-        val btnPlayIcon: Int
-        when (playbackState) {
-            Playing -> {
-                btnPlayText = getString(R.string.screen_exercise_btn_pause)
-                btnPlayIcon = R.drawable.ic_pause_animated
-            }
-            Paused -> {
-                btnPlayText = getString(R.string.screen_exercise_btn_play)
-                btnPlayIcon = R.drawable.ic_play_animated
-            }
+        val btnPlayIcon = when (playbackState) {
+            Playing -> R.drawable.ic_pause_animated
+            Paused,
+            Stopped -> R.drawable.ic_play_animated
         }
         val iconDrawable = AnimatedVectorDrawableCompat.create(requireContext(), btnPlayIcon)
-        binding.btnPlay.text = btnPlayText
         binding.btnPlay.icon = iconDrawable
         iconDrawable?.start()
     }
 
     private fun updateTimerAnimation(playbackState: ExercisePlaybackStateUiModel) {
         when (playbackState) {
-            Playing -> {
+            Playing,
+            Stopped -> {
                 timerAnimation?.cancel()
             }
             Paused -> {

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel" />
+
         <variable
             name="viewModel"
             type="org.tumba.kegel_app.ui.exercise.ExerciseViewModel" />
@@ -13,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:background="@color/black">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -166,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="Уведомление"
+                        android:text="@string/screen_exercise_notification_caption"
                         android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/notificationSwitch"
@@ -202,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="Вибрация"
+                        android:text="@string/screen_exercise_vibration_caption"
                         android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/vibrationSwitch"
@@ -229,17 +232,41 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_none"
+                    app:layout_goneMarginBottom="@dimen/margin_small"
                     android:backgroundTint="@color/colorAccent"
-                    android:text="@string/screen_exercise_btn_pause"
+                    android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_play: @string/screen_exercise_btn_pause}"
+                    android:onClick="@{(view) -> viewModel.onClickPlay()}"
                     android:textColor="@color/black"
-                    app:icon="@drawable/ic_play_arrow"
+                    app:iconGravity="textStart"
                     app:iconTint="@color/black"
+                    app:layout_constraintBottom_toTopOf="@id/btnStop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:rippleColor="@color/black"
+                    tools:text="@string/screen_exercise_btn_pause" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStop"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    animateVisibility="@{true}"
+                    bindGoneUnless="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Paused}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:onClick="@{(view) -> viewModel.onClickStop()}"
+                    android:text="@string/screen_exercise_btn_stop"
+                    android:textColor="@color/colorAccent"
+                    app:icon="@drawable/ic_stop"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:rippleColor="@color/black" />
-
+                    app:strokeColor="@color/colorAccent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -26,7 +26,6 @@ class ExerciseInteractor(
     fun observeExerciseState(): Flow<ExerciseState> {
         return exerciseRepository.observeExercise()
             .flatMapLatest { it?.observeState() ?: emptyFlow() }
-            // ?: throw IllegalStateException("Exercise not found")
     }
 
     suspend fun isExerciseInProgress(): Boolean {
