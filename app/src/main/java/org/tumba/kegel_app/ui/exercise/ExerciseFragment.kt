@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
@@ -14,8 +15,8 @@ import androidx.transition.TransitionInflater
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
-import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Paused
-import org.tumba.kegel_app.ui.exercise.ExerciseStateUiModel.Playing
+import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.Paused
+import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.Playing
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.InjectorUtils
 import org.tumba.kegel_app.utils.fragment.actionBar
@@ -32,6 +33,7 @@ class ExerciseFragment : Fragment() {
     }
     private val progressInterpolator = AccelerateDecelerateInterpolator()
     private var lastAnimation: Animation? = null
+    private var timerAnimation: Animation? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,27 +93,40 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun observeExerciseState() {
-        observe(viewModel.exerciseState) { exerciseState ->
-            val btnPlayText: String
-            val btnPlayIcon: Int
-            when (exerciseState) {
-                Playing -> {
-                    btnPlayText = getString(R.string.screen_exercise_btn_pause)
-                    btnPlayIcon = R.drawable.ic_pause_animated
-                }
-                Paused -> {
-                    btnPlayText = getString(R.string.screen_exercise_btn_play)
-                    btnPlayIcon = R.drawable.ic_play_animated
-                }
-                else -> throw IllegalStateException("exerciseState should be not null")
+        observe(viewModel.exercisePlaybackState) { exerciseState ->
+            updatePlayButtonState(exerciseState)
+            updateTimerAnimation(exerciseState)
+        }
+    }
+
+    private fun updatePlayButtonState(playbackState: ExercisePlaybackStateUiModel) {
+        val btnPlayText: String
+        val btnPlayIcon: Int
+        when (playbackState) {
+            Playing -> {
+                btnPlayText = getString(R.string.screen_exercise_btn_pause)
+                btnPlayIcon = R.drawable.ic_pause_animated
             }
-            val iconDrawable = AnimatedVectorDrawableCompat.create(
-                requireContext(),
-                btnPlayIcon
-            )
-            binding.btnPlay.text = btnPlayText
-            binding.btnPlay.icon = iconDrawable
-            iconDrawable?.start()
+            Paused -> {
+                btnPlayText = getString(R.string.screen_exercise_btn_play)
+                btnPlayIcon = R.drawable.ic_play_animated
+            }
+        }
+        val iconDrawable = AnimatedVectorDrawableCompat.create(requireContext(), btnPlayIcon)
+        binding.btnPlay.text = btnPlayText
+        binding.btnPlay.icon = iconDrawable
+        iconDrawable?.start()
+    }
+
+    private fun updateTimerAnimation(playbackState: ExercisePlaybackStateUiModel) {
+        when (playbackState) {
+            Playing -> {
+                timerAnimation?.cancel()
+            }
+            Paused -> {
+                timerAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.blink_animation)
+                    ?.also { binding.timer.startAnimation(it) }
+            }
         }
     }
 

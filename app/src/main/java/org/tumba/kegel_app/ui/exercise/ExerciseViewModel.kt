@@ -1,8 +1,8 @@
 package org.tumba.kegel_app.ui.exercise
 
-import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,36 +22,33 @@ class ExerciseViewModel(
 ) : BaseViewModel() {
 
     val exerciseKind = MutableLiveData(String.Empty)
-    val exerciseState = MutableLiveData(ExerciseStateUiModel.Playing)
+    val exercisePlaybackState by lazy { _exercisePlaybackState.distinctUntilChanged() }
     val repeatsRemain = MutableLiveData(0)
-    val timeRemain = MediatorLiveData<String>()
+    val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
     val level = exerciseSettingsRepository.getExerciseLevel()
     val day = exerciseSettingsRepository.getExerciseDay()
-    val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled()
+    val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
+    val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
+    private val _exercisePlaybackState = MutableLiveData(ExercisePlaybackStateUiModel.Playing)
     private val secondsRemain = MutableLiveData(0L)
     private var exerciseDuration = 0L
-    private var currentState: ExerciseEvent? = null
+    private var currentState: ExerciseState? = null
     private var isProgressReversed = true
 
     init {
-        startExercise()
-        timeRemain.apply {
-            addSource(secondsRemain) { seconds -> value = formatTimeRemains(seconds) }
-            value = formatTimeRemains(0)
-        }
+        startExerciseIfNoExerciseInProgress()
+        observeExerciseState()
     }
 
     fun onClickPlay() {
-        when (exerciseState.value) {
-            ExerciseStateUiModel.Playing -> {
-                exerciseState.value = ExerciseStateUiModel.Paused
+        when (exercisePlaybackState.value) {
+            ExercisePlaybackStateUiModel.Playing -> {
                 viewModelScope.launch {
                     exerciseInteractor.pauseExercise()
                 }
             }
-            ExerciseStateUiModel.Paused -> {
-                exerciseState.value = ExerciseStateUiModel.Playing
+            ExercisePlaybackStateUiModel.Paused -> {
                 viewModelScope.launch {
                     exerciseInteractor.resumeExercise()
                 }
@@ -60,10 +57,13 @@ class ExerciseViewModel(
     }
 
     fun onNotificationStateChanged(enabled: Boolean) {
-        if (enabled) {
-            exerciseServiceInteractor.startService()
-        } else {
-            exerciseServiceInteractor.stopService()
+        exerciseSettingsRepository.setNotificationEnabled(enabled)
+        viewModelScope.launch {
+            if (enabled && exerciseInteractor.isExerciseInProgress()) {
+                exerciseServiceInteractor.startService()
+            } else {
+                exerciseServiceInteractor.stopService()
+            }
         }
     }
 
@@ -78,53 +78,76 @@ class ExerciseViewModel(
         stopExercise()
     }
 
-    private fun startExercise() {
+    private fun startExerciseIfNoExerciseInProgress() {
         viewModelScope.launch {
-            exerciseInteractor.createExercise(
-                config = ExerciseConfig(
-                    preparationDuration = Time(3, TimeUnit.SECONDS),
-                    holdingDuration = Time(5, TimeUnit.SECONDS),
-                    relaxDuration = Time(5, TimeUnit.SECONDS),
-                    repeats = 10
-                )
-            )
-            exerciseInteractor.startExercise()
-            exerciseInteractor.observeExerciseEvents()
-                .collect { onExerciseEventReceived(it) }
+            if (!exerciseInteractor.isExerciseInProgress()) {
+                createExercise()
+            }
         }
     }
 
-    private fun onExerciseEventReceived(event: ExerciseEvent?) {
-        Log.d("!!!!", "Event: $event")
-        when (event) {
-            is ExerciseEvent.Preparation -> {
-                exerciseDuration = event.exerciseDurationSeconds
+    private fun observeExerciseState() {
+        viewModelScope.launch {
+            exerciseInteractor.observeExerciseState().collect { onExerciseEventReceived(it) }
+        }
+    }
+
+    private suspend fun createExercise() {
+        exerciseInteractor.clearExercise()
+        exerciseInteractor.createExercise(
+            config = ExerciseConfig(
+                preparationDuration = Time(5, TimeUnit.SECONDS),
+                holdingDuration = Time(5, TimeUnit.SECONDS),
+                relaxDuration = Time(5, TimeUnit.SECONDS),
+                repeats = 10
+            )
+        )
+        exerciseInteractor.startExercise()
+        if (exerciseSettingsRepository.isNotificationEnabled()) {
+            exerciseServiceInteractor.startService()
+        }
+    }
+
+    private fun onExerciseEventReceived(state: ExerciseState?) {
+        when (state) {
+            is ExerciseState.Preparation -> {
+                exerciseDuration = state.exerciseDurationSeconds
                 exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_preparation)
-                secondsRemain.value = event.remainSeconds
+                secondsRemain.value = state.remainSeconds
                 isProgressReversed = false
                 updateExerciseProgress()
             }
-            is ExerciseEvent.Holding -> {
-                exerciseDuration = event.exerciseDurationSeconds
+            is ExerciseState.Holding -> {
+                exerciseDuration = state.exerciseDurationSeconds
                 exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_holding)
-                repeatsRemain.value = event.repeatRemains
-                secondsRemain.value = event.remainSeconds
+                repeatsRemain.value = state.repeatRemains
+                secondsRemain.value = state.remainSeconds
                 isProgressReversed = true
                 updateExerciseProgress()
             }
-            is ExerciseEvent.Relax -> {
-                exerciseDuration = event.exerciseDurationSeconds
+            is ExerciseState.Relax -> {
+                exerciseDuration = state.exerciseDurationSeconds
                 exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_relax)
-                repeatsRemain.value = event.repeatsRemain
-                secondsRemain.value = event.remainSeconds
+                repeatsRemain.value = state.repeatsRemain
+                secondsRemain.value = state.remainSeconds
                 isProgressReversed = false
                 updateExerciseProgress()
             }
-            is ExerciseEvent.Finish -> {
+            is ExerciseState.Pause -> {
+                repeatsRemain.value = state.repeatsRemain
+                secondsRemain.value = state.remainSeconds
+                _exercisePlaybackState.value = ExercisePlaybackStateUiModel.Paused
+                exerciseKind.value = resourceProvider.getString(R.string.screen_exercise_exercise_paused)
+            }
+            is ExerciseState.Finish -> {
                 finishExercise()
             }
         }
-        currentState = event
+        currentState = state
+
+        if (state?.isPlayingState() == true) {
+            _exercisePlaybackState.value = ExercisePlaybackStateUiModel.Playing
+        }
     }
 
     private fun updateExerciseProgress() {
@@ -146,6 +169,15 @@ class ExerciseViewModel(
         viewModelScope.launch {
             exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
         }
+    }
+
+    private fun ExerciseState.isPlayingState(): Boolean {
+        val playingStates = listOf(
+            ExerciseState.Preparation::class,
+            ExerciseState.Relax::class,
+            ExerciseState.Holding::class
+        )
+        return playingStates.any { it == this::class  }
     }
 
     private fun formatTimeRemains(seconds: Long): String {

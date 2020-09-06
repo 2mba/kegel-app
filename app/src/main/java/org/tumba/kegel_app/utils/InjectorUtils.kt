@@ -9,6 +9,7 @@ import org.tumba.kegel_app.domain.ExerciseServiceInteractor
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseService
+import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider
 import org.tumba.kegel_app.service.ExerciseServiceProxy
 import org.tumba.kegel_app.ui.exercise.ExerciseViewModelFactory
 import org.tumba.kegel_app.ui.home.HomeViewModelFactory
@@ -49,9 +50,12 @@ object InjectorUtils {
         )
     }
 
+    fun provideExerciseServiceNotificationProvider(context: Context): ExerciseServiceNotificationProvider {
+        return ExerciseServiceNotificationProvider(context.applicationContext)
+    }
+
     private fun provideExerciseServiceInteractor(context: Context): ExerciseServiceInteractor {
         return ExerciseServiceInteractor(
-            provideExerciseRepository(),
             provideExerciseService(context)
         )
     }
