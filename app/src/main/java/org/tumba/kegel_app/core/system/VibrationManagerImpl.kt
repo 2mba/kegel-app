@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import javax.inject.Inject
 
 
 interface VibrationManager {
@@ -21,7 +22,7 @@ interface VibrationManager {
     }
 }
 
-class VibrationManagerImpl(private val context: Context) : VibrationManager {
+class VibrationManagerImpl @Inject constructor(private val context: Context) : VibrationManager {
 
     @Suppress("DEPRECATION")
     override fun vibrate(duration: Long) {

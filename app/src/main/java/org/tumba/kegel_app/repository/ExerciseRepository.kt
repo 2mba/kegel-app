@@ -6,9 +6,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
 import org.tumba.kegel_app.domain.Exercise
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-class ExerciseRepository {
+@Singleton
+class ExerciseRepository @Inject constructor(){
 
     private var exerciseChannel = BroadcastChannel<Exercise?>(Channel.CONFLATED)
 

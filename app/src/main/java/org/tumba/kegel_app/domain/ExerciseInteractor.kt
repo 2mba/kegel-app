@@ -7,9 +7,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import javax.inject.Inject
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-class ExerciseInteractor(
+class ExerciseInteractor @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val vibrationManager: VibrationManager

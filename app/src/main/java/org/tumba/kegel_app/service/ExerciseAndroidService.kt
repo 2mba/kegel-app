@@ -6,24 +6,25 @@ import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import org.tumba.kegel_app.di.Di
+import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseState
-import org.tumba.kegel_app.utils.InjectorUtils
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class ExerciseAndroidService : Service(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main + SupervisorJob()
+    @Inject
+    lateinit var exerciseInteractor: ExerciseInteractor
+    @Inject
+    lateinit var notificationProvider: ExerciseServiceNotificationProvider
 
-    private val exerciseInteractor by lazy {
-        InjectorUtils.provideExerciseInteractor(this)
-    }
-    private val notificationProvider by lazy {
-        InjectorUtils.provideExerciseServiceNotificationProvider(this)
-    }
     private var isForegroundService = true
 
     override fun onCreate() {
         super.onCreate()
+        Di.appComponent.inject(this)
         launch {
             if (exerciseInteractor.getExercise() == null) {
                 stopForeground(true)

@@ -1,8 +1,9 @@
 package org.tumba.kegel_app.domain
 
 import org.tumba.kegel_app.service.ExerciseService
+import javax.inject.Inject
 
-class ExerciseServiceInteractor(
+class ExerciseServiceInteractor @Inject constructor(
     private val exerciseService: ExerciseService
 ) {
 

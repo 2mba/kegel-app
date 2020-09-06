@@ -70,6 +70,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$google_services_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
+    // Dagger
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"

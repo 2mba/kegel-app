@@ -17,7 +17,6 @@ import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
-import org.tumba.kegel_app.utils.InjectorUtils
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
@@ -27,9 +26,7 @@ class ExerciseFragment : Fragment() {
 
     private lateinit var binding: FragmentExerciseBinding
 
-    private val viewModel: ExerciseViewModel by viewModels {
-        InjectorUtils.provideExerciseViewModelFactory(requireContext())
-    }
+    private val viewModel: ExerciseViewModel by viewModels { ExerciseViewModelFactory() }
     private val progressInterpolator = AccelerateDecelerateInterpolator()
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null

@@ -7,19 +7,20 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
-import org.tumba.kegel_app.core.system.IResourceProvider
+import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ExerciseViewModel(
+class ExerciseViewModel @Inject constructor(
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val resourceProvider: IResourceProvider
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel() {
 
     val exerciseKind = MutableLiveData(String.Empty)

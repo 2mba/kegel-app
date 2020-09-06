@@ -10,16 +10,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
-import org.tumba.kegel_app.utils.InjectorUtils
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val viewModel: HomeViewModel by viewModels {
-        InjectorUtils.provideHomeViewModelFactory(requireContext())
-    }
+    private val viewModel: HomeViewModel by viewModels { HomeViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

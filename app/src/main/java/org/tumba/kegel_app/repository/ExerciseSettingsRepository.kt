@@ -4,8 +4,11 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import org.tumba.kegel_app.core.system.SharedPreferenceBooleanLiveData
 import org.tumba.kegel_app.core.system.SharedPreferenceIntLiveData
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExerciseSettingsRepository(
+@Singleton
+class ExerciseSettingsRepository @Inject constructor(
     private val preferences: SharedPreferences
 ) {
 
