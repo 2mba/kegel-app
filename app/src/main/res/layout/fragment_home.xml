@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
-        tools:background="@color/black">
+        tools:background="@color/black"
+        tools:context=".ui.home.HomeFragment">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -27,7 +27,8 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <include
                     android:id="@+id/exercise_item"
