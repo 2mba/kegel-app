@@ -15,4 +15,7 @@
     <string name="screen_exercise_btn_start_title">Приступить к тренировке</string>
     <string name="screen_exercise_vibration_caption">Вибрация</string>
     <string name="screen_exercise_notification_caption">Уведомление</string>
+    <string name="screen_exercise_exit_confirmation_dialog_message">Вы хотите остановить упражнение и выйти?</string>
+    <string name="screen_exercise_exit_confirmation_dialog_exit">Выйти</string>
+    <string name="screen_exercise_exit_confirmation_dialog_stay">Остаться</string>
 </resources>

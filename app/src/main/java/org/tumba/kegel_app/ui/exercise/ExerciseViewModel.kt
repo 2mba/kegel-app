@@ -12,6 +12,7 @@ import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
+import org.tumba.kegel_app.utils.Event
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -31,6 +32,8 @@ class ExerciseViewModel @Inject constructor(
     val day = exerciseSettingsRepository.getExerciseDay()
     val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
     val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
+    val exitConfirmationDialogVisible = MutableLiveData(Event(false))
+    val exit = MutableLiveData(Event(false))
     private val _exercisePlaybackState = MutableLiveData(Playing)
     private val secondsRemain = MutableLiveData(0L)
     private var exerciseDuration = 0L
@@ -79,6 +82,29 @@ class ExerciseViewModel @Inject constructor(
     fun onVibrationStateChanged(enabled: Boolean) {
         viewModelScope.launch {
             exerciseSettingsRepository.setVibrationEnabled(enabled)
+        }
+    }
+
+    fun onBackPressed() {
+        if (_exercisePlaybackState.value == Playing) {
+            viewModelScope.launch {
+                exerciseInteractor.pauseExercise()
+            }
+        }
+        if (_exercisePlaybackState.value == Stopped) {
+            exit.value = Event(true)
+        } else {
+            exitConfirmationDialogVisible.value = Event(true)
+        }
+    }
+
+    fun onConfirmationDialogCanceled() {
+    }
+
+    fun onExitConfirmed() {
+        viewModelScope.launch {
+            exerciseInteractor.stopExercise()
+            exit.value = Event(true)
         }
     }
 

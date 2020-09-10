@@ -9,10 +9,13 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.ProgressBar
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
@@ -66,13 +69,30 @@ class ExerciseFragment : Fragment() {
         setToolbar(binding.toolbar)
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.title = String.Empty
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.onBackPressed()
+        }
+    }
+
+    private fun showConfirmationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(R.string.screen_exercise_exit_confirmation_dialog_message)
+            .setPositiveButton(R.string.screen_exercise_exit_confirmation_dialog_exit) { _, _ ->
+                viewModel.onExitConfirmed()
+            }
+            .setNegativeButton(R.string.screen_exercise_exit_confirmation_dialog_stay) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setOnCancelListener { viewModel.onConfirmationDialogCanceled() }
+            .create()
+            .show()
     }
 
     private fun observeViewModel() {
         observeExerciseState()
 
-        observe(viewModel.exerciseProgress) { progressValue ->
+        viewLifecycleOwner.observe(viewModel.exerciseProgress) { progressValue ->
             lastAnimation?.cancel()
             val progressAnimation = ProgressBarAnimation(
                 progressBar = binding.progress,
@@ -84,6 +104,16 @@ class ExerciseFragment : Fragment() {
             }
             lastAnimation = progressAnimation
             binding.progress.startAnimation(progressAnimation)
+        }
+        viewLifecycleOwner.observe(viewModel.exitConfirmationDialogVisible) { visible ->
+            if (visible.getContentIfNotHandled() == true) {
+                showConfirmationDialog()
+            }
+        }
+        viewLifecycleOwner.observe(viewModel.exit) { exit ->
+            if (exit.getContentIfNotHandled() == true) {
+                findNavController().popBackStack()
+            }
         }
     }
 

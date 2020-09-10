@@ -195,9 +195,10 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
-                    app:layout_constraintBottom_toTopOf="@+id/btnPlay"
+                    app:layout_constraintBottom_toTopOf="@+id/btnStop"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_goneMarginBottom="@dimen/margin_medium">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/vibrationText"
@@ -224,27 +225,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPlay"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_none"
-                    app:layout_goneMarginBottom="@dimen/margin_small"
-                    android:backgroundTint="@color/colorAccent"
-                    android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_pause: @string/screen_exercise_btn_play}"
-                    android:onClick="@{(view) -> viewModel.onClickPlay()}"
-                    android:textColor="@color/black"
-                    app:iconGravity="textStart"
-                    app:iconTint="@color/black"
-                    app:layout_constraintBottom_toTopOf="@id/btnStop"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:rippleColor="@color/black"
-                    tools:text="@string/screen_exercise_btn_pause" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStop"
@@ -263,10 +243,33 @@
                     app:icon="@drawable/ic_stop"
                     app:iconGravity="textStart"
                     app:iconTint="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@+id/btnPlay"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_goneMarginBottom="@dimen/margin_small"
+                    app:strokeColor="@color/colorAccent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlay"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:backgroundTint="@color/colorAccent"
+                    android:onClick="@{(view) -> viewModel.onClickPlay()}"
+                    android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_pause: @string/screen_exercise_btn_play}"
+                    android:textColor="@color/black"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:strokeColor="@color/colorAccent" />
+                    app:rippleColor="@color/black"
+                    tools:text="@string/screen_exercise_btn_pause" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
