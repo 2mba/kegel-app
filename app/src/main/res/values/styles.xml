@@ -10,7 +10,7 @@
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
-
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MdcTypographyStyles.Headline1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.MdcTypographyStyles.Headline2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.MdcTypographyStyles.Headline3</item>
@@ -105,5 +105,19 @@
         <item name="fontFamily">@font/opensans_semibold</item>
         <item name="android:fontFamily">@font/opensans_semibold</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/black</item>
+        <item name="android:backgroundDimAmount">0.85</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.MdcTypographyStyles.Headline6.Bold</item>
+    </style>
+
+    <style name="TextAppearance.MdcTypographyStyles.Headline6.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

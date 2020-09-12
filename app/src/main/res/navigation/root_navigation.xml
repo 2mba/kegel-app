@@ -14,10 +14,10 @@
         <action
             android:id="@+id/action_screen_home_to_screen_exercise"
             app:destination="@id/screen_exercise"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
 
     </fragment>
 
@@ -32,6 +32,28 @@
         android:id="@+id/screen_exercise"
         android:name="org.tumba.kegel_app.ui.exercise.ExerciseFragment"
         android:label="@string/title_exercise"
-        tools:layout="@layout/fragment_exercise" />
+        tools:layout="@layout/fragment_exercise">
+        <action
+            android:id="@+id/action_screen_exercise_to_exerciseResultFragment"
+            app:destination="@id/exerciseResultFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"/>
+    </fragment>
+
+    <dialog
+        android:id="@+id/exerciseResultFragment"
+        android:name="org.tumba.kegel_app.ui.exercise.ExerciseResultFragment"
+        android:label="ExerciseResultFragment"
+        tools:layout="@layout/fragment_exercise_result">
+        <action
+            android:id="@+id/action_exerciseResultFragment_to_screen_home"
+            app:destination="@id/screen_home"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </dialog>
 
 </navigation>

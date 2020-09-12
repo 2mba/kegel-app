@@ -14,7 +14,7 @@ class ExerciseNameProvider @Inject constructor(private val resourceProvider: Res
             is ExerciseState.Holding -> R.string.screen_exercise_exercise_holding
             is ExerciseState.Relax -> R.string.screen_exercise_exercise_relax
             is ExerciseState.Pause -> R.string.screen_exercise_exercise_paused
-            is ExerciseState.Finish -> R.string.screen_exercise_exercise_paused
+            is ExerciseState.Finish -> R.string.screen_exercise_exercise_finished
             ExerciseState.NotStarted -> null
         }
             .let { nameRes ->

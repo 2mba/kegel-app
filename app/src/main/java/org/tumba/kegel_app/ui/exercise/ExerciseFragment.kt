@@ -78,6 +78,7 @@ class ExerciseFragment : Fragment() {
     private fun showConfirmationDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.screen_exercise_exit_confirmation_dialog_message)
+            .setTitle(R.string.screen_exercise_exit_confirmation_dialog_title)
             .setPositiveButton(R.string.screen_exercise_exit_confirmation_dialog_exit) { _, _ ->
                 viewModel.onExitConfirmed()
             }
@@ -115,6 +116,11 @@ class ExerciseFragment : Fragment() {
                 findNavController().popBackStack()
             }
         }
+        viewLifecycleOwner.observe(viewModel.navigateToExerciseResult) { navigate ->
+            if (navigate.getContentIfNotHandled() == true) {
+                navigateToExerciseResultFragment()
+            }
+        }
     }
 
     private fun observeExerciseState() {
@@ -146,6 +152,10 @@ class ExerciseFragment : Fragment() {
                     ?.also { binding.timer.startAnimation(it) }
             }
         }
+    }
+
+    private fun navigateToExerciseResultFragment() {
+        findNavController().navigate(ExerciseFragmentDirections.actionScreenExerciseToExerciseResultFragment())
     }
 
     companion object {

@@ -12,4 +12,9 @@
 
     <color name="gray">#9f9f9f</color>
     <color name="transparent">#00000000</color>
+
+    <color name="confetti_1">#C67600</color>
+    <color name="confetti_2">#38BA86</color>
+    <color name="confetti_3">#BC356E</color>
+    <color name="confetti_4">#0E58D8</color>
 </resources>

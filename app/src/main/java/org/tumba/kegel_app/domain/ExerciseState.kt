@@ -23,5 +23,5 @@ sealed class ExerciseState {
 
     data class Pause(val remainSeconds: Long, val repeatsRemain: Int) : ExerciseState()
 
-    object Finish : ExerciseState()
+    data class Finish(val isForceFinished: Boolean): ExerciseState()
 }

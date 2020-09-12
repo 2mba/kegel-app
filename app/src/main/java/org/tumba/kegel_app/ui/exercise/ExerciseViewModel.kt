@@ -34,6 +34,7 @@ class ExerciseViewModel @Inject constructor(
     val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
+    val navigateToExerciseResult = MutableLiveData(Event(false))
     private val _exercisePlaybackState = MutableLiveData(Playing)
     private val secondsRemain = MutableLiveData(0L)
     private var exerciseDuration = 0L
@@ -134,7 +135,7 @@ class ExerciseViewModel @Inject constructor(
                 preparationDuration = Time(5, TimeUnit.SECONDS),
                 holdingDuration = Time(5, TimeUnit.SECONDS),
                 relaxDuration = Time(5, TimeUnit.SECONDS),
-                repeats = 10
+                repeats = 1
             )
         )
         exerciseInteractor.startExercise()
@@ -172,7 +173,7 @@ class ExerciseViewModel @Inject constructor(
             }
             is ExerciseState.Finish -> {
                 _exercisePlaybackState.value = Stopped
-                finishExercise()
+                handleExerciseFinish(state)
             }
         }
         exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
@@ -198,9 +199,14 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    private fun finishExercise() {
-        viewModelScope.launch {
-            exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
+    private fun handleExerciseFinish(state: ExerciseState.Finish) {
+        if (!state.isForceFinished) {
+            viewModelScope.launch {
+                exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
+            }
+            navigateToExerciseResult.value = Event(true)
+        } else if (exit.value?.peekContent() != true){
+            exit.value = Event(true)
         }
     }
 

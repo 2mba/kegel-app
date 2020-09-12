@@ -75,7 +75,7 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         exerciseState: ExerciseState
     ): NotificationCompat.Builder {
         val isPaused = exerciseState is ExerciseState.Pause
-        val isInProgress = exerciseState != ExerciseState.Finish &&
+        val isInProgress = exerciseState !is ExerciseState.Finish &&
                 exerciseState !is ExerciseState.Pause &&
                 exerciseState !is ExerciseState.NotStarted
         if (isPaused) {

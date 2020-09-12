@@ -51,7 +51,7 @@ class Exercise(
 
     fun stop() {
         stopTickUpdates()
-        exerciseState = ExerciseStateInternal.Finish
+        exerciseState = ExerciseStateInternal.Finish(isForceFinished = true)
         notifyState()
     }
 
@@ -137,8 +137,8 @@ class Exercise(
 
     private fun finishExercise() {
         tickJob?.cancel()
-        launch { eventsChannel.send(ExerciseState.Finish) }
-        exerciseState = ExerciseStateInternal.Finish
+        exerciseState = ExerciseStateInternal.Finish(isForceFinished = false)
+        notifyState()
     }
 
     private fun notifyState() {
@@ -154,8 +154,8 @@ class Exercise(
                         ExerciseState.Pause(remainSeconds, state.pausedState.repeatRemain)
                     )
                 }
-                ExerciseStateInternal.Finish -> {
-                    eventsChannel.send(ExerciseState.Finish)
+                is ExerciseStateInternal.Finish -> {
+                    eventsChannel.send(ExerciseState.Finish(state.isForceFinished))
                 }
             }
         }
@@ -246,7 +246,7 @@ private sealed class ExerciseStateInternal {
         val pausedState: InProgress
     ) : ExerciseStateInternal()
 
-    object Finish : ExerciseStateInternal()
+    class Finish(val isForceFinished: Boolean) : ExerciseStateInternal()
 
     enum class CurrentState {
         PREPARATION,

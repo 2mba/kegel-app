@@ -56,7 +56,7 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     }
 
     private fun onExerciseEvents(state: ExerciseState) {
-        if (state == ExerciseState.Finish) {
+        if (state is ExerciseState.Finish) {
             if (isForegroundService) {
                 stopForeground(false)
                 isForegroundService = false
