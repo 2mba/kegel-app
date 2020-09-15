@@ -8,16 +8,27 @@ interface ExerciseService {
     fun startService()
 
     fun stopService()
+
+    fun clearNotification()
 }
 
 class ExerciseServiceProxy(private val context: Context) : ExerciseService {
 
     override fun startService() {
-        val intent = Intent(context, ExerciseAndroidService::class.java)
+        val intent = Intent(context, ExerciseAndroidService::class.java).apply {
+            action = ExerciseAndroidService.ACTION_SHOW_EXERCISE_STATUS
+        }
         context.startService(intent)
     }
 
     override fun stopService() {
         context.stopService(Intent(context, ExerciseAndroidService::class.java))
+    }
+
+    override fun clearNotification() {
+        val intent = Intent(context, ExerciseAndroidService::class.java).apply {
+            action = ExerciseAndroidService.ACTION_CLEAR_NOTIFICATION
+        }
+        context.startService(intent)
     }
 }

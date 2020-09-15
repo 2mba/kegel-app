@@ -14,4 +14,8 @@ class ExerciseServiceInteractor @Inject constructor(
     fun stopService() {
         exerciseService.stopService()
     }
+
+    fun clearNotification() {
+        exerciseService.clearNotification()
+    }
 }

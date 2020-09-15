@@ -40,6 +40,7 @@ class ExerciseViewModel @Inject constructor(
     private var exerciseDuration = 0L
     private var currentState: ExerciseState? = null
     private var isProgressReversed = true
+    private var isExerciseStoppedFromExerciseScreen = false
 
     init {
         startExerciseIfNoExerciseInProgress()
@@ -65,6 +66,7 @@ class ExerciseViewModel @Inject constructor(
 
     fun onClickStop() {
         viewModelScope.launch {
+            isExerciseStoppedFromExerciseScreen = true
             exerciseInteractor.stopExercise()
         }
     }
@@ -93,7 +95,7 @@ class ExerciseViewModel @Inject constructor(
             }
         }
         if (_exercisePlaybackState.value == Stopped) {
-            exit.value = Event(true)
+            exit()
         } else {
             exitConfirmationDialogVisible.value = Event(true)
         }
@@ -104,14 +106,9 @@ class ExerciseViewModel @Inject constructor(
 
     fun onExitConfirmed() {
         viewModelScope.launch {
+            isExerciseStoppedFromExerciseScreen = true
             exerciseInteractor.stopExercise()
-            exit.value = Event(true)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        stopExercise()
     }
 
     private fun startExerciseIfNoExerciseInProgress() {
@@ -193,20 +190,23 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    private fun stopExercise() {
-        viewModelScope.launch {
-            exerciseInteractor.stopExercise()
-        }
-    }
-
     private fun handleExerciseFinish(state: ExerciseState.Finish) {
         if (!state.isForceFinished) {
             viewModelScope.launch {
                 exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
             }
             navigateToExerciseResult.value = Event(true)
-        } else if (exit.value?.peekContent() != true){
-            exit.value = Event(true)
+        } else {
+            exit()
+        }
+        if (isExerciseStoppedFromExerciseScreen) {
+            clearNotification()
+        }
+    }
+
+    private fun clearNotification() {
+        if (exerciseSettingsRepository.isNotificationEnabled()) {
+            exerciseServiceInteractor.clearNotification()
         }
     }
 
@@ -217,6 +217,12 @@ class ExerciseViewModel @Inject constructor(
             ExerciseState.Holding::class
         )
         return playingStates.any { it == this::class }
+    }
+
+    private fun exit() {
+        if (exit.value?.peekContent() != true){
+            exit.value = Event(true)
+        }
     }
 
     private fun formatTimeRemains(seconds: Long): String {
