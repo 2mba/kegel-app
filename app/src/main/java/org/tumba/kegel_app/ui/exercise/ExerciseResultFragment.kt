@@ -1,21 +1,25 @@
 package org.tumba.kegel_app.ui.exercise
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import nl.dionsegijn.konfetti.models.Size
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseResultBinding
+import org.tumba.kegel_app.ui.exercise.factory.ExerciseResultViewModelFactory
 
 
 class ExerciseResultFragment : DialogFragment() {
 
     private lateinit var binding: FragmentExerciseResultBinding
+    private val viewModel: ExerciseResultViewModel by viewModels { ExerciseResultViewModelFactory() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentExerciseResultBinding.inflate(LayoutInflater.from(requireContext()), null, false)
@@ -33,6 +37,11 @@ class ExerciseResultFragment : DialogFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             navigateToHomeScreen()
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.onDismiss()
     }
 
     private fun showConfetti() {

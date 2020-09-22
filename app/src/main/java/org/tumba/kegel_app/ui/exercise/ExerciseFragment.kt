@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
+import org.tumba.kegel_app.ui.exercise.factory.ExerciseViewModelFactory
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.setToolbar

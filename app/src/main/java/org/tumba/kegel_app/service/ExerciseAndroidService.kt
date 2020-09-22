@@ -120,6 +120,8 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     }
 
     private fun clearNotification() {
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.cancel(ONGOING_EXERCISE_NOTIFICATION_ID)
         stopForeground(true)
         exerciseObserveJob?.cancel()
         isNotificationsCleared = true
