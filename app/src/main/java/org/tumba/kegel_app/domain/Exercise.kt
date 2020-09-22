@@ -138,7 +138,6 @@ class Exercise(
     private fun finishExercise() {
         tickJob?.cancel()
         exerciseState = ExerciseStateInternal.Finish(isForceFinished = false)
-        notifyState()
     }
 
     private fun notifyState() {

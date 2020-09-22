@@ -72,13 +72,8 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onNotificationStateChanged(enabled: Boolean) {
-        exerciseSettingsRepository.setNotificationEnabled(enabled)
         viewModelScope.launch {
-            if (enabled && exerciseInteractor.isExerciseInProgress()) {
-                exerciseServiceInteractor.startService()
-            } else {
-                exerciseServiceInteractor.stopService()
-            }
+            exerciseInteractor.setNotificationEnabled(enabled)
         }
     }
 
@@ -136,9 +131,6 @@ class ExerciseViewModel @Inject constructor(
             )
         )
         exerciseInteractor.startExercise()
-        if (exerciseSettingsRepository.isNotificationEnabled()) {
-            exerciseServiceInteractor.startService()
-        }
     }
 
     private fun onExerciseEventReceived(state: ExerciseState?) {

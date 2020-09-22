@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.collect
 import org.tumba.kegel_app.di.Di
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseState
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_PAUSE_EXERCISE
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_RESUME_EXERCISE
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_STOP_EXERCISE
@@ -18,12 +19,19 @@ import kotlin.coroutines.CoroutineContext
 class ExerciseAndroidService : Service(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main + SupervisorJob()
+
     @Inject
     lateinit var exerciseInteractor: ExerciseInteractor
+
+    @Inject
+    lateinit var settingsRepository: ExerciseSettingsRepository
+
     @Inject
     lateinit var notificationProvider: ExerciseServiceNotificationProvider
 
     private var isForegroundService = true
+    private var exerciseObserveJob: Job? = null
+    private var isNotificationsCleared = false
 
     override fun onCreate() {
         super.onCreate()
@@ -58,8 +66,14 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     }
 
     private fun observeExercise() {
-        launch {
-            exerciseInteractor.observeExerciseState().collect { onExerciseEvents(it) }
+        isNotificationsCleared = false
+        exerciseObserveJob?.cancel()
+        exerciseObserveJob = launch {
+            exerciseInteractor.observeExerciseState().collect {
+                if (!isNotificationsCleared) {
+                    onExerciseEvents(it)
+                }
+            }
         }
     }
 
@@ -70,7 +84,9 @@ class ExerciseAndroidService : Service(), CoroutineScope {
                 isForegroundService = false
             }
         }
-        showNotification(state, isForegroundService)
+        if (settingsRepository.isNotificationEnabled()) {
+            showNotification(state, isForegroundService)
+        }
     }
 
     private fun resumeExercise() {
@@ -104,8 +120,9 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     }
 
     private fun clearNotification() {
-        val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.cancel(ONGOING_EXERCISE_NOTIFICATION_ID)
+        stopForeground(true)
+        exerciseObserveJob?.cancel()
+        isNotificationsCleared = true
     }
 
     companion object {

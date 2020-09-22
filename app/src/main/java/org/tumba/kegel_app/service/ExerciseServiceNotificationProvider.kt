@@ -78,22 +78,25 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         val isInProgress = exerciseState !is ExerciseState.Finish &&
                 exerciseState !is ExerciseState.Pause &&
                 exerciseState !is ExerciseState.NotStarted
-        if (isPaused) {
-            addAction(
-                NotificationCompat.Action(
-                    null,
-                    context.getString(R.string.exercise_notification_action_resume),
-                    getExerciseActionPendingIntent(ACTION_RESUME_EXERCISE)
+        when {
+            isPaused -> {
+                addAction(
+                    NotificationCompat.Action(
+                        null,
+                        context.getString(R.string.exercise_notification_action_resume),
+                        getExerciseActionPendingIntent(ACTION_RESUME_EXERCISE)
+                    )
                 )
-            )
-        } else if (isInProgress) {
-            addAction(
-                NotificationCompat.Action(
-                    null,
-                    context.getString(R.string.exercise_notification_action_pause),
-                    getExerciseActionPendingIntent(ACTION_PAUSE_EXERCISE)
+            }
+            isInProgress -> {
+                addAction(
+                    NotificationCompat.Action(
+                        null,
+                        context.getString(R.string.exercise_notification_action_pause),
+                        getExerciseActionPendingIntent(ACTION_PAUSE_EXERCISE)
+                    )
                 )
-            )
+            }
         }
         if (isInProgress || isPaused) {
             addAction(
