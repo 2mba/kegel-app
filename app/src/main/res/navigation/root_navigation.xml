@@ -53,7 +53,9 @@
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_open_exit" />
+            app:popExitAnim="@anim/fragment_open_exit"
+            app:popUpTo="@id/screen_home"
+            app:popUpToInclusive="true"/>
     </dialog>
 
 </navigation>
