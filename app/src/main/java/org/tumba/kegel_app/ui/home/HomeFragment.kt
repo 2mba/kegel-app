@@ -41,6 +41,14 @@ class HomeFragment : Fragment() {
                 )
             )
         }
+        binding.hintItem.btnHint.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment(),
+                FragmentNavigatorExtras(
+                    binding.hintItem.itemHint to "itemHint"
+                )
+            )
+        }
         return binding.root
     }
 }

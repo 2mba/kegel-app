@@ -1,53 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/itemHint"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_medium"
-    android:layout_marginTop="@dimen/margin_medium"
-    android:layout_marginEnd="@dimen/margin_medium"
-    android:foreground="?selectableItemBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/itemHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:orientation="vertical">
+        android:foreground="?selectableItemBackground"
+        android:transitionName="itemHint">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Widget.MaterialComponents.TextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Как делать упражнения кегеля?"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btnHint"
-            style="@style/Widget.MaterialComponents.TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="Упражнения Кегеля — упражнения, направленные на развитие мышц промежности."
-            android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Widget.MaterialComponents.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Как делать упражнения кегеля?"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="Посмотреть"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Widget.MaterialComponents.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Упражнения Кегеля — упражнения, направленные на развитие мышц промежности."
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHint"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Посмотреть"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-</com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -224,7 +224,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStop"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"

@@ -35,7 +35,8 @@
                     layout="@layout/home_item_exercise"
                     app:viewModel="@{viewModel}" />
 
-                <include layout="@layout/home_item_hint" />
+                <include layout="@layout/home_item_hint"
+                    android:id="@+id/hintItem"/>
 
                 <include layout="@layout/home_item_statistic" />
 

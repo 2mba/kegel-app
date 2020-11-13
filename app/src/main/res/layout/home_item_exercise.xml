@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/strings_screen_exercise_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textStyle="bold"
                 android:transitionName="itemTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
