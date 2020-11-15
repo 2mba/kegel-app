@@ -13,7 +13,6 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.transition.TransitionInflater
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.tumba.kegel_app.R
@@ -47,12 +46,6 @@ class ExerciseFragment : Fragment() {
         initUi()
         observeViewModel()
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context)
-            .inflateTransition(android.R.transition.move)
     }
 
     private fun initUi() {

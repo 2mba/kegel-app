@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
@@ -35,18 +34,12 @@ class HomeFragment : Fragment() {
 
         binding.exerciseItem.btnStartExercise.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.actionScreenHomeToScreenExercise(),
-                FragmentNavigatorExtras(
-                    binding.exerciseItem.itemExercise to "itemExercise"
-                )
+                HomeFragmentDirections.actionScreenHomeToScreenExercise()
             )
         }
         binding.hintItem.btnHint.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment(),
-                FragmentNavigatorExtras(
-                    binding.hintItem.itemHint to "itemHint"
-                )
+                HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment()
             )
         }
         return binding.root
