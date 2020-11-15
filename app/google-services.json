@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "224707927452",
+    "firebase_url": "https://kegelapp-9d8e6.firebaseio.com",
+    "project_id": "kegelapp-9d8e6",
+    "storage_bucket": "kegelapp-9d8e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224707927452:android:fd9afcf882fcc149f17c59",
+        "android_client_info": {
+          "package_name": "org.tumba.kegel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224707927452-rlpue067erqic3vvq6ru1vddo924t3v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbICLQPJDB17BYabSCYlLOgC-jVAWMBRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224707927452-rlpue067erqic3vvq6ru1vddo924t3v2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224707927452:android:c47523ad67ed077df17c59",
+        "android_client_info": {
+          "package_name": "org.tumba.kegel_app.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224707927452-rlpue067erqic3vvq6ru1vddo924t3v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbICLQPJDB17BYabSCYlLOgC-jVAWMBRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224707927452-rlpue067erqic3vvq6ru1vddo924t3v2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

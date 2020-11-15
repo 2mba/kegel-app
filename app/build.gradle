@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -18,11 +20,15 @@ android {
         versionName "0.0.1"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -75,6 +81,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     // Konfetti
     implementation "nl.dionsegijn:konfetti:$rootProject.konfetti"
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
