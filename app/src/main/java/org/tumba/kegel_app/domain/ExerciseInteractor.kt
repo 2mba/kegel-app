@@ -1,9 +1,10 @@
 package org.tumba.kegel_app.domain
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -16,7 +17,8 @@ class ExerciseInteractor @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val vibrationManager: VibrationManager,
     private val exerciseService: ExerciseService,
-    private val exerciseProgram: ExerciseProgram
+    private val exerciseProgram: ExerciseProgram,
+    private val exerciseFinishHandler: ExerciseFinishHandler
 ) {
 
     suspend fun getExercise(): Exercise? {
@@ -44,7 +46,15 @@ class ExerciseInteractor @Inject constructor(
         if (exerciseSettingsRepository.isNotificationEnabled()) {
             exerciseService.startService()
         }
-        getExercise()?.start()
+        val exercise = getExercise()
+        if (exercise != null) {
+            with(CoroutineScope(GlobalScope.coroutineContext + Dispatchers.IO)) {
+                launch {
+                    exercise.observeState().collect { exerciseFinishHandler.onExerciseStateChanged(it) }
+                }
+            }
+            exercise.start()
+        }
     }
 
     suspend fun stopExercise() {
@@ -91,6 +101,6 @@ class ExerciseInteractor @Inject constructor(
             ExerciseState.Holding::class,
             ExerciseState.Pause::class
         )
-        return playingStates.any { it == this::class  }
+        return playingStates.any { it == this::class }
     }
 }

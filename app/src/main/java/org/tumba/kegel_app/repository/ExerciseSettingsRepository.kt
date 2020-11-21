@@ -29,7 +29,7 @@ class ExerciseSettingsRepository @Inject constructor(
     }
 
     fun setNumberOfCompletedExercises(exercised: Int) {
-        setInt(PREF_KEY_EXERCISE_LEVEL, exercised)
+        setInt(PREF_NUMBER_OF_EXERCISES, exercised)
     }
 
     fun getNumberOfCompletedExercises(): Int {

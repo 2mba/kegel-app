@@ -180,9 +180,6 @@ class ExerciseViewModel @Inject constructor(
 
     private fun handleExerciseFinish(state: ExerciseState.Finish) {
         if (!state.isForceFinished) {
-            viewModelScope.launch {
-                exerciseSettingsRepository.setExerciseLevel((level.value ?: 0) + 1)
-            }
             navigateToExerciseResult.value = Event(true)
         } else {
             exit()
