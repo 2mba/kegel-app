@@ -6,14 +6,15 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.tumba.kegel_app.domain.*
+import org.tumba.kegel_app.domain.ExerciseInteractor
+import org.tumba.kegel_app.domain.ExerciseServiceInteractor
+import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.Event
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ExerciseViewModel @Inject constructor(
@@ -28,7 +29,7 @@ class ExerciseViewModel @Inject constructor(
     val repeatsRemain = MutableLiveData(0)
     val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
-    val level = exerciseSettingsRepository.getExerciseLevel()
+    val level = exerciseSettingsRepository.observeExerciseLevel()
     val day = exerciseSettingsRepository.getExerciseDay()
     val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
     val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
@@ -121,16 +122,11 @@ class ExerciseViewModel @Inject constructor(
     }
 
     private suspend fun createExercise() {
-        exerciseInteractor.clearExercise()
-        exerciseInteractor.createExercise(
-            config = ExerciseConfig(
-                preparationDuration = Time(5, TimeUnit.SECONDS),
-                holdingDuration = Time(5, TimeUnit.SECONDS),
-                relaxDuration = Time(5, TimeUnit.SECONDS),
-                repeats = 1
-            )
-        )
-        exerciseInteractor.startExercise()
+        with(exerciseInteractor) {
+            clearExercise()
+            createExercise()
+            startExercise()
+        }
     }
 
     private fun onExerciseEventReceived(state: ExerciseState?) {

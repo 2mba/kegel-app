@@ -16,12 +16,24 @@ class ExerciseSettingsRepository @Inject constructor(
         setInt(PREF_KEY_EXERCISE_LEVEL, level)
     }
 
-    fun getExerciseLevel(): LiveData<Int> {
+    fun observeExerciseLevel(): LiveData<Int> {
         return SharedPreferenceIntLiveData(
             preferences,
             PREF_KEY_EXERCISE_LEVEL,
             DEFAULT_EXERCISE_LEVEL
         )
+    }
+
+    fun getExerciseLevel(): Int {
+        return preferences.getInt(PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL)
+    }
+
+    fun setNumberOfCompletedExercises(exercised: Int) {
+        setInt(PREF_KEY_EXERCISE_LEVEL, exercised)
+    }
+
+    fun getNumberOfCompletedExercises(): Int {
+        return preferences.getInt(PREF_NUMBER_OF_EXERCISES, DEFAULT_NUMBER_OF_EXERCISES)
     }
 
     fun setExerciseDay(day: Int) {
@@ -73,9 +85,11 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
         private const val PREF_KEY_EXERCISE_DAY = "PREF_KEY_EXERCISE_DAY"
         private const val PREF_KEY_NOTIFICATION = "PREF_KEY_NOTIFICATION"
+        private const val PREF_NUMBER_OF_EXERCISES = "PREF_NUMBER_OF_EXERCISES"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
         private const val DEFAULT_NOTIFICATION = true
+        private const val DEFAULT_NUMBER_OF_EXERCISES = 0
     }
 }

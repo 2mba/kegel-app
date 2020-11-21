@@ -15,15 +15,18 @@ class ExerciseInteractor @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val vibrationManager: VibrationManager,
-    private val exerciseService: ExerciseService
+    private val exerciseService: ExerciseService,
+    private val exerciseProgram: ExerciseProgram
 ) {
 
     suspend fun getExercise(): Exercise? {
         return exerciseRepository.observeExercise().first()
     }
 
-    suspend fun createExercise(config: ExerciseConfig) {
-        exerciseRepository.saveExercise(createExerciseFrom(config))
+    suspend fun createExercise() {
+        exerciseRepository.saveExercise(
+            createExerciseFrom(exerciseProgram.getConfig())
+        )
     }
 
     fun observeExerciseState(): Flow<ExerciseState> {

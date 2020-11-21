@@ -8,7 +8,7 @@ class HomeViewModel @Inject constructor(
     exerciseSettingsRepository: ExerciseSettingsRepository
 ) : BaseViewModel() {
 
-    val exerciseLevel = exerciseSettingsRepository.getExerciseLevel()
+    val exerciseLevel = exerciseSettingsRepository.observeExerciseLevel()
     val exerciseDay = exerciseSettingsRepository.getExerciseDay()
 }
 
