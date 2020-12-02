@@ -25,9 +25,9 @@ sealed class ExerciseState {
     ) : ExerciseState(), SingleExercise
 
     data class Pause(
-        override val singleExerciseInfo: SingleExerciseInfo,
-        override val exerciseInfo: ExerciseInfo
-    ) : ExerciseState(), SingleExercise
+        val singleExerciseInfo: SingleExerciseInfo,
+        val exerciseInfo: ExerciseInfo
+    ) : ExerciseState()
 
     data class Finish(val isForceFinished: Boolean) : ExerciseState()
 }

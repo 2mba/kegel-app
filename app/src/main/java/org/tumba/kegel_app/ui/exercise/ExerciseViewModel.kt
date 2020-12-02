@@ -144,6 +144,7 @@ class ExerciseViewModel @Inject constructor(
                 exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
                 secondsRemain.value = state.singleExerciseInfo.remainSeconds
                 repeatsRemain.value = state.exerciseInfo.repeatRemains
+                fullSecondsRemain.value = state.exerciseInfo.remainSeconds
                 _exercisePlaybackState.value = Paused
             }
             is ExerciseState.Finish -> {
