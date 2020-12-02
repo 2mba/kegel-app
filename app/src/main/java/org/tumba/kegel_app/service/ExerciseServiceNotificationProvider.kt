@@ -37,22 +37,8 @@ class ExerciseServiceNotificationProvider @Inject constructor(
     }
 
     private fun buildNotificationContentText(exerciseState: ExerciseState): String {
-        var remainSeconds: Long? = null
-        var duration: Long? = null
-        when (exerciseState) {
-            is ExerciseState.Preparation -> {
-                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
-                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
-            }
-            is ExerciseState.Holding -> {
-                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
-                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
-            }
-            is ExerciseState.Relax -> {
-                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
-                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
-            }
-        }
+        var remainSeconds = (exerciseState as? ExerciseState.SingleExercise)?.singleExerciseInfo?.remainSeconds
+        var duration = (exerciseState as? ExerciseState.SingleExercise)?.exerciseInfo?.remainSeconds
         return buildString {
             if (exerciseState is ExerciseState.Pause) {
                 append(EMOJI_WALKING_MAN)
@@ -62,10 +48,10 @@ class ExerciseServiceNotificationProvider @Inject constructor(
             append(exerciseNameProvider.exerciseName(exerciseState))
 
             if (remainSeconds != null && duration != null) {
-                append(" ")
-                append(EMOJI_TIMER)
-                append(DateUtils.formatElapsedTime(duration - remainSeconds))
-                append("/").append(DateUtils.formatElapsedTime(duration))
+                append(" ").append(EMOJI_STOPWATCH)
+                append(DateUtils.formatElapsedTime(remainSeconds))
+                append(" ").append(EMOJI_TIMER)
+                append(DateUtils.formatElapsedTime(duration))
             }
         }
     }
@@ -138,5 +124,6 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         private const val EMOJI_WALKING_MAN = "\uD83D\uDEB6"
         private const val EMOJI_RUNNING_MAN = "\uD83C\uDFC3️"
         private const val EMOJI_TIMER = "⌛"
+        private const val EMOJI_STOPWATCH = "⏱️"
     }
 }
