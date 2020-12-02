@@ -86,7 +86,7 @@
                     android:drawablePadding="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingBottom="@dimen/margin_small"
-                    android:text="@{@string/screen_exercise_repeats(viewModel.timeRemain)}"
+                    android:text="@{@string/screen_exercise_remain_time(viewModel.fullTimeRemain)}"
                     android:textAllCaps="true"
                     android:textAppearance="?attr/textAppearanceBody2"
                     app:drawableStartCompat="@drawable/ic_clock_16"

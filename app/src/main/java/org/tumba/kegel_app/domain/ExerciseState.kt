@@ -4,24 +4,40 @@ sealed class ExerciseState {
 
     object NotStarted : ExerciseState()
 
-    data class Preparation(
-        val remainSeconds: Long,
-        val exerciseDurationSeconds: Long
-    ) : ExerciseState()
+    interface SingleExercise {
+        val singleExerciseInfo: SingleExerciseInfo
+        val exerciseInfo: ExerciseInfo
+    }
+
+    class Preparation(
+        override val singleExerciseInfo: SingleExerciseInfo,
+        override val exerciseInfo: ExerciseInfo
+    ) : ExerciseState(), SingleExercise
 
     data class Holding(
-        val remainSeconds: Long,
-        val repeatRemains: Int,
-        val exerciseDurationSeconds: Long
-    ) : ExerciseState()
+        override val singleExerciseInfo: SingleExerciseInfo,
+        override val exerciseInfo: ExerciseInfo
+    ) : ExerciseState(), SingleExercise
 
     data class Relax(
-        val remainSeconds: Long,
-        val repeatsRemain: Int,
-        val exerciseDurationSeconds: Long
-    ) : ExerciseState()
+        override val singleExerciseInfo: SingleExerciseInfo,
+        override val exerciseInfo: ExerciseInfo
+    ) : ExerciseState(), SingleExercise
 
-    data class Pause(val remainSeconds: Long, val repeatsRemain: Int) : ExerciseState()
+    data class Pause(
+        override val singleExerciseInfo: SingleExerciseInfo,
+        override val exerciseInfo: ExerciseInfo
+    ) : ExerciseState(), SingleExercise
 
-    data class Finish(val isForceFinished: Boolean): ExerciseState()
+    data class Finish(val isForceFinished: Boolean) : ExerciseState()
 }
+
+data class SingleExerciseInfo(
+    val remainSeconds: Long,
+    val exerciseDurationSeconds: Long
+)
+
+data class ExerciseInfo(
+    val remainSeconds: Long,
+    val repeatRemains: Int
+)

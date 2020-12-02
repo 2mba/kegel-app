@@ -28,6 +28,7 @@ class ExerciseViewModel @Inject constructor(
     val exercisePlaybackState by lazy { _exercisePlaybackState.distinctUntilChanged() }
     val repeatsRemain = MutableLiveData(0)
     val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
+    val fullTimeRemain by lazy { fullSecondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
     val level = exerciseSettingsRepository.observeExerciseLevel()
     val day = exerciseSettingsRepository.getExerciseDay()
@@ -38,6 +39,7 @@ class ExerciseViewModel @Inject constructor(
     val navigateToExerciseResult = MutableLiveData(Event(false))
     private val _exercisePlaybackState = MutableLiveData(Playing)
     private val secondsRemain = MutableLiveData(0L)
+    private val fullSecondsRemain = MutableLiveData(0L)
     private var exerciseDuration = 0L
     private var currentState: ExerciseState? = null
     private var isProgressReversed = true
@@ -131,34 +133,24 @@ class ExerciseViewModel @Inject constructor(
 
     private fun onExerciseEventReceived(state: ExerciseState?) {
         when (state) {
-            is ExerciseState.Preparation -> {
-                exerciseDuration = state.exerciseDurationSeconds
-                secondsRemain.value = state.remainSeconds
-                isProgressReversed = false
-                updateExerciseProgress()
-            }
-            is ExerciseState.Holding -> {
-                exerciseDuration = state.exerciseDurationSeconds
-                repeatsRemain.value = state.repeatRemains
-                secondsRemain.value = state.remainSeconds
-                isProgressReversed = true
-                updateExerciseProgress()
-            }
-            is ExerciseState.Relax -> {
-                exerciseDuration = state.exerciseDurationSeconds
-                repeatsRemain.value = state.repeatsRemain
-                secondsRemain.value = state.remainSeconds
-                isProgressReversed = false
+            is ExerciseState.SingleExercise -> {
+                exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
+                secondsRemain.value = state.singleExerciseInfo.remainSeconds
+                fullSecondsRemain.value = state.exerciseInfo.remainSeconds
+                isProgressReversed = isProgressReversed(state)
                 updateExerciseProgress()
             }
             is ExerciseState.Pause -> {
-                repeatsRemain.value = state.repeatsRemain
-                secondsRemain.value = state.remainSeconds
+                exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
+                secondsRemain.value = state.singleExerciseInfo.remainSeconds
+                repeatsRemain.value = state.exerciseInfo.repeatRemains
                 _exercisePlaybackState.value = Paused
             }
             is ExerciseState.Finish -> {
                 _exercisePlaybackState.value = Stopped
                 handleExerciseFinish(state)
+            }
+            else -> {
             }
         }
         exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
@@ -166,6 +158,13 @@ class ExerciseViewModel @Inject constructor(
 
         if (state?.isPlayingState() == true) {
             _exercisePlaybackState.value = Playing
+        }
+    }
+
+    private fun isProgressReversed(state: ExerciseState): Boolean {
+        return when (state) {
+            is ExerciseState.Holding -> true
+            else -> false
         }
     }
 
@@ -205,7 +204,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     private fun exit() {
-        if (exit.value?.peekContent() != true){
+        if (exit.value?.peekContent() != true) {
             exit.value = Event(true)
         }
     }

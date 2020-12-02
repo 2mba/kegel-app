@@ -41,16 +41,16 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         var duration: Long? = null
         when (exerciseState) {
             is ExerciseState.Preparation -> {
-                remainSeconds = exerciseState.remainSeconds
-                duration = exerciseState.exerciseDurationSeconds
+                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
+                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
             }
             is ExerciseState.Holding -> {
-                remainSeconds = exerciseState.remainSeconds
-                duration = exerciseState.exerciseDurationSeconds
+                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
+                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
             }
             is ExerciseState.Relax -> {
-                remainSeconds = exerciseState.remainSeconds
-                duration = exerciseState.exerciseDurationSeconds
+                remainSeconds = exerciseState.singleExerciseInfo.remainSeconds
+                duration = exerciseState.singleExerciseInfo.exerciseDurationSeconds
             }
         }
         return buildString {

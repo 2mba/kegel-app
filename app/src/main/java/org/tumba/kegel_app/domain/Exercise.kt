@@ -75,7 +75,7 @@ class Exercise(
     private fun tickInProgress() {
         val state = exerciseState as? ExerciseStateInternal.InProgress ?: return
         val timePassed = System.currentTimeMillis() - state.startTime
-        val remainSeconds = ((getDurationState(state) - timePassed + 1) / 1000.0).roundToLong()
+        val remainSeconds = ((getExerciseDuration(state) - timePassed / 1000.0).roundToLong())
         when (state.currentState) {
             CurrentState.PREPARATION -> {
                 tickPreparation(remainSeconds)
@@ -150,7 +150,13 @@ class Exercise(
                 is ExerciseStateInternal.Pause -> {
                     val remainSeconds = getExerciseRemainTimeSeconds(state.pausedState)
                     eventsChannel.send(
-                        ExerciseState.Pause(remainSeconds, state.pausedState.repeatRemain)
+                        ExerciseState.Pause(
+                            singleExerciseInfo = SingleExerciseInfo(
+                                remainSeconds = remainSeconds,
+                                exerciseDurationSeconds = getExerciseDuration(state.pausedState)
+                            ),
+                            exerciseInfo = getExerciseInfo(state.pausedState)
+                        )
                     )
                 }
                 is ExerciseStateInternal.Finish -> {
@@ -162,39 +168,59 @@ class Exercise(
 
     private suspend fun notifyInProgressState(state: ExerciseStateInternal.InProgress) {
         val remainSeconds = getExerciseRemainTimeSeconds(state)
+        val singleExerciseInfo = SingleExerciseInfo(
+            remainSeconds = remainSeconds,
+            exerciseDurationSeconds = getExerciseDuration(state)
+        )
         when (state.currentState) {
             CurrentState.PREPARATION -> {
                 eventsChannel.send(
-                    ExerciseState.Preparation(
-                        remainSeconds = remainSeconds,
-                        exerciseDurationSeconds = config.preparationDuration.toSeconds()
-                    )
+                    ExerciseState.Preparation(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             CurrentState.HOLDING -> {
                 eventsChannel.send(
-                    ExerciseState.Holding(
-                        remainSeconds = remainSeconds,
-                        repeatRemains = state.repeatRemain,
-                        exerciseDurationSeconds = config.holdingDuration.toSeconds()
-                    )
+                    ExerciseState.Holding(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             CurrentState.RELAX -> {
                 eventsChannel.send(
-                    ExerciseState.Relax(
-                        remainSeconds = remainSeconds,
-                        repeatsRemain = state.repeatRemain,
-                        exerciseDurationSeconds = config.relaxDuration.toSeconds()
-                    )
+                    ExerciseState.Relax(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
         }
     }
 
+    private fun getExerciseInfo(state: ExerciseStateInternal.InProgress): ExerciseInfo {
+        return ExerciseInfo(
+            getExerciseRemainSeconds(state),
+            repeatRemains = state.repeatRemain
+        )
+    }
+
+    private fun getExerciseRemainSeconds(state: ExerciseStateInternal.InProgress): Long {
+        val repeatsRemain = state.repeatRemain
+        val repeatDuration = config.holdingDuration.toSeconds() + config.relaxDuration.toSeconds()
+        val remainRepeatsDuration = repeatsRemain * repeatDuration
+        val currentRepeatDuration = when (state.currentState) {
+            CurrentState.PREPARATION -> repeatDuration
+            CurrentState.HOLDING -> getExerciseRemainTimeSeconds(state) + config.relaxDuration.toSeconds()
+            CurrentState.RELAX -> getExerciseRemainTimeSeconds(state)
+        }
+        return remainRepeatsDuration + currentRepeatDuration
+    }
+
+    private fun getExerciseDuration(state: ExerciseStateInternal.InProgress): Long {
+        return when (state.currentState) {
+            CurrentState.PREPARATION -> config.preparationDuration.toSeconds()
+            CurrentState.HOLDING -> config.holdingDuration.toSeconds()
+            CurrentState.RELAX -> config.relaxDuration.toSeconds()
+        }
+    }
+
     private fun getExerciseRemainTimeSeconds(state: ExerciseStateInternal.InProgress): Long {
         val timePassed = System.currentTimeMillis() - state.startTime
-        return (getDurationState(state) - timePassed + 1) / 1000
+        return (getExerciseDuration(state) - timePassed / 1000)
     }
 
     private fun vibrate(strength: Strength) {
@@ -203,15 +229,6 @@ class Exercise(
             vibrationManager.vibrate(strength)
         }
     }
-
-    private fun getDurationState(exerciseState: ExerciseStateInternal.InProgress): Long {
-        return when (exerciseState.currentState) {
-            CurrentState.PREPARATION -> config.preparationDuration.toMillis()
-            CurrentState.HOLDING -> config.holdingDuration.toMillis()
-            CurrentState.RELAX -> config.relaxDuration.toMillis()
-        }
-    }
-
 
     private fun startTickUpdates() {
         tickJob = launch {
