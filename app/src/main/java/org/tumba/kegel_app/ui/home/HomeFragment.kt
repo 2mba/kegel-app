@@ -9,16 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
+import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.ui.utils.ViewModelFactory
+import javax.inject.Inject
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val viewModel: HomeViewModel by viewModels { HomeViewModelFactory() }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appComponent.inject(this)
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
     }

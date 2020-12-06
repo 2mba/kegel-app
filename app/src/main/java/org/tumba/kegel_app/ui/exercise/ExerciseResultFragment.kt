@@ -13,13 +13,22 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import nl.dionsegijn.konfetti.models.Size
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseResultBinding
-import org.tumba.kegel_app.ui.exercise.factory.ExerciseResultViewModelFactory
+import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.ui.utils.ViewModelFactory
+import javax.inject.Inject
 
 
 class ExerciseResultFragment : DialogFragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ExerciseResultViewModel by viewModels { viewModelFactory }
     private lateinit var binding: FragmentExerciseResultBinding
-    private val viewModel: ExerciseResultViewModel by viewModels { ExerciseResultViewModelFactory() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        appComponent.inject(this)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentExerciseResultBinding.inflate(LayoutInflater.from(requireContext()), null, false)

@@ -17,22 +17,31 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
+import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
-import org.tumba.kegel_app.ui.exercise.factory.ExerciseViewModelFactory
+import org.tumba.kegel_app.ui.utils.ViewModelFactory
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
+import javax.inject.Inject
 
 
 class ExerciseFragment : Fragment() {
 
     private lateinit var binding: FragmentExerciseBinding
 
-    private val viewModel: ExerciseViewModel by viewModels { ExerciseViewModelFactory() }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private val progressInterpolator = AccelerateDecelerateInterpolator()
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -6,7 +6,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import org.tumba.kegel_app.di.Di
+import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -35,7 +35,7 @@ class ExerciseAndroidService : Service(), CoroutineScope {
 
     override fun onCreate() {
         super.onCreate()
-        Di.appComponent.inject(this)
+        appComponent.inject(this)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
