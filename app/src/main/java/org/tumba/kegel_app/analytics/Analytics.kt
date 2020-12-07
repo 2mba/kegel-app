@@ -10,6 +10,8 @@ import com.google.firebase.analytics.FirebaseAnalytics as OriginFirebaseAnalytic
 interface Analytics {
 
     fun trackScreen(screen: String, args: Bundle? = null)
+
+    fun track(eventName: String, screenName: String? = null, parameters: Bundle? = null)
 }
 
 class FirebaseAnalytics @Inject constructor(): Analytics {
@@ -23,6 +25,14 @@ class FirebaseAnalytics @Inject constructor(): Analytics {
                 param(KEY_SCREEN_ARGS, args)
             }
         }
+    }
+
+    override fun track(eventName: String, screenName: String?, parameters: Bundle?) {
+        val parametersNotNull = parameters ?: Bundle()
+        if (screenName != null) {
+            parametersNotNull.putString(OriginFirebaseAnalytics.Param.SCREEN_NAME, screenName)
+        }
+        firebase.logEvent(eventName, parameters)
     }
 
     companion object {

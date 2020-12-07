@@ -6,6 +6,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseServiceInteractor
 import org.tumba.kegel_app.domain.ExerciseState
@@ -21,7 +22,8 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val exerciseNameProvider: ExerciseNameProvider
+    private val exerciseNameProvider: ExerciseNameProvider,
+    private val tracker: ExerciseTracker
 ) : BaseViewModel() {
 
     val exerciseKind = MutableLiveData(String.Empty)
@@ -53,11 +55,13 @@ class ExerciseViewModel @Inject constructor(
     fun onClickPlay() {
         when (exercisePlaybackState.value) {
             Playing -> {
+                tracker.trackPause()
                 viewModelScope.launch {
                     exerciseInteractor.pauseExercise()
                 }
             }
             Paused -> {
+                tracker.trackPlay()
                 viewModelScope.launch {
                     exerciseInteractor.resumeExercise()
                 }
@@ -68,6 +72,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onClickStop() {
+        tracker.trackStop()
         viewModelScope.launch {
             isExerciseStoppedFromExerciseScreen = true
             exerciseInteractor.stopExercise()
@@ -75,12 +80,18 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onNotificationStateChanged(enabled: Boolean) {
+        if (isNotificationEnabled.value != enabled) {
+            tracker.trackChangeNotification(enabled)
+        }
         viewModelScope.launch {
             exerciseInteractor.setNotificationEnabled(enabled)
         }
     }
 
     fun onVibrationStateChanged(enabled: Boolean) {
+        if (isVibrationEnabled.value != enabled) {
+            tracker.trackChangeVibration(enabled)
+        }
         viewModelScope.launch {
             exerciseSettingsRepository.setVibrationEnabled(enabled)
         }
@@ -103,6 +114,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onExitConfirmed() {
+        tracker.exitConfirmed()
         viewModelScope.launch {
             isExerciseStoppedFromExerciseScreen = true
             exerciseInteractor.stopExercise()

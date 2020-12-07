@@ -6,6 +6,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import org.tumba.kegel_app.analytics.ExerciseNotificationTracker
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseState
@@ -19,6 +20,9 @@ import kotlin.coroutines.CoroutineContext
 class ExerciseAndroidService : Service(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main + SupervisorJob()
+
+    @Inject
+    lateinit var tracker: ExerciseNotificationTracker
 
     @Inject
     lateinit var exerciseInteractor: ExerciseInteractor
@@ -36,6 +40,7 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     override fun onCreate() {
         super.onCreate()
         appComponent.inject(this)
+        tracker.trackCreated()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -90,18 +95,21 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     }
 
     private fun resumeExercise() {
+        tracker.trackPlay()
         launch {
             exerciseInteractor.resumeExercise()
         }
     }
 
     private fun pauseExercise() {
+        tracker.trackPause()
         launch {
             exerciseInteractor.pauseExercise()
         }
     }
 
     private fun stopExercise() {
+        tracker.trackStop()
         launch {
             exerciseInteractor.stopExercise()
         }
