@@ -3,15 +3,19 @@ package org.tumba.kegel_app
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import kotlinx.android.synthetic.main.activity_main.*
-import org.tumba.kegel_app.utils.gone
-import org.tumba.kegel_app.utils.show
+import org.tumba.kegel_app.analytics.ScreenTracker
+import org.tumba.kegel_app.di.appComponent
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var screenTracker: ScreenTracker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appComponent.inject(this)
         setContentView(R.layout.activity_main)
+        screenTracker.init(findNavController(R.id.navFragment))
     }
 }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
+import org.tumba.kegel_app.analytics.Analytics
+import org.tumba.kegel_app.analytics.FirebaseAnalytics
 import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.core.system.ResourceProviderImpl
 import javax.inject.Singleton
@@ -27,6 +29,10 @@ class AppModule(private val application: KegelApplication) {
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.applicationContext.getSharedPreferences(APP_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
+
+    @Singleton
+    @Provides
+    fun provideAnalytics(analytics: FirebaseAnalytics): Analytics = analytics
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"

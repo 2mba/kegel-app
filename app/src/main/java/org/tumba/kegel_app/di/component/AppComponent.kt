@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.di.component
 
 import dagger.Component
+import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.di.module.AppModule
 import org.tumba.kegel_app.di.module.DomainModule
 import org.tumba.kegel_app.di.module.PresentationModule
@@ -17,6 +18,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class])
 interface AppComponent {
+
+    fun inject(obj: MainActivity)
 
     fun inject(obj: ExerciseFragment)
 
