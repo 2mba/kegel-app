@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var screenTracker: ScreenTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         setContentView(R.layout.activity_main)
