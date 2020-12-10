@@ -149,6 +149,7 @@ class ExerciseViewModel @Inject constructor(
                 exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
                 secondsRemain.value = state.singleExerciseInfo.remainSeconds
                 fullSecondsRemain.value = state.exerciseInfo.remainSeconds
+                repeatsRemain.value = state.exerciseInfo.repeatRemains
                 isProgressReversed = isProgressReversed(state)
                 updateExerciseProgress()
             }

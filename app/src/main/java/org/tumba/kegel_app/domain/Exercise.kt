@@ -65,7 +65,7 @@ class Exercise(
     private fun tickNone() {
         this.exerciseState = ExerciseStateInternal.InProgress(
             currentState = CurrentState.PREPARATION,
-            repeatRemain = config.repeats - 1,
+            repeatRemain = config.repeats,
             startTime = System.currentTimeMillis()
         )
         vibrate(Strength.Low)
@@ -93,7 +93,7 @@ class Exercise(
         if (remainSeconds <= 0) {
             this.exerciseState = ExerciseStateInternal.InProgress(
                 currentState = CurrentState.HOLDING,
-                repeatRemain = config.repeats - 1,
+                repeatRemain = config.repeats,
                 startTime = System.currentTimeMillis()
             )
         }
@@ -120,7 +120,7 @@ class Exercise(
         exerciseState: ExerciseStateInternal.InProgress
     ) {
         if (remainSeconds <= 0) {
-            if (exerciseState.repeatRemain == 0) {
+            if (exerciseState.repeatRemain <= 1) {
                 finishExercise()
             } else {
                 this.exerciseState =
@@ -205,9 +205,8 @@ class Exercise(
     }
 
     private fun getExerciseRemainSeconds(state: ExerciseStateInternal.InProgress): Long {
-        val repeatsRemain = state.repeatRemain
         val repeatDuration = config.holdingDuration.toSeconds() + config.relaxDuration.toSeconds()
-        val remainRepeatsDuration = repeatsRemain * repeatDuration
+        val remainRepeatsDuration = (state.repeatRemain - 1)* repeatDuration
         val currentRepeatDuration = when (state.currentState) {
             CurrentState.PREPARATION -> repeatDuration
             CurrentState.HOLDING -> getExerciseRemainTimeSeconds(state) + config.relaxDuration.toSeconds()
