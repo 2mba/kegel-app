@@ -29,7 +29,6 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/titleStatistic"
-                style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Статистика"
@@ -39,12 +38,13 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/exercisesTitle"
-                style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
+                android:drawablePadding="@dimen/margin_xsmall"
                 android:text="Упражнений"
                 android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="13sp"
                 app:drawableTint="?colorAccent"
                 app:drawableTopCompat="@drawable/ic_run"
                 app:layout_constraintEnd_toStartOf="@+id/level"
@@ -54,11 +54,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/exercisesValue"
-                style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.numberOfExercises.toString()}"
                 android:textAppearance="?attr/textAppearanceBody1"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/exercisesTitle"
                 app:layout_constraintStart_toStartOf="@id/exercisesTitle"
@@ -67,11 +67,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/level"
-                style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/margin_xsmall"
                 android:text="Длительность"
                 android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="13sp"
                 app:drawableTint="?colorAccent"
                 app:drawableTopCompat="@drawable/ic_clock_24"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,11 +81,11 @@
                 app:textAllCaps="true" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{@string/screen_home_duration_pattern(viewModel.exercisesDuration)}"
                 android:textAppearance="?attr/textAppearanceBody1"
+                android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="@id/level"
                 app:layout_constraintStart_toStartOf="@id/level"
                 app:layout_constraintTop_toBottomOf="@id/level"
