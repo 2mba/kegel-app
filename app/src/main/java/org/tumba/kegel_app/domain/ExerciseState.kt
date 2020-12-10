@@ -29,7 +29,10 @@ sealed class ExerciseState {
         val exerciseInfo: ExerciseInfo
     ) : ExerciseState()
 
-    data class Finish(val isForceFinished: Boolean) : ExerciseState()
+    data class Finish(
+        val isForceFinished: Boolean,
+        val exerciseInfo: ExerciseInfo
+    ) : ExerciseState()
 }
 
 data class SingleExerciseInfo(
@@ -39,5 +42,6 @@ data class SingleExerciseInfo(
 
 data class ExerciseInfo(
     val remainSeconds: Long,
-    val repeatRemains: Int
+    val repeatRemains: Int,
+    val durationSeconds: Long
 )

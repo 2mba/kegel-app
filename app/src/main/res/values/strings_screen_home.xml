@@ -2,4 +2,5 @@
 <resources>
     <string name="screen_home_day_pattern">%s день</string>
     <string name="screen_home_level_pattern">%s уровень</string>
+    <string name="screen_home_duration_pattern">%s мин</string>
 </resources>

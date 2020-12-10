@@ -10,6 +10,7 @@ class ExerciseFinishHandler @Inject constructor(
     fun onExerciseStateChanged(state: ExerciseState) {
         if (state is ExerciseState.Finish && !state.isForceFinished) {
             updateLevelAndNumberOfExercises()
+            updateExercisesDuration(state)
         }
     }
 
@@ -20,6 +21,11 @@ class ExerciseFinishHandler @Inject constructor(
         if (exercises % DAYS_IN_WEEK == 1) {
             exerciseSettingsRepository.setExerciseLevel(level + 1)
         }
+    }
+
+    private fun updateExercisesDuration(state: ExerciseState.Finish) {
+        val currentDuration = exerciseSettingsRepository.getExercisesDurationSeconds()
+        exerciseSettingsRepository.setExercisesDurationSeconds(state.exerciseInfo.durationSeconds + currentDuration)
     }
 
     companion object {

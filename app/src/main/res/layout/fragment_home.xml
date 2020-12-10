@@ -35,10 +35,13 @@
                     layout="@layout/home_item_exercise"
                     app:viewModel="@{viewModel}" />
 
-                <include layout="@layout/home_item_hint"
-                    android:id="@+id/hintItem"/>
+                <include
+                    android:id="@+id/hintItem"
+                    layout="@layout/home_item_hint" />
 
-                <include layout="@layout/home_item_statistic" />
+                <include
+                    layout="@layout/home_item_statistic"
+                    app:viewModel="@{viewModel}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
