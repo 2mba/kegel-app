@@ -53,22 +53,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onClickPlay() {
-        when (exercisePlaybackState.value) {
-            Playing -> {
-                tracker.trackPause()
-                viewModelScope.launch {
-                    exerciseInteractor.pauseExercise()
-                }
-            }
-            Paused -> {
-                tracker.trackPlay()
-                viewModelScope.launch {
-                    exerciseInteractor.resumeExercise()
-                }
-            }
-            else -> {
-            }
-        }
+        switchPlayback()
     }
 
     fun onClickStop() {
@@ -118,6 +103,31 @@ class ExerciseViewModel @Inject constructor(
         viewModelScope.launch {
             isExerciseStoppedFromExerciseScreen = true
             exerciseInteractor.stopExercise()
+        }
+    }
+
+    fun onHelpClicked() {
+        if (exercisePlaybackState.value == Playing) {
+            switchPlayback()
+        }
+    }
+
+    private fun switchPlayback() {
+        when (exercisePlaybackState.value) {
+            Playing -> {
+                tracker.trackPause()
+                viewModelScope.launch {
+                    exerciseInteractor.pauseExercise()
+                }
+            }
+            Paused -> {
+                tracker.trackPlay()
+                viewModelScope.launch {
+                    exerciseInteractor.resumeExercise()
+                }
+            }
+            else -> {
+            }
         }
     }
 

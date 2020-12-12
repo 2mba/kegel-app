@@ -1,9 +1,7 @@
 package org.tumba.kegel_app.ui.exercise
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -41,6 +39,7 @@ class ExerciseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -55,6 +54,22 @@ class ExerciseFragment : Fragment() {
         initUi()
         observeViewModel()
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.exercise_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.help -> {
+                viewModel.onHelpClicked()
+                findNavController().navigate(ExerciseFragmentDirections.actionScreenExerciseToExerciseInfoFragment())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initUi() {
