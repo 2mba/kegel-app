@@ -28,7 +28,7 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         return NotificationCompat.Builder(context, EXERCISES_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.exercise_notification_title))
             .setContentText(buildNotificationContentText(exerciseState))
-            .setSmallIcon(R.drawable.ic_fitness_center_black_24dp)
+            .setSmallIcon(R.drawable.ic_fit_24)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .addActions(exerciseState)
             .setNotificationSilent()

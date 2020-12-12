@@ -3,7 +3,7 @@
 
     <objectAnimator
         android:duration="500"
-        android:propertyName="fillAlpha"
+        android:propertyName="strokeAlpha"
         android:valueFrom="1"
         android:valueTo="0" />
 </set>
