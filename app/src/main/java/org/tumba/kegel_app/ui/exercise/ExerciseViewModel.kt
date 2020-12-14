@@ -195,9 +195,9 @@ class ExerciseViewModel @Inject constructor(
     private fun updateExerciseProgress() {
         val secondsRemain = secondsRemain.value ?: 0
         exerciseProgress.value = if (isProgressReversed) {
-            1 - secondsRemain / (exerciseDuration - 1).toFloat()
+            1 - secondsRemain / (exerciseDuration).toFloat()
         } else {
-            secondsRemain / (exerciseDuration - 1).toFloat()
+            secondsRemain / (exerciseDuration).toFloat()
         }
     }
 
