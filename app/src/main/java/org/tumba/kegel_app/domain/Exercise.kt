@@ -163,7 +163,8 @@ class Exercise(
                     val exerciseInfo = ExerciseInfo(
                         remainSeconds = 0,
                         repeatRemains = 0,
-                        durationSeconds = getFullExerciseDuration()
+                        durationSeconds = getFullExerciseDuration(),
+                        repeats = config.repeats
                     )
                     eventsChannel.send(ExerciseState.Finish(state.isForceFinished, exerciseInfo))
                 }
@@ -200,7 +201,8 @@ class Exercise(
         return ExerciseInfo(
             remainSeconds = getExerciseRemainSeconds(state),
             repeatRemains = state.repeatRemain,
-            durationSeconds = getFullExerciseDuration()
+            durationSeconds = getFullExerciseDuration(),
+            repeats = config.repeats
         )
     }
 

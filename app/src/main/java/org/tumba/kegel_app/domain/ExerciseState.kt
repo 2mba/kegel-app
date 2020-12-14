@@ -43,5 +43,6 @@ data class SingleExerciseInfo(
 data class ExerciseInfo(
     val remainSeconds: Long,
     val repeatRemains: Int,
-    val durationSeconds: Long
+    val durationSeconds: Long,
+    val repeats: Int
 )

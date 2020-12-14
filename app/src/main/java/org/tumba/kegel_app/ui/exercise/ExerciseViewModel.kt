@@ -28,7 +28,7 @@ class ExerciseViewModel @Inject constructor(
 
     val exerciseKind = MutableLiveData(String.Empty)
     val exercisePlaybackState by lazy { _exercisePlaybackState.distinctUntilChanged() }
-    val repeatsRemain = MutableLiveData(0)
+    val repeats = MutableLiveData(String.Empty)
     val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
     val fullTimeRemain by lazy { fullSecondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
@@ -159,14 +159,14 @@ class ExerciseViewModel @Inject constructor(
                 exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
                 secondsRemain.value = state.singleExerciseInfo.remainSeconds
                 fullSecondsRemain.value = state.exerciseInfo.remainSeconds
-                repeatsRemain.value = state.exerciseInfo.repeatRemains
+                repeats.value = formatRepeats(state.exerciseInfo.repeatRemains, state.exerciseInfo.repeats)
                 isProgressReversed = isProgressReversed(state)
                 updateExerciseProgress()
             }
             is ExerciseState.Pause -> {
                 exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
                 secondsRemain.value = state.singleExerciseInfo.remainSeconds
-                repeatsRemain.value = state.exerciseInfo.repeatRemains
+                repeats.value = formatRepeats(state.exerciseInfo.repeatRemains, state.exerciseInfo.repeats)
                 fullSecondsRemain.value = state.exerciseInfo.remainSeconds
                 _exercisePlaybackState.value = Paused
             }
@@ -237,5 +237,9 @@ class ExerciseViewModel @Inject constructor(
         val sec = seconds % 60
         val min = seconds / 60
         return String.format("%02d:%02d", min, sec)
+    }
+
+    private fun formatRepeats(repeatsRemain: Int, repeats: Int): String {
+        return "${repeats - repeatsRemain + 1}/$repeats"
     }
 }

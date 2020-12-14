@@ -64,7 +64,7 @@
                     android:drawablePadding="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingBottom="@dimen/margin_small"
-                    android:text="@{@string/screen_exercise_repeats(viewModel.repeatsRemain)}"
+                    android:text="@{@string/screen_exercise_repeats(viewModel.repeats)}"
                     android:textAllCaps="true"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textSize="13sp"
