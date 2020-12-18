@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="screen_exercise_menu_help">Помощь</string>
-    <string name="screen_exercise_repeats">Повторений: %s</string>
-    <string name="screen_exercise_remain_time">Осталось: %s</string>
-    <string name="screen_exercise_day">День: %s</string>
-    <string name="screen_exercise_level">Уровень: %s</string>
-    <string name="screen_exercise_exercise_preparation">Подготовка</string>
-    <string name="screen_exercise_exercise_relax">Отдых</string>
-    <string name="screen_exercise_btn_play">Продолжить</string>
-    <string name="screen_exercise_btn_pause">Пауза</string>
-    <string name="screen_exercise_btn_stop">Остановить</string>
-    <string name="screen_exercise_exercise_holding">Сжатие</string>
-    <string name="screen_exercise_exercise_paused">Пауза</string>
-    <string name="screen_exercise_exercise_finished">Завершено</string>
-    <string name="strings_screen_exercise_title">Упражнение</string>
-    <string name="screen_exercise_btn_start_title">Приступить к тренировке</string>
-    <string name="screen_exercise_vibration_caption">Вибрация</string>
-    <string name="screen_exercise_notification_caption">Уведомление</string>
-    <string name="screen_exercise_exit_confirmation_dialog_message">Вы хотите остановить упражнение и выйти?</string>
-    <string name="screen_exercise_exit_confirmation_dialog_title">Внимание</string>
-    <string name="screen_exercise_exit_confirmation_dialog_exit">Выйти</string>
-    <string name="screen_exercise_exit_confirmation_dialog_stay">Остаться</string>
+    <string name="screen_exercise_menu_help">Help</string>
+    <string name="screen_exercise_repeats">Repeats: %s</string>
+    <string name="screen_exercise_remain_time">Time remains: %s</string>
+    <string name="screen_exercise_day">Day: %s</string>
+    <string name="screen_exercise_level">Level: %s</string>
+    <string name="screen_exercise_exercise_preparation">Preparation</string>
+    <string name="screen_exercise_exercise_relax">Relax</string>
+    <string name="screen_exercise_btn_play">Play</string>
+    <string name="screen_exercise_btn_pause">Pause</string>
+    <string name="screen_exercise_btn_stop">Stop</string>
+    <string name="screen_exercise_exercise_holding">Hold</string>
+    <string name="screen_exercise_exercise_paused">Pause</string>
+    <string name="screen_exercise_exercise_finished">Finish</string>
+    <string name="strings_screen_exercise_title">Exercise</string>
+    <string name="screen_exercise_btn_start_title">Do exercise</string>
+    <string name="screen_exercise_vibration_caption">Vibration</string>
+    <string name="screen_exercise_notification_caption">Notification</string>
+    <string name="screen_exercise_exit_confirmation_dialog_message">Do you want to stop exercise and exit?</string>
+    <string name="screen_exercise_exit_confirmation_dialog_title">Warning</string>
+    <string name="screen_exercise_exit_confirmation_dialog_exit">Exit</string>
+    <string name="screen_exercise_exit_confirmation_dialog_stay">Stay</string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_home_day_pattern">%s день</string>
+    <string name="screen_home_level_pattern">%s уровень</string>
+    <string name="screen_home_duration_pattern">%s мин</string>
+    <string name="screen_home_hint_item_title">Как делать упражнения кегеля?</string>
+    <string name="screen_home_hint_item_text">Упражнения Кегеля — упражнения, направленные на развитие мышц промежности.</string>
+    <string name="screen_home_hint_item_button">Посмотреть</string>
+    <string name="screen_home_hint_statistic_title">Статистика</string>
+    <string name="screen_home_hint_statistic_exercises">Упражнений</string>
+    <string name="screen_home_hint_statistic_duration">Длительность</string>
+</resources>
