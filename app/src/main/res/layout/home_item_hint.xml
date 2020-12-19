@@ -9,8 +9,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:foreground="?selectableItemBackground"
-        android:transitionName="itemHint">
+        android:foreground="?selectableItemBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
