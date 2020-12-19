@@ -13,9 +13,6 @@ class Event<out T>(private val content: T) {
     var hasBeenHandled = false
         private set // Allow external read but not write
 
-    /**
-     * Returns the content and prevents its use again.
-     */
     fun getContentIfNotHandled(): T? {
         return if (hasBeenHandled) {
             null
@@ -25,8 +22,26 @@ class Event<out T>(private val content: T) {
         }
     }
 
-    /**
-     * Returns the content, even if it's already been handled.
-     */
+    fun getContent(): T {
+        return if (hasBeenHandled) {
+            throw IllegalStateException("Event content already has been handled")
+        } else {
+            hasBeenHandled = true
+            content
+        }
+    }
+
     fun peekContent(): T = content
+}
+
+fun <T> LifecycleOwner.observeEvent(lifeData: LiveData<Event<T>>, observer: (T) -> Unit) {
+    lifeData.observe(this) { event ->
+        event.consume { observer(it) }
+    }
+}
+
+fun <T> Event<T>.consume(block: (T) -> Unit) {
+    if (!hasBeenHandled) {
+        block(getContent())
+    }
 }

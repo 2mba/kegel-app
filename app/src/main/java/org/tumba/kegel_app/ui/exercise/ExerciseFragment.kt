@@ -22,6 +22,7 @@ import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
+import org.tumba.kegel_app.utils.observeEvent
 import javax.inject.Inject
 
 
@@ -32,7 +33,6 @@ class ExerciseFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
-    private val progressInterpolator = AccelerateDecelerateInterpolator()
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null
 
@@ -118,26 +118,20 @@ class ExerciseFragment : Fragment() {
                 from = binding.progress.progress.toFloat(),
                 to = progressValue * binding.progress.max
             ).apply {
-                interpolator = progressInterpolator
+                interpolator = AccelerateDecelerateInterpolator()
                 duration = PROGRESS_ANIMATION_DURATION_MILLIS
             }
             lastAnimation = progressAnimation
             binding.progress.startAnimation(progressAnimation)
         }
-        viewLifecycleOwner.observe(viewModel.exitConfirmationDialogVisible) { visible ->
-            if (visible.getContentIfNotHandled() == true) {
-                showConfirmationDialog()
-            }
+        viewLifecycleOwner.observeEvent(viewModel.exitConfirmationDialogVisible) { visible ->
+            if (visible) showConfirmationDialog()
         }
-        viewLifecycleOwner.observe(viewModel.exit) { exit ->
-            if (exit.getContentIfNotHandled() == true) {
-                findNavController().popBackStack()
-            }
+        viewLifecycleOwner.observeEvent(viewModel.exit) { exit ->
+            if (exit) findNavController().popBackStack()
         }
-        viewLifecycleOwner.observe(viewModel.navigateToExerciseResult) { navigate ->
-            if (navigate.getContentIfNotHandled() == true) {
-                navigateToExerciseResultFragment()
-            }
+        viewLifecycleOwner.observeEvent(viewModel.navigateToExerciseResult) { navigate ->
+            if (navigate) navigateToExerciseResultFragment()
         }
     }
 
