@@ -17,8 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:transitionName="itemExercise">
+        android:layout_marginEnd="@dimen/margin_medium">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/strings_screen_exercise_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:transitionName="itemTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +46,6 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:text="@{@string/screen_home_day_pattern(viewModel.exerciseDay)}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:transitionName="itemDay"
                 app:drawableTint="?colorAccent"
                 app:drawableTopCompat="@drawable/ic_sun_24"
                 app:layout_constraintEnd_toStartOf="@+id/level"
@@ -64,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:text="@{@string/screen_home_level_pattern(viewModel.exerciseLevel)}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:transitionName="itemLevel"
                 app:drawableTint="?colorAccent"
                 app:drawableTopCompat="@drawable/ic_cup_24"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,8 +71,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStartExercise"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:layout_width="wrap_content"
+                style="?materialButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/screen_exercise_btn_start_title"
