@@ -76,7 +76,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStartExercise"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/screen_exercise_btn_start_title"
