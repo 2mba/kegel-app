@@ -1,34 +1,40 @@
 package org.tumba.kegel_app.domain
 
+import kotlinx.coroutines.flow.first
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import javax.inject.Inject
 
 class ExerciseFinishHandler @Inject constructor(
-    private val exerciseSettingsRepository: ExerciseSettingsRepository
+    private val exerciseSettingsRepository: ExerciseSettingsRepository,
+    private val exerciseParametersProvider: ExerciseParametersProvider
 ) {
 
-    fun onExerciseStateChanged(state: ExerciseState) {
+    suspend fun onExerciseStateChanged(state: ExerciseState) {
         if (state is ExerciseState.Finish && !state.isForceFinished) {
             updateLevelAndNumberOfExercises()
             updateExercisesDuration(state)
         }
     }
 
-    private fun updateLevelAndNumberOfExercises() {
-        val exercises = exerciseSettingsRepository.getNumberOfCompletedExercises()
-        val level = exerciseSettingsRepository.getExerciseLevel()
-        exerciseSettingsRepository.setNumberOfCompletedExercises(exercises + 1)
-        if (exercises % DAYS_IN_WEEK == 1) {
-            exerciseSettingsRepository.setExerciseLevel(level + 1)
+    private suspend fun updateLevelAndNumberOfExercises() {
+        val day = exerciseParametersProvider.observeDay().first()
+        updateLastCompletedExerciseDate(day)
+        exerciseSettingsRepository.numberOfCompletedExercises.value++
+        if (day % DAYS_IN_WEEK == 0) {
+            exerciseSettingsRepository.exerciseLevel.value++
         }
     }
 
     private fun updateExercisesDuration(state: ExerciseState.Finish) {
-        val currentDuration = exerciseSettingsRepository.getExercisesDurationSeconds()
-        exerciseSettingsRepository.setExercisesDurationSeconds(state.exerciseInfo.durationSeconds + currentDuration)
+        exerciseSettingsRepository.exercisesDurationInSeconds.value += state.exerciseInfo.durationSeconds
+    }
+
+    private fun updateLastCompletedExerciseDate(day: Int) {
+        exerciseSettingsRepository.exerciseDay.value = day
+        exerciseSettingsRepository.lastCompletedExerciseDate.value = System.currentTimeMillis()
     }
 
     companion object {
-        private const val DAYS_IN_WEEK = 2
+        private const val DAYS_IN_WEEK = 7
     }
 }

@@ -10,7 +10,7 @@ class ExerciseProgram @Inject constructor(
 ) {
 
     fun getConfig(): ExerciseConfig {
-        val level = exerciseSettingsRepository.getExerciseLevel()
+        val level = exerciseSettingsRepository.exerciseLevel.value
         val relaxSeconds =
             interpolateDuration(HOLDING_TIME_MIN_SECONDS, HOLDING_TIME_MAX_SECONDS, level, HOLDING_TIME_COEFFICIENT)
         val holdingSeconds =

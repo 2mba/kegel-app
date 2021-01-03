@@ -1,13 +1,11 @@
 package org.tumba.kegel_app.ui.exercise
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.map
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.domain.ExerciseInteractor
+import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseServiceInteractor
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -22,6 +20,7 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
+    private val exerciseParametersProvider: ExerciseParametersProvider,
     private val exerciseNameProvider: ExerciseNameProvider,
     private val tracker: ExerciseTracker
 ) : BaseViewModel() {
@@ -32,8 +31,8 @@ class ExerciseViewModel @Inject constructor(
     val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
     val fullTimeRemain by lazy { fullSecondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
-    val level = exerciseSettingsRepository.observeExerciseLevel()
-    val day = exerciseSettingsRepository.getExerciseDay()
+    val level = exerciseParametersProvider.observeLevel().asLiveData()
+    val day = exerciseParametersProvider.observeDay().asLiveData()
     val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
     val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
