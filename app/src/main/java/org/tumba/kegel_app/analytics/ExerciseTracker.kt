@@ -30,4 +30,12 @@ class ExerciseTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun exitConfirmed() {
         tracker.track("exit_confirmed")
     }
+
+    fun trackStarted(level: Int, day: Int) {
+        tracker.track("started", bundleOf("level" to level, "day" to day))
+    }
+
+    fun trackFinished() {
+        tracker.track("finished")
+    }
 }

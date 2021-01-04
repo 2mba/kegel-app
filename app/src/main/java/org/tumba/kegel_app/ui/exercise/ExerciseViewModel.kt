@@ -2,6 +2,8 @@ package org.tumba.kegel_app.ui.exercise
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.domain.ExerciseInteractor
@@ -134,6 +136,7 @@ class ExerciseViewModel @Inject constructor(
         viewModelScope.launch {
             if (!exerciseInteractor.isExerciseInProgress()) {
                 createExercise()
+                trackExerciseStarted()
             }
         }
     }
@@ -201,6 +204,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     private fun handleExerciseFinish(state: ExerciseState.Finish) {
+        tracker.trackFinished()
         if (!state.isForceFinished) {
             navigateToExerciseResult.value = Event(true)
         } else {
@@ -240,5 +244,16 @@ class ExerciseViewModel @Inject constructor(
 
     private fun formatRepeats(repeatsRemain: Int, repeats: Int): String {
         return "${repeats - repeatsRemain + 1}/$repeats"
+    }
+
+    private fun trackExerciseStarted() {
+        viewModelScope.launch {
+            val (level, day) = combine(
+                exerciseParametersProvider.observeLevel(),
+                exerciseParametersProvider.observeDay()
+            ) { level, day -> level to day }
+                .first()
+            tracker.trackStarted(level, day)
+        }
     }
 }
