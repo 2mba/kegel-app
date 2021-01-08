@@ -4,7 +4,7 @@
     <string name="screen_home_level_pattern">%s level</string>
     <string name="screen_home_duration_pattern">%s min</string>
     <string name="screen_home_hint_item_title">How to do Kegel Exercise?</string>
-    <string name="screen_home_hint_item_text">Упражнения Кегеля — упражнения, направленные на развитие мышц промежности.</string>
+    <string name="screen_home_hint_item_text">Kegel exercises are simple exercises that you can do to make the muscles of your pelvic floor stronger.</string>
     <string name="screen_home_hint_item_button">Show</string>
     <string name="screen_home_hint_statistic_title">Statistic</string>
     <string name="screen_home_hint_statistic_exercises">Exercises</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="screen_exercise_info_base_info_title">Kegel Exercise</string>
-    <string name="screen_exercise_base_info_text">Упражнения Кегеля — упражнения, направленные на развитие мышц промежности. Укрепление и тренировка этих мышц помогает при профилактике и лечении заболеваний мочеполовых органов (например, недержание мочи, простатит) и прямой кишки (геморрой, недержание кала и другие), при регуляции половых функций.</string>
+    <string name="screen_exercise_base_info_text">Kegel exercises can help make the muscles under the uterus, bladder, and bowel (large intestine) stronger.\n\nThey can help both men and women who have problems with urine leakage or bowel control.</string>
     <string name="screen_exercise_info_how_to_title">How to do Kegel Exercise?</string>
-    <string name="screen_exercise_info_how_to_text">
-        1. Сожмите мышцы тазового дна в течении 2-5 секунд.\n2. После этого расслабьте мышцы. Отдохните 10 секунд.\n3. Повторите цикл 10 раз. Постепенно доводите фиксацию сжатия до 10 секунд.</string>
+    <string name="screen_exercise_info_how_to_text">Tense the muscles in your pelvic floor, then relax them. \n\nKeep other muscles relaxed. Don\'t contract your abdominal, leg, or buttock muscles, or lift your pelvis. \n\nGradually increase the length of contractions and relaxations.</string>
+    <string name="screen_exercise_info_common_title">Summary</string>
 </resources>
