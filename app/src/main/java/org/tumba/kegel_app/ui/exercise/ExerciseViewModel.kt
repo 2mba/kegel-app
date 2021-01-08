@@ -1,11 +1,15 @@
 package org.tumba.kegel_app.ui.exercise
 
+import android.graphics.Color
+import androidx.annotation.ColorInt
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ExerciseTracker
+import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseServiceInteractor
@@ -24,6 +28,7 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val exerciseParametersProvider: ExerciseParametersProvider,
     private val exerciseNameProvider: ExerciseNameProvider,
+    private val resourceProvider: ResourceProvider,
     private val tracker: ExerciseTracker
 ) : BaseViewModel() {
 
@@ -33,6 +38,7 @@ class ExerciseViewModel @Inject constructor(
     val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
     val fullTimeRemain by lazy { fullSecondsRemain.map { formatTimeRemains(it) } }
     val exerciseProgress = MutableLiveData(0F)
+    val exerciseProgressColor = MutableLiveData(Color.TRANSPARENT)
     val level = exerciseParametersProvider.observeLevel().asLiveData()
     val day = exerciseParametersProvider.observeDay().asLiveData()
     val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
@@ -180,6 +186,7 @@ class ExerciseViewModel @Inject constructor(
             }
         }
         exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
+        exerciseProgressColor.value = state?.let { getExerciseProgressColor(state) } ?: Color.TRANSPARENT
         currentState = state
 
         if (state?.isPlayingState() == true) {
@@ -254,6 +261,17 @@ class ExerciseViewModel @Inject constructor(
             ) { level, day -> level to day }
                 .first()
             tracker.trackStarted(level, day)
+        }
+    }
+
+    @ColorInt
+    private fun getExerciseProgressColor(state: ExerciseState): Int {
+        return when (state) {
+            is ExerciseState.Preparation -> resourceProvider.getColor(R.color.exerciseColorPreparation)
+            is ExerciseState.Holding -> resourceProvider.getColor(R.color.exerciseColorHolding)
+            is ExerciseState.Relax -> resourceProvider.getColor(R.color.exerciseColorRelax)
+            is ExerciseState.Pause -> resourceProvider.getColor(R.color.exerciseColorPaused)
+            else -> Color.TRANSPARENT
         }
     }
 }

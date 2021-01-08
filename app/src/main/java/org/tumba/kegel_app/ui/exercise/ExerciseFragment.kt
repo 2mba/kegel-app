@@ -1,5 +1,6 @@
 package org.tumba.kegel_app.ui.exercise
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -123,6 +124,10 @@ class ExerciseFragment : Fragment() {
             }
             lastAnimation = progressAnimation
             binding.progress.startAnimation(progressAnimation)
+        }
+        viewLifecycleOwner.observe(viewModel.exerciseProgressColor) { color ->
+            binding.progress.progressTintList = ColorStateList.valueOf(color)
+            binding.exercise.setTextColor(color)
         }
         viewLifecycleOwner.observeEvent(viewModel.exitConfirmationDialogVisible) { visible ->
             if (visible) showConfirmationDialog()

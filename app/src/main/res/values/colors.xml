@@ -17,4 +17,9 @@
     <color name="confetti_2">#38BA86</color>
     <color name="confetti_3">#BC356E</color>
     <color name="confetti_4">#0E58D8</color>
+
+    <color name="exerciseColorHolding">@color/colorAccent</color>
+    <color name="exerciseColorRelax">#8CD6DF</color>
+    <color name="exerciseColorPaused">@color/gray</color>
+    <color name="exerciseColorPreparation">@color/colorAccent</color>
 </resources>
