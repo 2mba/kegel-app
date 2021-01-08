@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="screen_exercise_result_title">Keep it up!</string>
-    <string name="screen_exercise_result_subtitle">Keep doing that</string>
+    <string name="screen_exercise_result_title">Awesome!</string>
+    <string name="screen_exercise_result_subtitle">Keep going</string>
     <string name="screen_exercise_result_btn_done">Done</string>
 
 </resources>

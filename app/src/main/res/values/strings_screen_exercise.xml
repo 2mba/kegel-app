@@ -5,12 +5,12 @@
     <string name="screen_exercise_remain_time">Time remains: %s</string>
     <string name="screen_exercise_day">Day: %s</string>
     <string name="screen_exercise_level">Level: %s</string>
-    <string name="screen_exercise_exercise_preparation">Preparation</string>
+    <string name="screen_exercise_exercise_preparation">Ready</string>
     <string name="screen_exercise_exercise_relax">Relax</string>
     <string name="screen_exercise_btn_play">Play</string>
     <string name="screen_exercise_btn_pause">Pause</string>
     <string name="screen_exercise_btn_stop">Stop</string>
-    <string name="screen_exercise_exercise_holding">Hold</string>
+    <string name="screen_exercise_exercise_holding">Tense</string>
     <string name="screen_exercise_exercise_paused">Pause</string>
     <string name="screen_exercise_exercise_finished">Finish</string>
     <string name="strings_screen_exercise_title">Exercise</string>
