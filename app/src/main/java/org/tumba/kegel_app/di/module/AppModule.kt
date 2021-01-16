@@ -2,6 +2,7 @@ package org.tumba.kegel_app.di.module
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
@@ -33,6 +34,11 @@ class AppModule(private val application: KegelApplication) {
     @Singleton
     @Provides
     fun provideAnalytics(analytics: FirebaseAnalytics): Analytics = analytics
+
+    @Provides
+    fun provideWorkerManager(context: Context): WorkManager {
+        return WorkManager.getInstance(context)
+    }
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"

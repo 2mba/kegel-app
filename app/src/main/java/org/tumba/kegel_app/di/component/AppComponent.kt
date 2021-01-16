@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.di.component
 
 import dagger.Component
+import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.di.module.AppModule
 import org.tumba.kegel_app.di.module.DomainModule
@@ -13,11 +14,14 @@ import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
 import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
 import org.tumba.kegel_app.ui.home.HomeFragment
 import org.tumba.kegel_app.ui.home.HomeViewModel
+import org.tumba.kegel_app.worker.NotifierWorker
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AppModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class])
 interface AppComponent {
+
+    fun inject(obj: KegelApplication)
 
     fun inject(obj: MainActivity)
 
@@ -28,6 +32,8 @@ interface AppComponent {
     fun inject(obj: ExerciseAndroidService)
 
     fun inject(obj: ExerciseResultFragment)
+
+    fun inject(obj: NotifierWorker)
 
     fun getExerciseViewModel(): ExerciseViewModel
 
