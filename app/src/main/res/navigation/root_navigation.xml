@@ -3,52 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation"
-    app:startDestination="@+id/screen_home">
+    app:startDestination="@+id/screenHome">
 
     <fragment
-        android:id="@+id/screen_home"
+        android:id="@+id/screenHome"
         android:name="org.tumba.kegel_app.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_screen_home_to_screen_exercise"
-            app:destination="@id/screen_exercise"
+            app:destination="@id/screenExercise"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_screen_home_to_exerciseInfoFragment"
-            app:destination="@id/exerciseInfoFragment"
+            app:destination="@id/screenExerciseInfoFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
-
+        <action
+            android:id="@+id/action_screen_home_to_settingsFragment"
+            app:destination="@id/screenSettings"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
 
     <fragment
-        android:id="@+id/screen_notifications"
-        android:name="org.tumba.kegel_app.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
-        android:id="@+id/screen_exercise"
+        android:id="@+id/screenExercise"
         android:name="org.tumba.kegel_app.ui.exercise.ExerciseFragment"
         android:label="Exercise"
         tools:layout="@layout/fragment_exercise">
         <action
             android:id="@+id/action_screen_exercise_to_exerciseResultFragment"
-            app:destination="@id/exerciseResultFragment"
+            app:destination="@id/screenExerciseResultFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_screen_exercise_to_exerciseInfoFragment"
-            app:destination="@id/exerciseInfoFragment"
+            app:destination="@id/screenExerciseInfoFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
@@ -56,25 +56,30 @@
     </fragment>
 
     <dialog
-        android:id="@+id/exerciseResultFragment"
+        android:id="@+id/screenExerciseResultFragment"
         android:name="org.tumba.kegel_app.ui.exercise.ExerciseResultFragment"
         android:label="ExerciseResult"
         tools:layout="@layout/fragment_exercise_result">
         <action
             android:id="@+id/action_exerciseResultFragment_to_screen_home"
-            app:destination="@id/screen_home"
+            app:destination="@id/screenHome"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit"
-            app:popUpTo="@id/screen_home"
+            app:popUpTo="@id/screenHome"
             app:popUpToInclusive="true" />
     </dialog>
 
     <fragment
-        android:id="@+id/exerciseInfoFragment"
+        android:id="@+id/screenExerciseInfoFragment"
         android:name="org.tumba.kegel_app.ui.home.ExerciseInfoFragment"
         android:label="ExerciseInfo"
         tools:layout="@layout/fragment_exercise_info" />
+
+    <fragment
+        android:id="@+id/screenSettings"
+        android:name="org.tumba.kegel_app.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>

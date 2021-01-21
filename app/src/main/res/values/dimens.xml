@@ -9,5 +9,6 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_xsmall">4dp</dimen>
     <dimen name="margin_xlarge">48dp</dimen>
+    <dimen name="margin_xxlarge">64dp</dimen>
     <dimen name="toolbar_elevation">5dp</dimen>
 </resources>

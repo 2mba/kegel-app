@@ -4,13 +4,14 @@
     <color name="black">#000000</color>
 
     <color name="colorPrimary">#4dd0e1</color>
-    <color name="colorPrimaryDark">#0F2629</color>
+    <color name="colorPrimaryDark">#101A1C</color>
     <color name="colorSurface">#182629</color>
     <color name="colorAccent">#ff9800</color>
     <color name="textColorPrimary">#D5FFFFFF</color>
     <color name="progressColor">#17FF9800</color>
 
     <color name="gray">#9f9f9f</color>
+    <color name="divider">#17FFFFFF</color>
     <color name="transparent">#00000000</color>
 
     <color name="confetti_1">#C67600</color>

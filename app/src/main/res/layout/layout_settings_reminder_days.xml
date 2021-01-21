@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.settings.SettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemExercise"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium">
+
+        <include
+            android:id="@+id/day1"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="M"
+            app:isSelected="@{viewModel.days.get(0)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(0)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day2"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="T"
+            app:isSelected="@{viewModel.days.get(1)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(1)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day3"
+            app:layout_constraintStart_toEndOf="@id/day1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day3"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="W"
+            app:isSelected="@{viewModel.days.get(2)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(2)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day4"
+            app:layout_constraintStart_toEndOf="@id/day2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day4"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="T"
+            app:isSelected="@{viewModel.days.get(3)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(3)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day5"
+            app:layout_constraintStart_toEndOf="@id/day3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day5"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="F"
+            app:isSelected="@{viewModel.days.get(4)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(4)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day6"
+            app:layout_constraintStart_toEndOf="@id/day4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day6"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="S"
+            app:isSelected="@{viewModel.days.get(5)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(5)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day7"
+            app:layout_constraintStart_toEndOf="@id/day5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day7"
+            style="@style/ReminderDay"
+            layout="@layout/layout_settings_reminder_day"
+            android:text="S"
+            app:isSelected="@{viewModel.days.get(6)}"
+            app:onClick="@{(view) -> viewModel.onDayClicked(6)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day6"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

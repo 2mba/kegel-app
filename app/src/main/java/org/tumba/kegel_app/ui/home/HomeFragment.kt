@@ -45,6 +45,11 @@ class HomeFragment : Fragment() {
                 HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment()
             )
         }
+        /*binding.settingsItem.btnOpen.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionScreenHomeToSettingsFragment()
+            )
+        }*/
         return binding.root
     }
 }

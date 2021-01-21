@@ -14,6 +14,7 @@ import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
 import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
 import org.tumba.kegel_app.ui.home.HomeFragment
 import org.tumba.kegel_app.ui.home.HomeViewModel
+import org.tumba.kegel_app.ui.settings.SettingsFragment
 import org.tumba.kegel_app.worker.NotifierWorker
 import javax.inject.Singleton
 
@@ -28,6 +29,8 @@ interface AppComponent {
     fun inject(obj: ExerciseFragment)
 
     fun inject(obj: HomeFragment)
+
+    fun inject(obj: SettingsFragment)
 
     fun inject(obj: ExerciseAndroidService)
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="org.tumba.kegel_app.R" />
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="32dp"
+        android:layout_height="32dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_reminder_day_not_selected" />
+
+        <View
+            animateVisibility="@{true}"
+            bindGoneUnless="@{isSelected}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_reminder_day_selected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text"
+            style="@style/ReminderDay"
+            bindTextColorResources="@{isSelected ? R.color.black : R.color.white}"
+            android:onClick="@{onClick}"
+            android:text="M"
+            android:textAppearance="?attr/textAppearanceSubtitle1" />
+    </FrameLayout>
+</layout>
