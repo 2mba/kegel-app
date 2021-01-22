@@ -2,12 +2,14 @@ package org.tumba.kegel_app.worker
 
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import org.tumba.kegel_app.analytics.WorkerTracker
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NotifierWorkerScheduler @Inject constructor(
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val tracker: WorkerTracker
 ) {
 
     fun scheduleNextWork() {
@@ -31,6 +33,7 @@ class NotifierWorkerScheduler @Inject constructor(
             if (before(Calendar.getInstance())) {
                 add(Calendar.HOUR_OF_DAY, 24)
             }
+            tracker.trackScheduled(time.time)
         }
     }
 }

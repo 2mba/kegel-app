@@ -3,6 +3,7 @@ package org.tumba.kegel_app.worker
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import org.tumba.kegel_app.analytics.WorkerTracker
 import org.tumba.kegel_app.di.appComponent
 import javax.inject.Inject
 
@@ -14,11 +15,16 @@ class NotifierWorker(
     @Inject
     lateinit var notifierWorkerManager: NotifierWorkerManager
 
+    @Inject
+    lateinit var tracker: WorkerTracker
+
     init {
         appComponent.inject(this)
+        tracker.trackInitWorker()
     }
 
     override fun doWork(): Result {
+        tracker.trackDoWork()
         showNotification()
         notifierWorkerManager.onNotifierWorkerCompleted()
         return Result.success()

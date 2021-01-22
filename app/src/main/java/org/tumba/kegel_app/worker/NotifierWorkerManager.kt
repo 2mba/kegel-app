@@ -19,7 +19,7 @@ class NotifierWorkerManager @Inject constructor(
         notifierWorkerScheduler.scheduleNextWork()
     }
 
-    fun rescheduleNotifierWorker() {
+    private fun rescheduleNotifierWorker() {
         GlobalScope.launch {
             workManager.cancelAllWorkByTag(NotifierWorker.WORKER_TAG).await()
             notifierWorkerScheduler.scheduleNextWork()
