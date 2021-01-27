@@ -8,8 +8,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import org.tumba.kegel_app.analytics.ExerciseNotificationTracker
 import org.tumba.kegel_app.di.appComponent
-import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseState
+import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_PAUSE_EXERCISE
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_RESUME_EXERCISE

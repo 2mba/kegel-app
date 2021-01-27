@@ -2,27 +2,27 @@ package org.tumba.kegel_app.worker
 
 import androidx.work.WorkManager
 import androidx.work.await
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import javax.inject.Inject
 
 class NotifierWorkerManager @Inject constructor(
     private val workManager: WorkManager,
-    private val notifierWorkerScheduler: NotifierWorkerScheduler
+    private val notifierWorkerScheduler: NotifierWorkerScheduler,
+    private val exerciseSettingsRepository: ExerciseSettingsRepository
 ) {
-
-    fun onStartApp() {
-        rescheduleNotifierWorker()
-    }
 
     fun onNotifierWorkerCompleted() {
         notifierWorkerScheduler.scheduleNextWork()
     }
 
-    private fun rescheduleNotifierWorker() {
-        GlobalScope.launch {
-            workManager.cancelAllWorkByTag(NotifierWorker.WORKER_TAG).await()
+    suspend fun rescheduleReminderWorker() {
+        cancelReminderWorker()
+        if (exerciseSettingsRepository.isReminderEnabled.value) {
             notifierWorkerScheduler.scheduleNextWork()
         }
+    }
+
+    private suspend fun cancelReminderWorker() {
+        workManager.cancelAllWorkByTag(NotifierWorker.WORKER_TAG).await()
     }
 }

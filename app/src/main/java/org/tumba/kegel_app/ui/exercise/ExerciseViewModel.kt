@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.core.system.ResourceProvider
-import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
-import org.tumba.kegel_app.domain.ExerciseServiceInteractor
 import org.tumba.kegel_app.domain.ExerciseState
+import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
+import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider

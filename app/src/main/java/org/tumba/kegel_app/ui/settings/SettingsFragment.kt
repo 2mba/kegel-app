@@ -33,7 +33,17 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+    }
+
+    private fun initViews() {
+        binding.switchReminder.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onReminderDayEnabledChanged(isChecked)
+        }
     }
 }

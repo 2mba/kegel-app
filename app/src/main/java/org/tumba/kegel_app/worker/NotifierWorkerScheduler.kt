@@ -27,13 +27,12 @@ class NotifierWorkerScheduler @Inject constructor(
 
     private fun getNextWorkerLaunchTime(): Calendar {
         return Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 20)
+            set(Calendar.HOUR_OF_DAY, 11)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             if (before(Calendar.getInstance())) {
                 add(Calendar.HOUR_OF_DAY, 24)
             }
-            tracker.trackScheduled(time.time)
         }
     }
 }

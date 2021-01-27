@@ -16,10 +16,10 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.tumba.kegel_app.analytics.ExerciseTracker
-import org.tumba.kegel_app.domain.ExerciseInteractor
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
-import org.tumba.kegel_app.domain.ExerciseServiceInteractor
 import org.tumba.kegel_app.domain.ExerciseState
+import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
+import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.factory.ExerciseStateFactory
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider

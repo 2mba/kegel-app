@@ -8,19 +8,20 @@ import org.tumba.kegel_app.core.system.SharedPreferenceBooleanLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("RemoveExplicitTypeArguments")
 @Singleton
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExerciseSettingsRepository @Inject constructor(
     private val preferences: SharedPreferences
 ) {
 
-    val lastCompletedExerciseDate: Preference<Long> = Preference(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
-    val exercisesDurationInSeconds: Preference<Long> = Preference(preferences, PREF_EXERCISES_DURATION, DEFAULT_EXERCISES_DURATIONS)
-    val exerciseDay: Preference<Int> = Preference(preferences, PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY)
-    val exerciseLevel: Preference<Int> = Preference(preferences, PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL)
-    val numberOfCompletedExercises: Preference<Int> =
-        Preference(preferences, PREF_NUMBER_OF_EXERCISES, DEFAULT_NUMBER_OF_EXERCISES)
-
+    val lastCompletedExerciseDate = Preference<Long>(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
+    val exercisesDurationInSeconds = Preference<Long>(preferences, PREF_EXERCISES_DURATION, DEFAULT_EXERCISES_DURATIONS)
+    val exerciseDay = Preference<Int>(preferences, PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY)
+    val exerciseLevel = Preference<Int>(preferences, PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL)
+    val numberOfCompletedExercises = Preference<Int>(preferences, PREF_NUMBER_OF_EXERCISES, DEFAULT_NUMBER_OF_EXERCISES)
+    val reminderDays = Preference<Int>(preferences, PREF_REMINDER_DAYS, DEFAULT_REMINDER_DAYS)
+    val isReminderEnabled = Preference<Boolean>(preferences, PREF_REMINDER_ENABLED, DEFAULT_REMINDER_ENABLED)
 
     fun setVibrationEnabled(enabled: Boolean) {
         setBool(PREF_KEY_VIBRATION, enabled)
@@ -59,6 +60,8 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_NOTIFICATION = "PREF_KEY_NOTIFICATION"
         private const val PREF_NUMBER_OF_EXERCISES = "PREF_NUMBER_OF_EXERCISES"
         private const val PREF_EXERCISES_DURATION = "PREF_EXERCISES_DURATION"
+        private const val PREF_REMINDER_DAYS = "PREF_REMINDER_DAYS"
+        private const val PREF_REMINDER_ENABLED = "PREF_REMINDER_ENABLED"
         private const val PREF_KEY_LAST_COMPLETED_EXERCISE_DATE = "PREF_KEY_LAST_COMPLETED_EXERCISE_DATE"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
@@ -66,5 +69,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_NOTIFICATION = true
         private const val DEFAULT_NUMBER_OF_EXERCISES = 0
         private const val DEFAULT_EXERCISES_DURATIONS = 0L
+        private const val DEFAULT_REMINDER_DAYS = 0x1111111
+        private const val DEFAULT_REMINDER_ENABLED = true
     }
 }

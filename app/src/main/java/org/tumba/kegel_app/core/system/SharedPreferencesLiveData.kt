@@ -150,10 +150,10 @@ class PreferenceImpl<T>(
         }
 
     override fun asFlow(): Flow<T> {
-
         return when (clazz) {
             java.lang.Integer::class.java -> flowPreference.getInt(key, defValue as Int).asFlow()
             java.lang.Long::class.java -> flowPreference.getLong(key, defValue as Long).asFlow()
+            java.lang.Boolean::class.java -> flowPreference.getBoolean(key, defValue as Boolean).asFlow()
             else -> throw IllegalStateException("Unknown class $clazz")
         } as Flow<T>
     }
@@ -162,6 +162,7 @@ class PreferenceImpl<T>(
         return when (clazz) {
             java.lang.Integer::class.java -> preferences.getInt(key, defValue as Int)
             java.lang.Long::class.java -> preferences.getLong(key, defValue as Long)
+            java.lang.Boolean::class.java -> preferences.getBoolean(key, defValue as Boolean)
             else -> throw IllegalStateException("Unknown class $clazz")
         } as T
     }
@@ -170,6 +171,7 @@ class PreferenceImpl<T>(
         return when (clazz) {
             java.lang.Integer::class.java -> preferences.edit().putInt(key, value as Int).apply()
             java.lang.Long::class.java -> preferences.edit().putLong(key, value as Long).apply()
+            java.lang.Boolean::class.java -> preferences.edit().putBoolean(key, value as Boolean).apply()
             else -> throw IllegalStateException("Unknown class $clazz")
         } as T
     }

@@ -1,6 +1,6 @@
 package org.tumba.kegel_app.ui.exercise
 
-import org.tumba.kegel_app.domain.ExerciseServiceInteractor
+import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import javax.inject.Inject

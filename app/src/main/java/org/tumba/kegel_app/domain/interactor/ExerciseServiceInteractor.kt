@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.domain
+package org.tumba.kegel_app.domain.interactor
 
 import org.tumba.kegel_app.service.ExerciseService
 import javax.inject.Inject

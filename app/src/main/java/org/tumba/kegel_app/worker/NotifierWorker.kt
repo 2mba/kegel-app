@@ -5,6 +5,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import org.tumba.kegel_app.analytics.WorkerTracker
 import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import javax.inject.Inject
 
 class NotifierWorker(
@@ -17,6 +18,9 @@ class NotifierWorker(
 
     @Inject
     lateinit var tracker: WorkerTracker
+
+    @Inject
+    lateinit var exerciseSettingsRepository: ExerciseSettingsRepository
 
     init {
         appComponent.inject(this)
@@ -31,7 +35,16 @@ class NotifierWorker(
     }
 
     private fun showNotification() {
-        ExerciseNotifierNotificationManager(appContext).showExerciseNotifierNotification()
+        if (isNeedToShowReminderToday()) {
+            ExerciseNotifierNotificationManager(appContext).showExerciseNotifierNotification()
+        }
+    }
+
+    private fun isNeedToShowReminderToday(): Boolean {
+        return true
+        /*if (exerciseSettingsRepository.isReminderEnabled.value &&
+            ReminderDaysEncoderDecoderexerciseSettingsRepository.reminderDays.
+        */
     }
 
     companion object {

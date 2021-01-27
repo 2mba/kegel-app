@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.domain
+package org.tumba.kegel_app.domain.interactor
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -6,6 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.core.system.VibrationManager
+import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseService
