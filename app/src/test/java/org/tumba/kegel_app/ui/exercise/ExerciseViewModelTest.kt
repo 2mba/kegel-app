@@ -16,6 +16,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.tumba.kegel_app.analytics.ExerciseTracker
+import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
@@ -50,6 +51,9 @@ class ExerciseViewModelTest {
 
     @RelaxedMockK
     lateinit var exerciseNameProvider: ExerciseNameProvider
+
+    @RelaxedMockK
+    lateinit var resourceProvider: ResourceProvider
 
     @RelaxedMockK
     lateinit var tracker: ExerciseTracker
@@ -108,6 +112,7 @@ class ExerciseViewModelTest {
             exerciseSettingsRepository,
             exerciseParametersProvider,
             exerciseNameProvider,
+            resourceProvider,
             tracker
         )
     }
