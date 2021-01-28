@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,11 +13,15 @@
         <variable
             name="onClick"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="text"
+            type="String" />
     </data>
 
     <FrameLayout
-        android:layout_width="32dp"
-        android:layout_height="32dp">
+        android:layout_width="@dimen/settings_day_size"
+        android:layout_height="@dimen/settings_day_size">
 
         <View
             android:layout_width="match_parent"
@@ -35,7 +40,8 @@
             style="@style/ReminderDay"
             bindTextColorResources="@{isSelected ? R.color.black : R.color.white}"
             android:onClick="@{onClick}"
-            android:text="M"
-            android:textAppearance="?attr/textAppearanceSubtitle1" />
+            android:text="@{text}"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            tools:text="@string/screen_settings_day_1" />
     </FrameLayout>
 </layout>

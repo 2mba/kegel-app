@@ -133,13 +133,12 @@
     </style>
 
     <style name="ReminderDay">
-        <item name="android:layout_width">32dp</item>
-        <item name="android:layout_height">32dp</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">@dimen/settings_day_size</item>
+        <item name="android:layout_height">@dimen/settings_day_size</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
-        <item name="textAllCaps">true</item>
     </style>
 
     <style name="BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">

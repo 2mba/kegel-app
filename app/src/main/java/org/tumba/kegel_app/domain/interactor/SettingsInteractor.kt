@@ -52,6 +52,6 @@ object ReminderDaysEncoderDecoder {
         return encodedDays
     }
 
-    fun getDayBit(day: Int): Int = 1.shl(DAYS_IN_WEEK - day - 1)
+    private fun getDayBit(day: Int): Int = 1.shl(DAYS_IN_WEEK - day - 1)
 
 }

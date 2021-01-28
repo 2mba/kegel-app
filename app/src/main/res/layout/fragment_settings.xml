@@ -76,12 +76,14 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/descriptionReminder"
                         style="@style/Widget.MaterialComponents.TextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_xxlarge"
-                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:text="Setup reminder to keep mind a workout"
                         android:textAppearance="?attr/textAppearanceCaption"
+                        app:layout_constraintEnd_toStartOf="@id/switchReminder"
+                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/titleReminder" />
 

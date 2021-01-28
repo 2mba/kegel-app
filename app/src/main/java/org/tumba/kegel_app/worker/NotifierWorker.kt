@@ -5,7 +5,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import org.tumba.kegel_app.analytics.WorkerTracker
 import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.domain.interactor.ReminderDaysEncoderDecoder
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import java.util.*
 import javax.inject.Inject
 
 class NotifierWorker(
@@ -41,14 +43,15 @@ class NotifierWorker(
     }
 
     private fun isNeedToShowReminderToday(): Boolean {
-        return true
-        /*if (exerciseSettingsRepository.isReminderEnabled.value &&
-            ReminderDaysEncoderDecoderexerciseSettingsRepository.reminderDays.
-        */
+        val dayOfWeekFromCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+        val dayOfWeek = (Calendar.MONDAY - dayOfWeekFromCalendar + DAYS_IN_WEEK) % DAYS_IN_WEEK
+        return exerciseSettingsRepository.isReminderEnabled.value &&
+                ReminderDaysEncoderDecoder.decodeWeekDay(exerciseSettingsRepository.reminderDays.value, dayOfWeek)
     }
 
     companion object {
         const val WORKER_TAG = "NotifierWorker.Tag"
+        private const val DAYS_IN_WEEK = 7
     }
 }
 

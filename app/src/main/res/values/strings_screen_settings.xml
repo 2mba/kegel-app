@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_settings_day_1">Mo</string>
+    <string name="screen_settings_day_2">Tu</string>
+    <string name="screen_settings_day_3">We</string>
+    <string name="screen_settings_day_4">Th</string>
+    <string name="screen_settings_day_5">Fi</string>
+    <string name="screen_settings_day_6">Sa</string>
+    <string name="screen_settings_day_7">Su</string>
+</resources>
