@@ -7,15 +7,15 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NotifierWorkerScheduler @Inject constructor(
+class ReminderWorkerScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val tracker: WorkerTracker
 ) {
 
     fun scheduleNextWork() {
-        val dailyWorkRequest = OneTimeWorkRequestBuilder<NotifierWorker>()
+        val dailyWorkRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
             .setInitialDelay(calculateDelayOfWorkerLaunch(), TimeUnit.MILLISECONDS)
-            .addTag(NotifierWorker.WORKER_TAG)
+            .addTag(ReminderWorker.WORKER_TAG)
             .build()
         workManager.enqueue(dailyWorkRequest)
     }

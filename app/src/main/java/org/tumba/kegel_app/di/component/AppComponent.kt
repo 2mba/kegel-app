@@ -15,7 +15,7 @@ import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
 import org.tumba.kegel_app.ui.home.HomeFragment
 import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.settings.SettingsFragment
-import org.tumba.kegel_app.worker.NotifierWorker
+import org.tumba.kegel_app.worker.ReminderWorker
 import javax.inject.Singleton
 
 @Singleton
@@ -36,7 +36,7 @@ interface AppComponent {
 
     fun inject(obj: ExerciseResultFragment)
 
-    fun inject(obj: NotifierWorker)
+    fun inject(obj: ReminderWorker)
 
     fun getExerciseViewModel(): ExerciseViewModel
 

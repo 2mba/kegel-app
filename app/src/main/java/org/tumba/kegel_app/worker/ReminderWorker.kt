@@ -7,22 +7,23 @@ import org.tumba.kegel_app.analytics.WorkerTracker
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.domain.interactor.ReminderDaysEncoderDecoder
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.utils.DateHelper
 import java.util.*
 import javax.inject.Inject
 
-class NotifierWorker(
+class ReminderWorker(
     private val appContext: Context,
     workerParams: WorkerParameters
 ) : Worker(appContext, workerParams) {
 
     @Inject
-    lateinit var notifierWorkerManager: NotifierWorkerManager
+    lateinit var reminderWorkerManager: ReminderWorkerManager
 
     @Inject
     lateinit var tracker: WorkerTracker
 
     @Inject
-    lateinit var exerciseSettingsRepository: ExerciseSettingsRepository
+    lateinit var reminderScheduleProvider: ReminderScheduleProvider
 
     init {
         appComponent.inject(this)
@@ -32,25 +33,34 @@ class NotifierWorker(
     override fun doWork(): Result {
         tracker.trackDoWork()
         showNotification()
-        notifierWorkerManager.onNotifierWorkerCompleted()
+        reminderWorkerManager.onNotifierWorkerCompleted()
         return Result.success()
     }
 
     private fun showNotification() {
-        if (isNeedToShowReminderToday()) {
+        if (reminderScheduleProvider.isNeedToShowReminderToday()) {
             ExerciseNotifierNotificationManager(appContext).showExerciseNotifierNotification()
         }
     }
 
-    private fun isNeedToShowReminderToday(): Boolean {
-        val dayOfWeekFromCalendar = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-        val dayOfWeek = (Calendar.MONDAY - dayOfWeekFromCalendar + DAYS_IN_WEEK) % DAYS_IN_WEEK
+    companion object {
+        const val WORKER_TAG = "ReminderWorker.Tag"
+    }
+}
+
+class ReminderScheduleProvider @Inject constructor(
+    private val dateHelper: DateHelper,
+    private val exerciseSettingsRepository: ExerciseSettingsRepository
+) {
+
+    fun isNeedToShowReminderToday(): Boolean {
+        val dayOfWeekFromCalendar = dateHelper.now().get(Calendar.DAY_OF_WEEK)
+        val dayOfWeek = (dayOfWeekFromCalendar - Calendar.MONDAY + DAYS_IN_WEEK) % DAYS_IN_WEEK
         return exerciseSettingsRepository.isReminderEnabled.value &&
-                ReminderDaysEncoderDecoder.decodeWeekDay(exerciseSettingsRepository.reminderDays.value, dayOfWeek)
+                 ReminderDaysEncoderDecoder.decodeWeekDay(exerciseSettingsRepository.reminderDays.value, dayOfWeek)
     }
 
     companion object {
-        const val WORKER_TAG = "NotifierWorker.Tag"
         private const val DAYS_IN_WEEK = 7
     }
 }

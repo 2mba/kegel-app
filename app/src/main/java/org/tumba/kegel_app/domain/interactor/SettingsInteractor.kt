@@ -4,12 +4,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
-import org.tumba.kegel_app.worker.NotifierWorkerManager
+import org.tumba.kegel_app.worker.ReminderWorkerManager
 import javax.inject.Inject
 
 class SettingsInteractor @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val notifierWorkerManager: NotifierWorkerManager
+    private val reminderWorkerManager: ReminderWorkerManager
 ) {
 
     fun observeReminderEnabled(): Flow<Boolean> {
@@ -26,13 +26,13 @@ class SettingsInteractor @Inject constructor(
     suspend fun setReminderDays(days: List<Boolean>) {
         withContext(Dispatchers.Default) {
             exerciseSettingsRepository.reminderDays.value = ReminderDaysEncoderDecoder.encodeDays(days)
-            notifierWorkerManager.rescheduleReminderWorker()
+            reminderWorkerManager.rescheduleReminderWorker()
         }
     }
 
     suspend fun setReminderEnabled(enabled: Boolean) {
         exerciseSettingsRepository.isReminderEnabled.value = enabled
-        notifierWorkerManager.rescheduleReminderWorker()
+        reminderWorkerManager.rescheduleReminderWorker()
     }
 }
 

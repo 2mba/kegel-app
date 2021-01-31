@@ -5,24 +5,24 @@ import androidx.work.await
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import javax.inject.Inject
 
-class NotifierWorkerManager @Inject constructor(
+class ReminderWorkerManager @Inject constructor(
     private val workManager: WorkManager,
-    private val notifierWorkerScheduler: NotifierWorkerScheduler,
+    private val reminderWorkerScheduler: ReminderWorkerScheduler,
     private val exerciseSettingsRepository: ExerciseSettingsRepository
 ) {
 
     fun onNotifierWorkerCompleted() {
-        notifierWorkerScheduler.scheduleNextWork()
+        reminderWorkerScheduler.scheduleNextWork()
     }
 
     suspend fun rescheduleReminderWorker() {
         cancelReminderWorker()
         if (exerciseSettingsRepository.isReminderEnabled.value) {
-            notifierWorkerScheduler.scheduleNextWork()
+            reminderWorkerScheduler.scheduleNextWork()
         }
     }
 
     private suspend fun cancelReminderWorker() {
-        workManager.cancelAllWorkByTag(NotifierWorker.WORKER_TAG).await()
+        workManager.cancelAllWorkByTag(ReminderWorker.WORKER_TAG).await()
     }
 }
