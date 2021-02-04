@@ -52,12 +52,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="Reminder"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintBottom_toBottomOf="@+id/descriptionReminder"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/titleReminder"
-                        app:srcCompat="@drawable/ic_sun_24"
+                        app:srcCompat="@drawable/ic_calendar_24"
                         app:tint="@color/colorPrimary" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -106,10 +105,10 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchReminder"
-                        android:checked="@{viewModel.isReminderEnabled}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_medium"
+                        android:checked="@{viewModel.isReminderEnabled}"
                         app:layout_constraintBottom_toBottomOf="@id/descriptionReminder"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/titleReminder" />
@@ -133,6 +132,20 @@
                     android:onClick="@{(view) -> viewModel.onReminderTimeClicked()}"
                     android:orientation="vertical">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iconReminderTime"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        app:layout_constraintBottom_toBottomOf="@+id/reminderTimeSubtitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/reminderTimeTitle"
+                        app:srcCompat="@drawable/ic_time_24"
+                        app:tint="@color/colorPrimary" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/reminderTimeTitle"
                         style="@style/Widget.MaterialComponents.TextView"
@@ -143,11 +156,12 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:text="When to notify about a workout"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
+                        app:layout_constraintBottom_toTopOf="@id/reminderTimeSubtitle"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/reminderTimeSubitle"
+                        android:id="@+id/reminderTimeSubtitle"
                         style="@style/Widget.MaterialComponents.TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -177,7 +191,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="@{(view) -> viewModel.onResetLevelClicked()}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/titleResetLevel"
@@ -223,7 +238,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:onClick="@{(view) -> viewModel.onSetLevelClicked()}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/titleSetLevel"
