@@ -27,11 +27,9 @@ class ReminderWorker(
 
     init {
         appComponent.inject(this)
-        tracker.trackInitWorker()
     }
 
     override fun doWork(): Result {
-        tracker.trackDoWork()
         showNotification()
         reminderWorkerManager.onNotifierWorkerCompleted()
         return Result.success()

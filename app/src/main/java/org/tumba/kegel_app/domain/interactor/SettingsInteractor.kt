@@ -44,6 +44,13 @@ class SettingsInteractor @Inject constructor(
         }
     }
 
+    fun getReminderTime(): ReminderTime {
+        return ReminderTime(
+            exerciseSettingsRepository.reminderHour.value,
+            exerciseSettingsRepository.reminderMinute.value
+        )
+    }
+
     fun observeReminderTime(): Flow<ReminderTime> {
         return combine(
             exerciseSettingsRepository.reminderHour.asFlow(),

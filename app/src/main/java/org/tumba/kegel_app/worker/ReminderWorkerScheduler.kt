@@ -3,12 +3,14 @@ package org.tumba.kegel_app.worker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import org.tumba.kegel_app.analytics.WorkerTracker
+import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ReminderWorkerScheduler @Inject constructor(
     private val workManager: WorkManager,
+    private val settingsInteractor: SettingsInteractor,
     private val tracker: WorkerTracker
 ) {
 
@@ -26,9 +28,10 @@ class ReminderWorkerScheduler @Inject constructor(
     }
 
     private fun getNextWorkerLaunchTime(): Calendar {
+        val time = settingsInteractor.getReminderTime()
         return Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 11)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, time.hour)
+            set(Calendar.MINUTE, time.minute)
             set(Calendar.SECOND, 0)
             if (before(Calendar.getInstance())) {
                 add(Calendar.HOUR_OF_DAY, 24)
