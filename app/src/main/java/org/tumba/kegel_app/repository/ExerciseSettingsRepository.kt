@@ -22,6 +22,8 @@ class ExerciseSettingsRepository @Inject constructor(
     val numberOfCompletedExercises = Preference<Int>(preferences, PREF_NUMBER_OF_EXERCISES, DEFAULT_NUMBER_OF_EXERCISES)
     val reminderDays = Preference<Int>(preferences, PREF_REMINDER_DAYS, DEFAULT_REMINDER_DAYS)
     val isReminderEnabled = Preference<Boolean>(preferences, PREF_REMINDER_ENABLED, DEFAULT_REMINDER_ENABLED)
+    val reminderHour = Preference<Int>(preferences, PREF_KEY_REMINDER_HOUR, DEFAULT_REMINDER_HOUR)
+    val reminderMinute = Preference<Int>(preferences, PREF_KEY_REMINDER_MINUTE, DEFAULT_REMINDER_MINUTE)
 
     fun setVibrationEnabled(enabled: Boolean) {
         setBool(PREF_KEY_VIBRATION, enabled)
@@ -63,6 +65,8 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_REMINDER_DAYS = "PREF_REMINDER_DAYS"
         private const val PREF_REMINDER_ENABLED = "PREF_REMINDER_ENABLED"
         private const val PREF_KEY_LAST_COMPLETED_EXERCISE_DATE = "PREF_KEY_LAST_COMPLETED_EXERCISE_DATE"
+        private const val PREF_KEY_REMINDER_HOUR = "PREF_KEY_REMINDER_HOUR"
+        private const val PREF_KEY_REMINDER_MINUTE = "PREF_KEY_REMINDER_MINUTE"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
@@ -71,5 +75,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_EXERCISES_DURATIONS = 0L
         private const val DEFAULT_REMINDER_DAYS = 0x1111111
         private const val DEFAULT_REMINDER_ENABLED = true
+        private const val DEFAULT_REMINDER_HOUR = 12
+        private const val DEFAULT_REMINDER_MINUTE = 0
     }
 }

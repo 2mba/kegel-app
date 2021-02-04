@@ -2,6 +2,7 @@ package org.tumba.kegel_app.domain.interactor
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.worker.ReminderWorkerManager
@@ -34,6 +35,23 @@ class SettingsInteractor @Inject constructor(
         exerciseSettingsRepository.isReminderEnabled.value = enabled
         reminderWorkerManager.rescheduleReminderWorker()
     }
+
+    suspend fun setReminderTime(hour: Int, minute: Int) {
+        withContext(Dispatchers.Default) {
+            exerciseSettingsRepository.reminderHour.value = hour
+            exerciseSettingsRepository.reminderMinute.value = minute
+            reminderWorkerManager.rescheduleReminderWorker()
+        }
+    }
+
+    fun observeReminderTime(): Flow<ReminderTime> {
+        return combine(
+            exerciseSettingsRepository.reminderHour.asFlow(),
+            exerciseSettingsRepository.reminderMinute.asFlow(),
+        ) { hour, minute -> ReminderTime(hour, minute) }
+    }
+
+    data class ReminderTime(val hour: Int, val minute: Int)
 }
 
 object ReminderDaysEncoderDecoder {

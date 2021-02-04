@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
@@ -45,5 +47,25 @@ class SettingsFragment : Fragment() {
         binding.switchReminder.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onReminderDayEnabledChanged(isChecked)
         }
+        viewModel.showReminderTimePickerDialog.observe(viewLifecycleOwner) { showDialog ->
+            if (showDialog.getContentIfNotHandled() == true) {
+                showReminderTimePicker()
+            }
+        }
+    }
+
+    private fun showReminderTimePicker() {
+        MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(12)
+            .setMinute(10)
+            .setTitleText("Select reminder time")
+            .build()
+            .apply {
+                addOnPositiveButtonClickListener {
+                    viewModel.onReminderTimeSelected(hour, minute)
+                }
+                show(this@SettingsFragment.childFragmentManager, MaterialTimePicker::class.java.name)
+            }
     }
 }
