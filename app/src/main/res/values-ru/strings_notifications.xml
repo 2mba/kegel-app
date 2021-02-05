@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_reminder_channel_name">Напоминание</string>
+    <string name="notification_reminder_channel_description">Напоминание об упражнении</string>
+    <string name="notification_reminder_title">Пора делать упражнение</string>
+</resources>

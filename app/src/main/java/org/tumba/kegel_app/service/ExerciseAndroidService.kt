@@ -10,6 +10,7 @@ import org.tumba.kegel_app.analytics.ExerciseNotificationTracker
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
+import org.tumba.kegel_app.notification.AppNotificationConstants
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_PAUSE_EXERCISE
 import org.tumba.kegel_app.service.ExerciseServiceNotificationProvider.Companion.ACTION_RESUME_EXERCISE
@@ -119,17 +120,17 @@ class ExerciseAndroidService : Service(), CoroutineScope {
         val notification = notificationProvider.createNotification(exerciseState)
 
         if (isForeground) {
-            startForeground(ONGOING_EXERCISE_NOTIFICATION_ID, notification)
+            startForeground(AppNotificationConstants.ONGOING_EXERCISE_NOTIFICATION_ID, notification)
             isForegroundService = true
         } else {
             val notificationManager = NotificationManagerCompat.from(this)
-            notificationManager.notify(ONGOING_EXERCISE_NOTIFICATION_ID, notification)
+            notificationManager.notify(AppNotificationConstants.ONGOING_EXERCISE_NOTIFICATION_ID, notification)
         }
     }
 
     private fun clearNotification() {
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.cancel(ONGOING_EXERCISE_NOTIFICATION_ID)
+        notificationManager.cancel(AppNotificationConstants.ONGOING_EXERCISE_NOTIFICATION_ID)
         stopForeground(true)
         exerciseObserveJob?.cancel()
         isNotificationsCleared = true
@@ -138,6 +139,5 @@ class ExerciseAndroidService : Service(), CoroutineScope {
     companion object {
         const val ACTION_SHOW_EXERCISE_STATUS = "ACTION_SHOW_EXERCISE_STATUS"
         const val ACTION_CLEAR_NOTIFICATION = "ACTION_CLEAR_NOTIFICATION"
-        private const val ONGOING_EXERCISE_NOTIFICATION_ID = 1
     }
 }
