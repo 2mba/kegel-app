@@ -10,4 +10,5 @@
     <string name="screen_settings_reminder_title">Reminder</string>
     <string name="screen_settings_reminder_subtitle">Setup reminder to keep mind a workout</string>
     <string name="screen_settings_reminder_time_title">When to notify about a workout</string>
+    <string name="screen_settings_reminder_time_dialog_title">Select a date to remind about a workout</string>
 </resources>

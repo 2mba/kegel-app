@@ -1,11 +1,10 @@
 package org.tumba.kegel_app.ui.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -24,9 +23,11 @@ class SettingsViewModel @Inject constructor(
     private val _showReminderTimePickerDialog = MutableLiveData<Event<Boolean>>()
     val showReminderTimePickerDialog: LiveData<Event<Boolean>> = _showReminderTimePickerDialog
 
-    val reminderTime: LiveData<String> = settingsInteractor.observeReminderTime()
+    private val _reminderTime: Flow<SettingsInteractor.ReminderTime> = settingsInteractor.observeReminderTime()
+        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    val reminderTime = _reminderTime.asLiveData(Dispatchers.Default)
+    val reminderTimeFormatted: LiveData<String> = reminderTime
         .map { time -> String.format("%02d:%02d", time.hour, time.minute) }
-        .asLiveData(Dispatchers.Default)
 
     fun onReminderDayClicked(idx: Int) {
         val days = days.value ?: return

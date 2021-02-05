@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
@@ -57,9 +58,9 @@ class SettingsFragment : Fragment() {
     private fun showReminderTimePicker() {
         MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(12)
-            .setMinute(10)
-            .setTitleText("Select reminder time")
+            .setHour(viewModel.reminderTime.value?.hour ?: 0)
+            .setMinute(viewModel.reminderTime.value?.minute ?: 0)
+            .setTitleText(R.string.screen_settings_reminder_time_dialog_title)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
