@@ -7,4 +7,7 @@
     <string name="screen_settings_day_5">Fi</string>
     <string name="screen_settings_day_6">Sa</string>
     <string name="screen_settings_day_7">Su</string>
+    <string name="screen_settings_reminder_title">Reminder</string>
+    <string name="screen_settings_reminder_subtitle">Setup reminder to keep mind a workout</string>
+    <string name="screen_settings_reminder_time_title">When to notify about a workout</string>
 </resources>

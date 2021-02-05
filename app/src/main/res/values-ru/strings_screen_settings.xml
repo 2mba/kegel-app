@@ -7,4 +7,7 @@
     <string name="screen_settings_day_5">Пт</string>
     <string name="screen_settings_day_6">Сб</string>
     <string name="screen_settings_day_7">Вс</string>
+    <string name="screen_settings_reminder_title">Напоминание</string>
+    <string name="screen_settings_reminder_subtitle">Настройте напоминие чтобы не забыть сделать упражнение</string>
+    <string name="screen_settings_reminder_time_title">Когда напоминать об упражнении</string>
 </resources>

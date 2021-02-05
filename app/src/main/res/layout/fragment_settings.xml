@@ -67,7 +67,7 @@
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="Reminder"
+                        android:text="@string/screen_settings_reminder_title"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:text="Setup reminder to keep mind a workout"
+                        android:text="@string/screen_settings_reminder_subtitle"
                         android:textAppearance="?attr/textAppearanceCaption"
                         app:layout_constraintEnd_toStartOf="@id/switchReminder"
                         app:layout_constraintHorizontal_bias="0"
@@ -154,7 +154,7 @@
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="When to notify about a workout"
+                        android:text="@string/screen_settings_reminder_time_title"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintBottom_toTopOf="@id/reminderTimeSubtitle"
                         app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +172,8 @@
                         android:textAppearance="?attr/textAppearanceCaption"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/reminderTimeTitle" />
+                        app:layout_constraintTop_toBottomOf="@id/reminderTimeTitle"
+                        tools:text="12:00"/>
 
                     <View
                         android:layout_width="0dp"
