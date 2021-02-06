@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var screenTracker: ScreenTracker
 
-    /*@Inject
-    lateinit var notifierWorkerManager: NotifierWorkerManager*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)

@@ -41,7 +41,7 @@ class ReminderWorker(
 
     private fun showNotification() {
         if (reminderScheduleProvider.isNeedToShowReminderToday()) {
-            ExerciseNotifierNotificationManager(appContext, resourceProvider).showExerciseNotifierNotification()
+            ReminderNotificationManager(appContext, resourceProvider).showExerciseNotifierNotification()
         }
     }
 
