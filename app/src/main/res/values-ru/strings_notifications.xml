@@ -2,5 +2,5 @@
 <resources>
     <string name="notification_reminder_channel_name">Напоминание</string>
     <string name="notification_reminder_channel_description">Напоминание об упражнении</string>
-    <string name="notification_reminder_title">Пора делать упражнение</string>
+    <string name="notification_reminder_title">Пора делать упражнения!</string>
 </resources>

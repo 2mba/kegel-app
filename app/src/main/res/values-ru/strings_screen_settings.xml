@@ -8,7 +8,7 @@
     <string name="screen_settings_day_6">Сб</string>
     <string name="screen_settings_day_7">Вс</string>
     <string name="screen_settings_reminder_title">Напоминание</string>
-    <string name="screen_settings_reminder_subtitle">Настройте напоминие чтобы не забыть сделать упражнение</string>
-    <string name="screen_settings_reminder_time_title">Когда напоминать об упражнении</string>
-    <string name="screen_settings_reminder_time_dialog_title">Выберите время для напоминания об упражнении</string>
+    <string name="screen_settings_reminder_subtitle">Включите уведомления, чтобы не забыть об упражнениях</string>
+    <string name="screen_settings_reminder_time_title">Когда напомнить об упражнениях</string>
+    <string name="screen_settings_reminder_time_dialog_title">Выберите время для упражнений</string>
 </resources>
