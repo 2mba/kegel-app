@@ -28,7 +28,7 @@ class ReminderNotificationManager @Inject constructor(
             PendingIntent.getActivity(context, REMINDER_REQUEST_CODE, notificationIntent, 0)
         }
         val notification = NotificationCompat.Builder(context, AppNotificationConstants.REMINDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_fit_24)
+            .setSmallIcon(R.drawable.ic_app_icon_notification)
             .setContentText(resourceProvider.getString(R.string.notification_reminder_title))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

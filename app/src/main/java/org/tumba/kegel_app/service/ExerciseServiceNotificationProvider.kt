@@ -33,7 +33,7 @@ class ExerciseServiceNotificationProvider @Inject constructor(
         return NotificationCompat.Builder(context, AppNotificationConstants.EXERCISES_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.exercise_notification_title))
             .setContentText(buildNotificationContentText(exerciseState))
-            .setSmallIcon(R.drawable.ic_fit_24)
+            .setSmallIcon(R.drawable.ic_app_icon_notification)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .addActions(exerciseState)
             .setNotificationSilent()
