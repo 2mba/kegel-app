@@ -10,6 +10,7 @@ import android.os.Build
 import android.text.format.DateUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.domain.ExerciseState
@@ -35,6 +36,7 @@ class ExerciseServiceNotificationProvider @Inject constructor(
             .setContentText(buildNotificationContentText(exerciseState))
             .setSmallIcon(R.drawable.ic_app_icon_notification)
             .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setColor(ResourcesCompat.getColor(context.resources, R.color.colorAccent, null))
             .addActions(exerciseState)
             .setNotificationSilent()
             .setContentIntent(pendingIntent)

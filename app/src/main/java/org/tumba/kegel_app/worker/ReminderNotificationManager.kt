@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.core.system.ResourceProvider
@@ -31,6 +32,7 @@ class ReminderNotificationManager @Inject constructor(
             .setSmallIcon(R.drawable.ic_app_icon_notification)
             .setContentText(resourceProvider.getString(R.string.notification_reminder_title))
             .setContentIntent(pendingIntent)
+            .setColor(ResourcesCompat.getColor(context.resources, R.color.colorAccent, null))
             .setAutoCancel(true)
             .build()
         NotificationManagerCompat.from(context)
