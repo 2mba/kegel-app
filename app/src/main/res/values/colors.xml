@@ -8,6 +8,7 @@
     <color name="colorSurface">#182629</color>
     <color name="colorAccent">#ff9800</color>
     <color name="textColorPrimary">#D5FFFFFF</color>
+    <color name="textColorPrimaryDisabled">#4DFFFFFF</color>
     <color name="progressColor">#17FF9800</color>
 
     <color name="gray">#9f9f9f</color>
@@ -23,4 +24,6 @@
     <color name="exerciseColorRelax">#8CD6DF</color>
     <color name="exerciseColorPaused">@color/gray</color>
     <color name="exerciseColorPreparation">@color/colorAccent</color>
+
+    <color name="colorOnBg">?attr/colorOnPrimary</color>
 </resources>

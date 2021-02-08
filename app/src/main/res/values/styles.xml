@@ -10,7 +10,7 @@
         <item name="homeAsUpIndicator">@drawable/ic_arrow_left_24</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MdcTypographyStyles.Headline1</item>

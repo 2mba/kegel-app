@@ -30,6 +30,7 @@ class SettingsViewModel @Inject constructor(
         .map { time -> String.format("%02d:%02d", time.hour, time.minute) }
 
     fun onReminderDayClicked(idx: Int) {
+        if (isReminderEnabled.value != true) return
         val days = days.value ?: return
         val newDays = List(7) { listIdx ->
             if (listIdx == idx) !days[listIdx] else days[listIdx]

@@ -21,27 +21,31 @@
 
     <FrameLayout
         android:layout_width="@dimen/settings_day_size"
-        android:layout_height="@dimen/settings_day_size">
+        android:layout_height="@dimen/settings_day_size"
+        android:duplicateParentState="true">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_reminder_day_not_selected" />
+            android:background="@drawable/bg_reminder_day_not_selected"
+            android:duplicateParentState="true" />
 
         <View
             animateVisibility="@{true}"
             bindGoneUnless="@{isSelected}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_reminder_day_selected" />
+            android:background="@drawable/bg_reminder_day_selected"
+            android:duplicateParentState="true" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text"
             style="@style/ReminderDay"
-            bindTextColorResources="@{isSelected ? R.color.black : R.color.white}"
+            android:duplicateParentState="true"
             android:onClick="@{onClick}"
             android:text="@{text}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/settings_reminder_day_text_color_selected"
             tools:text="@string/screen_settings_day_1" />
     </FrameLayout>
 </layout>

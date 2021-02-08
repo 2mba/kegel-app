@@ -129,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:enabled="@{viewModel.isReminderEnabled}"
                     android:onClick="@{(view) -> viewModel.onReminderTimeClicked()}"
                     android:orientation="vertical">
 
@@ -154,6 +155,7 @@
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
+                        android:duplicateParentState="true"
                         android:text="@string/screen_settings_reminder_time_title"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintBottom_toTopOf="@id/reminderTimeSubtitle"
@@ -168,12 +170,13 @@
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginBottom="@dimen/margin_medium"
+                        android:duplicateParentState="true"
                         android:text="@{viewModel.reminderTimeFormatted}"
                         android:textAppearance="?attr/textAppearanceCaption"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/reminderTimeTitle"
-                        tools:text="12:00"/>
+                        tools:text="12:00" />
 
                     <View
                         android:layout_width="0dp"
