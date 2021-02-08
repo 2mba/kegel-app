@@ -11,7 +11,7 @@ class ExerciseResultViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     fun onDismiss() {
-        if (settingsRepository.isNotificationEnabled()) {
+        if (settingsRepository.isNotificationEnabled.value) {
             serviceInteractor.clearNotification()
         }
     }

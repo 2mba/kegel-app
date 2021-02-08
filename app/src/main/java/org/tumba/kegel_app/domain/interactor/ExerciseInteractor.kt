@@ -44,7 +44,7 @@ class ExerciseInteractor @Inject constructor(
     }
 
     suspend fun startExercise() {
-        if (exerciseSettingsRepository.isNotificationEnabled()) {
+        if (exerciseSettingsRepository.isNotificationEnabled.value) {
             exerciseService.startService()
         }
         val exercise = getExercise()
@@ -75,9 +75,9 @@ class ExerciseInteractor @Inject constructor(
     }
 
     suspend fun setNotificationEnabled(enabled: Boolean) {
-        if (exerciseSettingsRepository.isNotificationEnabled() == enabled) return
+        if (exerciseSettingsRepository.isNotificationEnabled.value == enabled) return
 
-        exerciseSettingsRepository.setNotificationEnabled(enabled)
+        exerciseSettingsRepository.isNotificationEnabled.value = enabled
         if (enabled && isExerciseInProgress()) {
             exerciseService.startService()
         } else {
@@ -89,9 +89,7 @@ class ExerciseInteractor @Inject constructor(
         return Exercise(
             config = config,
             vibrationManager = vibrationManager,
-            vibrationEnabledStateProvider = {
-                exerciseSettingsRepository.isVibrationEnabled()
-            }
+            vibrationEnabledStateProvider = { exerciseSettingsRepository.isVibrationEnabled.value }
         )
     }
 

@@ -3,6 +3,7 @@ package org.tumba.kegel_app.ui.exercise
 import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -41,8 +42,12 @@ class ExerciseViewModel @Inject constructor(
     val exerciseProgressColor = MutableLiveData(Color.TRANSPARENT)
     val level = exerciseParametersProvider.observeLevel().asLiveData()
     val day = exerciseParametersProvider.observeDay().asLiveData()
-    val isVibrationEnabled = exerciseSettingsRepository.observeVibrationEnabled()
-    val isNotificationEnabled = exerciseSettingsRepository.observeNotificationEnabled()
+    val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
+        .asFlow()
+        .asLiveData(Dispatchers.Default)
+    val isNotificationEnabled = exerciseSettingsRepository.isNotificationEnabled
+        .asFlow()
+        .asLiveData(Dispatchers.Default)
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
@@ -85,7 +90,7 @@ class ExerciseViewModel @Inject constructor(
             tracker.trackChangeVibration(enabled)
         }
         viewModelScope.launch {
-            exerciseSettingsRepository.setVibrationEnabled(enabled)
+            exerciseSettingsRepository.isVibrationEnabled.value = enabled
         }
     }
 
@@ -223,7 +228,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     private fun clearNotification() {
-        if (exerciseSettingsRepository.isNotificationEnabled()) {
+        if (exerciseSettingsRepository.isNotificationEnabled.value) {
             exerciseServiceInteractor.clearNotification()
         }
     }

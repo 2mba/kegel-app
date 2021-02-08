@@ -90,7 +90,7 @@ class ExerciseAndroidService : Service(), CoroutineScope {
                 isForegroundService = false
             }
         }
-        if (settingsRepository.isNotificationEnabled()) {
+        if (settingsRepository.isNotificationEnabled.value) {
             showNotification(state, isForegroundService)
         }
     }

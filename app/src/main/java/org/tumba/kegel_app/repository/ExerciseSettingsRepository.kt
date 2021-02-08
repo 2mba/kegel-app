@@ -1,10 +1,8 @@
 package org.tumba.kegel_app.repository
 
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.tumba.kegel_app.core.system.Preference
-import org.tumba.kegel_app.core.system.SharedPreferenceBooleanLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,48 +10,30 @@ import javax.inject.Singleton
 @Singleton
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExerciseSettingsRepository @Inject constructor(
-    private val preferences: SharedPreferences
+    preferences: SharedPreferences
 ) {
 
     val lastCompletedExerciseDate = Preference<Long>(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
+
     val exercisesDurationInSeconds = Preference<Long>(preferences, PREF_EXERCISES_DURATION, DEFAULT_EXERCISES_DURATIONS)
+
     val exerciseDay = Preference<Int>(preferences, PREF_KEY_EXERCISE_DAY, DEFAULT_EXERCISE_DAY)
+
     val exerciseLevel = Preference<Int>(preferences, PREF_KEY_EXERCISE_LEVEL, DEFAULT_EXERCISE_LEVEL)
+
     val numberOfCompletedExercises = Preference<Int>(preferences, PREF_NUMBER_OF_EXERCISES, DEFAULT_NUMBER_OF_EXERCISES)
+
     val reminderDays = Preference<Int>(preferences, PREF_REMINDER_DAYS, DEFAULT_REMINDER_DAYS)
+
     val isReminderEnabled = Preference<Boolean>(preferences, PREF_REMINDER_ENABLED, DEFAULT_REMINDER_ENABLED)
+
     val reminderHour = Preference<Int>(preferences, PREF_KEY_REMINDER_HOUR, DEFAULT_REMINDER_HOUR)
+
     val reminderMinute = Preference<Int>(preferences, PREF_KEY_REMINDER_MINUTE, DEFAULT_REMINDER_MINUTE)
 
-    fun setVibrationEnabled(enabled: Boolean) {
-        setBool(PREF_KEY_VIBRATION, enabled)
-    }
+    val isVibrationEnabled = Preference<Boolean>(preferences, PREF_KEY_VIBRATION, DEFAULT_VIBRATION)
 
-    fun observeVibrationEnabled(): LiveData<Boolean> {
-        return SharedPreferenceBooleanLiveData(preferences, PREF_KEY_VIBRATION, DEFAULT_VIBRATION)
-    }
-
-    fun isVibrationEnabled(): Boolean {
-        return preferences.getBoolean(PREF_KEY_VIBRATION, DEFAULT_VIBRATION)
-    }
-
-    fun isNotificationEnabled(): Boolean {
-        return preferences.getBoolean(PREF_KEY_NOTIFICATION, DEFAULT_NOTIFICATION)
-    }
-
-    fun setNotificationEnabled(enabled: Boolean) {
-        setBool(PREF_KEY_NOTIFICATION, enabled)
-    }
-
-    fun observeNotificationEnabled(): LiveData<Boolean> {
-        return SharedPreferenceBooleanLiveData(preferences, PREF_KEY_NOTIFICATION, DEFAULT_NOTIFICATION)
-    }
-
-    private fun setBool(key: String, value: Boolean) {
-        preferences.edit()
-            .putBoolean(key, value)
-            .apply()
-    }
+    val isNotificationEnabled = Preference<Boolean>(preferences, PREF_KEY_NOTIFICATION, DEFAULT_NOTIFICATION)
 
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
