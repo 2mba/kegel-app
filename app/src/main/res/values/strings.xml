@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Kegel Exercises</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_exercise">Exercise</string>
     <string name="exercise_notification_title">Kegel Exercise</string>
     <string name="exercise_notification_action_resume">Continue</string>
     <string name="exercise_notification_action_pause">Pause</string>
     <string name="exercise_notification_action_stop">Stop</string>
+    <string name="title_settings">Settings</string>
 </resources>
