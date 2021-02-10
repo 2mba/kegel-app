@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import org.tumba.kegel_app.analytics.SettingsTracker
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.utils.Event
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private val settingsInteractor: SettingsInteractor
+    private val settingsInteractor: SettingsInteractor,
+    private val tracker: SettingsTracker
 ) : BaseViewModel() {
 
     private val _days = MutableLiveData(settingsInteractor.getReminderDays())
@@ -39,10 +41,12 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             settingsInteractor.setReminderDays(newDays)
         }
+        tracker.trackReminderDayChanged(idx, days[idx], days)
     }
 
     fun onReminderDayEnabledChanged(enabled: Boolean) {
         if (enabled == isReminderEnabled.value) return
+        tracker.trackReminderEnabledChanged(enabled)
         viewModelScope.launch {
             settingsInteractor.setReminderEnabled(enabled)
         }
@@ -59,6 +63,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onReminderTimeSelected(hour: Int, minute: Int) {
+        tracker.trackReminderTimeChanged(hour, minute)
         viewModelScope.launch {
             settingsInteractor.setReminderTime(hour, minute)
         }
