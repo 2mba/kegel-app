@@ -24,3 +24,8 @@ fun bindGoneUnless(view: View, visible: Boolean, animateVisibility: Boolean) {
 fun bindTextColorResources(view: TextView, @ColorRes color: Int) {
     view.setTextColor(ResourcesCompat.getColor(view.resources, color, null))
 }
+
+@BindingAdapter("bindTextColorStateResources")
+fun bindTextColorStateResources(view: TextView, color: Int) {
+    view.setTextColor(ResourcesCompat.getColorStateList(view.resources, color, null))
+}

@@ -41,11 +41,11 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text"
             style="@style/ReminderDay"
+            bindTextColorStateResources="@{isSelected ? R.color.settings_reminder_day_text_color_selected : R.color.text_color_primary}"
             android:duplicateParentState="true"
             android:onClick="@{onClick}"
             android:text="@{text}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/settings_reminder_day_text_color_selected"
             tools:text="@string/screen_settings_day_1" />
     </FrameLayout>
 </layout>
