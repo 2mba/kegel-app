@@ -54,7 +54,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_NUMBER_OF_EXERCISES = 0
         private const val DEFAULT_EXERCISES_DURATIONS = 0L
         private const val DEFAULT_REMINDER_DAYS = 0b1111111
-        private const val DEFAULT_REMINDER_ENABLED = true
+        private const val DEFAULT_REMINDER_ENABLED = false
         private const val DEFAULT_REMINDER_HOUR = 12
         private const val DEFAULT_REMINDER_MINUTE = 0
     }
