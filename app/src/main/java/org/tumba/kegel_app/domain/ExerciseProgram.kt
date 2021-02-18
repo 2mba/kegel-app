@@ -12,9 +12,9 @@ class ExerciseProgram @Inject constructor(
     fun getConfig(): ExerciseConfig {
         val level = exerciseSettingsRepository.exerciseLevel.value
         val relaxSeconds =
-            interpolateDuration(HOLDING_TIME_MIN_SECONDS, HOLDING_TIME_MAX_SECONDS, level, HOLDING_TIME_COEFFICIENT)
-        val holdingSeconds =
             interpolateDuration(RELAX_TIME_MIN_SECONDS, RELAX_TIME_MAX_SECONDS, level, RELAX_TIME_COEFFICIENT)
+        val holdingSeconds =
+            interpolateDuration(HOLDING_TIME_MIN_SECONDS, HOLDING_TIME_MAX_SECONDS, level, HOLDING_TIME_COEFFICIENT)
         return ExerciseConfig(
             preparationDuration = Time(PREPARATION_TIME_SECONDS, TimeUnit.SECONDS),
             holdingDuration = Time(holdingSeconds, TimeUnit.SECONDS),
@@ -29,12 +29,12 @@ class ExerciseProgram @Inject constructor(
 
     companion object {
         private const val PREPARATION_TIME_SECONDS = 5L
-        private const val HOLDING_TIME_MIN_SECONDS = 5L
-        private const val HOLDING_TIME_MAX_SECONDS = 10L
+        private const val HOLDING_TIME_MIN_SECONDS = 3L
+        private const val HOLDING_TIME_MAX_SECONDS = 20L
         private const val HOLDING_TIME_COEFFICIENT = 1.0
-        private const val RELAX_TIME_MIN_SECONDS = 5L
-        private const val RELAX_TIME_MAX_SECONDS = 10L
-        private const val RELAX_TIME_COEFFICIENT = 1.0
+        private const val RELAX_TIME_MIN_SECONDS = 3L
+        private const val RELAX_TIME_MAX_SECONDS = 5L
+        private const val RELAX_TIME_COEFFICIENT = 0.6
         private const val REPEATS = 10
     }
 }
