@@ -40,6 +40,12 @@ fun <T> LifecycleOwner.observeEvent(lifeData: LiveData<Event<T>>, observer: (T) 
     }
 }
 
+fun <T> LiveData<Event<T>>.observeEvent(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
+    observe(lifecycleOwner) { event ->
+        event.consume { observer(it) }
+    }
+}
+
 fun <T> Event<T>.consume(block: (T) -> Unit) {
     if (!hasBeenHandled) {
         block(getContent())

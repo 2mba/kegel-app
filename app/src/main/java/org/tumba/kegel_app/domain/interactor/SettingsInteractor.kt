@@ -58,6 +58,16 @@ class SettingsInteractor @Inject constructor(
         ) { hour, minute -> ReminderTime(hour, minute) }
     }
 
+    fun observeLevel(): Flow<Int> {
+        return exerciseSettingsRepository.exerciseLevel.asFlow()
+    }
+
+    suspend fun setLevel(level: Int) {
+        withContext(Dispatchers.Default) {
+            exerciseSettingsRepository.exerciseLevel.value = level
+        }
+    }
+
     data class ReminderTime(val hour: Int, val minute: Int)
 }
 

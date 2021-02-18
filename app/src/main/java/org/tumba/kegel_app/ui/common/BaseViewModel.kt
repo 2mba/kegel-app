@@ -1,14 +1,18 @@
 package org.tumba.kegel_app.ui.common
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import androidx.navigation.NavDirections
+import org.tumba.kegel_app.utils.Event
 
-open class BaseViewModel : ViewModel(),
-    ILifecycleOwner<ViewModelLifecycleEvent> {
+open class BaseViewModel(
+    private val navigable: Navigable = NavigableImpl()
+) : ViewModel(),
+    ILifecycleOwner<ViewModelLifecycleEvent>,
+    Navigable by navigable {
 
-    override val lifecycleObservable: LifecycleProxy<ViewModelLifecycleEvent> =
-        LifecycleProxy()
+    override val lifecycleObservable: LifecycleProxy<ViewModelLifecycleEvent> = LifecycleProxy()
 
     override fun onCleared() {
         super.onCleared()
@@ -48,69 +52,18 @@ class LifecycleProxy<T> : ILifecycleObservable<T> {
     }
 }
 
-fun Disposable.disposeOnDestroy(lifecycleOwner: ILifecycleOwner<ViewModelLifecycleEvent>): Disposable {
-    return disposeBy(
-        LifecycleDisposer.of(
-            lifecycleOwner,
-            ViewModelLifecycleEvent.OnDestroy
-        )
-    )
+interface Navigable {
+
+    val navigation: LiveData<Event<NavDirections>>
+
+    fun navigate(direction: NavDirections)
 }
 
-fun Disposable.disposeBy(disposer: IDisposer): Disposable {
-    disposer.addDisposable(this)
-    return this
-}
+class NavigableImpl : Navigable {
 
-interface IDisposer {
+    override val navigation = MutableLiveData<Event<NavDirections>>()
 
-    fun addDisposable(disposable: Disposable)
-
-    fun dispose()
-}
-
-class Disposer private constructor() : IDisposer {
-
-    private val disposables = CompositeDisposable()
-
-    override fun addDisposable(disposable: Disposable) {
-        disposables.add(disposable)
-    }
-
-    override fun dispose() {
-        disposables.dispose()
-    }
-
-    companion object {
-
-        fun create(): Disposer =
-            Disposer()
-    }
-}
-
-class LifecycleDisposer<T> private constructor(
-    lifecycleOwner: ILifecycleOwner<T>,
-    private val lifecycleEvent: T
-) : IDisposer by Disposer.create() {
-
-    init {
-        lifecycleOwner.lifecycleObservable.observeLifecycle(object :
-            ILifecycleObserver<T> {
-            override fun onLifecycleEvent(event: T) {
-                if (lifecycleEvent == event) {
-                    dispose()
-                }
-            }
-        })
-    }
-
-    companion object {
-
-        fun <T> of(lifecycleOwner: ILifecycleOwner<T>, lifecycleEvent: T): LifecycleDisposer<T> {
-            return LifecycleDisposer(
-                lifecycleOwner,
-                lifecycleEvent
-            )
-        }
+    override fun navigate(direction: NavDirections) {
+        navigation.value = Event(direction)
     }
 }

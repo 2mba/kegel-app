@@ -11,4 +11,7 @@
     <string name="screen_settings_reminder_subtitle">Set reminder to alert you to perform the workout</string>
     <string name="screen_settings_reminder_time_title">Set reminder time</string>
     <string name="screen_settings_reminder_time_dialog_title">Set reminder time</string>
+    <string name="screen_settings_level_title">Level</string>
+    <string name="screen_settings_level_subtitle">Set a custom level</string>
+    <string name="screen_settings_level_dialog_title">Select a level</string>
 </resources>

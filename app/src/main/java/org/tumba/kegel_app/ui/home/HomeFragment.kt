@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
+import org.tumba.kegel_app.utils.fragment.observeNavigation
 import javax.inject.Inject
 
 
@@ -34,22 +34,11 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        binding.exerciseItem.btnStartExercise.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionScreenHomeToScreenExercise()
-            )
-        }
-        binding.hintItem.btnHint.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment()
-            )
-        }
-        /*binding.settingsItem.btnOpen.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionScreenHomeToSettingsFragment()
-            )
-        }*/
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeNavigation(viewModel)
     }
 }

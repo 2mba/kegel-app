@@ -11,4 +11,7 @@
     <string name="screen_settings_reminder_subtitle">Включите уведомления, чтобы не забыть об упражнениях</string>
     <string name="screen_settings_reminder_time_title">Когда напомнить об упражнениях</string>
     <string name="screen_settings_reminder_time_dialog_title">Выберите время для упражнений</string>
+    <string name="screen_settings_level_title">Уровень</string>
+    <string name="screen_settings_level_subtitle">Выберите пользовательский уровень</string>
+    <string name="screen_settings_level_dialog_title">Выберите уровень</string>
 </resources>

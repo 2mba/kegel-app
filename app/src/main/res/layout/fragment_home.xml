@@ -37,7 +37,8 @@
 
                 <include
                     android:id="@+id/hintItem"
-                    layout="@layout/home_item_hint" />
+                    layout="@layout/home_item_hint"
+                    app:viewModel="@{viewModel}" />
 
                 <include
                     layout="@layout/home_item_statistic"

@@ -21,5 +21,12 @@ class HomeViewModel @Inject constructor(
         .map { it.seconds.toInt(DurationUnit.MINUTES) }
         .asLiveData()
 
+    fun onStartExerciseClicked() {
+        navigate(HomeFragmentDirections.actionScreenHomeToScreenExercise())
+    }
+
+    fun onShowHintClicked() {
+        navigate(HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment())
+    }
 }
 
