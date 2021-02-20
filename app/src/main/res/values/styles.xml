@@ -194,4 +194,13 @@
     <style name="ThemeOverlay.App.Snackbar" parent="">
         <item name="colorOnSurface">@color/colorSurfaceSnackbar</item>
     </style>
+
+    <style name="SettingsSectionCaption">
+        <item name="android:layout_marginStart">@dimen/margin_xxlarge</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_medium</item>
+        <item name="android:layout_marginBottom">@dimen/margin_xsmall</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>

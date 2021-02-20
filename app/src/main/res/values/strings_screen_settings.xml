@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="screen_settings_section_reminder">Reminder</string>
+    <string name="screen_settings_section_exercise">Exercise</string>
     <string name="screen_settings_day_1">Mo</string>
     <string name="screen_settings_day_2">Tu</string>
     <string name="screen_settings_day_3">We</string>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="screen_settings_section_reminder">Напоминание</string>
+    <string name="screen_settings_section_exercise">Упражнение</string>
     <string name="screen_settings_day_1">Пн</string>
     <string name="screen_settings_day_2">Вт</string>
     <string name="screen_settings_day_3">Ср</string>
