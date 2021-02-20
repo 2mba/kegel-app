@@ -10,7 +10,8 @@ open class BaseViewModel(
     private val navigable: Navigable = NavigableImpl()
 ) : ViewModel(),
     ILifecycleOwner<ViewModelLifecycleEvent>,
-    Navigable by navigable {
+    Navigable by navigable,
+    SnackbarSource by SnackbarSourceImpl() {
 
     override val lifecycleObservable: LifecycleProxy<ViewModelLifecycleEvent> = LifecycleProxy()
 

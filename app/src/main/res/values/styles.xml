@@ -13,6 +13,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
+        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MdcTypographyStyles.Headline1
         </item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.MdcTypographyStyles.Headline2
@@ -186,4 +187,11 @@
         <item name="np_min">1</item>
     </style>
 
+    <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Snackbar" parent="">
+        <item name="colorOnSurface">@color/colorSurfaceSnackbar</item>
+    </style>
 </resources>

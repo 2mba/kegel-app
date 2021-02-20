@@ -7,14 +7,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.SettingsTracker
+import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
+import org.tumba.kegel_app.ui.common.SnackbarData
 import org.tumba.kegel_app.utils.Event
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
+    private val resourceProvider: ResourceProvider,
     private val tracker: SettingsTracker
 ) : BaseViewModel() {
 
@@ -69,6 +73,9 @@ class SettingsViewModel @Inject constructor(
     fun onLevelSelected(level: Int) {
         viewModelScope.launch {
             settingsInteractor.setLevel(level)
+            showSnackbar(
+                SnackbarData(resourceProvider.getString(R.string.screen_settings_level_confirmation_snackbar))
+            )
         }
     }
 
@@ -76,6 +83,9 @@ class SettingsViewModel @Inject constructor(
         tracker.trackReminderTimeChanged(hour, minute)
         viewModelScope.launch {
             settingsInteractor.setReminderTime(hour, minute)
+            showSnackbar(
+                SnackbarData(resourceProvider.getString(R.string.screen_settings_reminder_time_confirmation_snackbar))
+            )
         }
     }
 

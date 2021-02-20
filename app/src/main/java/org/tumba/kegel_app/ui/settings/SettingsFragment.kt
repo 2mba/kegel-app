@@ -14,6 +14,7 @@ import org.tumba.kegel_app.databinding.FragmentSettingsBinding
 import org.tumba.kegel_app.databinding.LayoutLevelPickerDialogBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
+import org.tumba.kegel_app.utils.fragment.observeSnackbar
 import org.tumba.kegel_app.utils.observeEvent
 import javax.inject.Inject
 
@@ -45,6 +46,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), binding.root) {
+            anchorView = activity?.findViewById(R.id.navView)
+        }
     }
 
     private fun initViews() {
