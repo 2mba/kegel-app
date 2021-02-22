@@ -2,6 +2,7 @@
 <resources>
     <string name="screen_settings_section_reminder">Напоминание</string>
     <string name="screen_settings_section_exercise">Упражнение</string>
+    <string name="screen_settings_section_other">Другое</string>
     <string name="screen_settings_day_1">Пн</string>
     <string name="screen_settings_day_2">Вт</string>
     <string name="screen_settings_day_3">Ср</string>
@@ -18,4 +19,6 @@
     <string name="screen_settings_level_subtitle">Выберите пользовательский уровень</string>
     <string name="screen_settings_level_dialog_title">Выберите уровень</string>
     <string name="screen_settings_level_confirmation_snackbar">Уровень установлен</string>
+    <string name="screen_settings_rate_title">Оценить приложение</string>
+    <string name="screen_settings_rate_subtitle">Поделитесь впечатлениями с нами</string>
 </resources>

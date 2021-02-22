@@ -1,5 +1,8 @@
 package org.tumba.kegel_app.ui.settings
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import org.tumba.kegel_app.BuildConfig
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
 import org.tumba.kegel_app.databinding.LayoutLevelPickerDialogBinding
@@ -61,6 +65,9 @@ class SettingsFragment : Fragment() {
         viewModel.showLevelPickerDialog.observeEvent(viewLifecycleOwner) {
             showLevelPicker()
         }
+        viewModel.startReview.observeEvent(viewLifecycleOwner) {
+            openGooglePlayAppPage()
+        }
     }
 
     private fun showReminderTimePicker() {
@@ -89,4 +96,19 @@ class SettingsFragment : Fragment() {
             .create()
             .show()
     }
+
+    private fun openGooglePlayAppPage() {
+        val packageName = BuildConfig.APPLICATION_ID
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                )
+            )
+        }
+    }
+
 }

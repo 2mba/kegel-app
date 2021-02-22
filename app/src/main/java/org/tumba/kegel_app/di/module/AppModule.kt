@@ -3,6 +3,8 @@ package org.tumba.kegel_app.di.module
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.work.WorkManager
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.Module
 import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
@@ -38,6 +40,11 @@ class AppModule(private val application: KegelApplication) {
     @Provides
     fun provideWorkerManager(context: Context): WorkManager {
         return WorkManager.getInstance(context)
+    }
+
+    @Provides
+    fun provideReviewManagerFactory(context: Context): ReviewManager {
+        return ReviewManagerFactory.create(context)
     }
 
     companion object {

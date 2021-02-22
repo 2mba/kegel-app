@@ -2,6 +2,7 @@
 <resources>
     <string name="screen_settings_section_reminder">Reminder</string>
     <string name="screen_settings_section_exercise">Exercise</string>
+    <string name="screen_settings_section_other">Misc</string>
     <string name="screen_settings_day_1">Mo</string>
     <string name="screen_settings_day_2">Tu</string>
     <string name="screen_settings_day_3">We</string>
@@ -18,4 +19,6 @@
     <string name="screen_settings_level_subtitle">Set a custom level</string>
     <string name="screen_settings_level_dialog_title">Select a level</string>
     <string name="screen_settings_level_confirmation_snackbar">The level has been set</string>
+    <string name="screen_settings_rate_title">Rate the app</string>
+    <string name="screen_settings_rate_subtitle">Share your feedback with us</string>
 </resources>

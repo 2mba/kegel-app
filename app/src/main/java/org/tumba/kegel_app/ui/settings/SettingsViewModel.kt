@@ -33,6 +33,9 @@ class SettingsViewModel @Inject constructor(
     private val _showLevelPickerDialog = MutableLiveData<Event<Boolean>>()
     val showLevelPickerDialog: LiveData<Event<Boolean>> = _showLevelPickerDialog
 
+    private val _startReview = MutableLiveData<Event<Boolean>>()
+    val startReview: LiveData<Event<Boolean>> = _startReview
+
     private val _reminderTime: Flow<SettingsInteractor.ReminderTime> = settingsInteractor.observeReminderTime()
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
     val reminderTime = _reminderTime.asLiveData(Dispatchers.Default)
@@ -87,6 +90,10 @@ class SettingsViewModel @Inject constructor(
                 SnackbarData(resourceProvider.getString(R.string.screen_settings_reminder_time_confirmation_snackbar))
             )
         }
+    }
+
+    fun onRateAppClicked() {
+        _startReview.value = Event(true)
     }
 
     companion object {
