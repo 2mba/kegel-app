@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemExercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium">
+
+        <include
+            android:id="@+id/day1"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 0}"
+            app:isSelected="@{viewModel.progress.completed > 0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`1`}" />
+
+        <include
+            android:id="@+id/day2"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 1}"
+            app:isSelected="@{viewModel.progress.completed > 1}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day3"
+            app:layout_constraintStart_toEndOf="@id/day1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`2`}" />
+
+        <include
+            android:id="@+id/day3"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 2}"
+            app:isSelected="@{viewModel.progress.completed > 2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day4"
+            app:layout_constraintStart_toEndOf="@id/day2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`3`}" />
+
+        <include
+            android:id="@+id/day4"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 3}"
+            app:isSelected="@{viewModel.progress.completed > 3}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day5"
+            app:layout_constraintStart_toEndOf="@id/day3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`4`}" />
+
+        <include
+            android:id="@+id/day5"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 4}"
+            app:isSelected="@{viewModel.progress.completed > 4}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day6"
+            app:layout_constraintStart_toEndOf="@id/day4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`5`}" />
+
+        <include
+            android:id="@+id/day6"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 5}"
+            app:isSelected="@{viewModel.progress.completed > 5}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day7"
+            app:layout_constraintStart_toEndOf="@id/day5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`6`}" />
+
+        <include
+            android:id="@+id/day7"
+            style="@style/ProgressDay"
+            layout="@layout/layout_progress_item"
+            app:isInProgress="@{viewModel.progress.next == 6}"
+            app:isSelected="@{false}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{`7`}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

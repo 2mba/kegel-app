@@ -21,6 +21,8 @@ class HomeViewModel @Inject constructor(
         .map { it.seconds.toInt(DurationUnit.MINUTES) }
         .asLiveData()
 
+    val progress = exerciseParametersProvider.observeProgress().asLiveData()
+
     fun onStartExerciseClicked() {
         navigate(HomeFragmentDirections.actionScreenHomeToScreenExercise())
     }

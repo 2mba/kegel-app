@@ -9,4 +9,6 @@
     <string name="screen_home_hint_statistic_title">Статистика</string>
     <string name="screen_home_hint_statistic_exercises">Упражнений</string>
     <string name="screen_home_hint_statistic_duration">Длительность</string>
+    <string name="screen_home_progress_item_title">Прогресс</string>
+    <string name="screen_home_progress_item_level">Уровень %s</string>
 </resources>

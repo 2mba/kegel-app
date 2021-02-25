@@ -36,6 +36,11 @@
                     app:viewModel="@{viewModel}" />
 
                 <include
+                    android:id="@+id/progress_item"
+                    layout="@layout/home_item_progress"
+                    app:viewModel="@{viewModel}" />
+
+                <include
                     android:id="@+id/hintItem"
                     layout="@layout/home_item_hint"
                     app:viewModel="@{viewModel}" />

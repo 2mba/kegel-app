@@ -2,6 +2,7 @@ package org.tumba.kegel_app.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.utils.DateTimeHelper
 import java.util.*
@@ -27,6 +28,16 @@ class ExerciseParametersProvider @Inject constructor(
         }
     }
 
+    fun observeProgress(): Flow<Progress> {
+        return observeDay().map { day ->
+            val completedDays = exerciseSettingsRepository.exerciseDay.value
+            Progress(
+                completed = completedDays % 7,
+                next = if (completedDays == day) null else (day - 1) % 7
+            )
+        }
+    }
+
     private fun calcDay(lastCompletedExerciseDateRaw: Long, day: Int): Int {
         val lastCompletedExerciseDate = Calendar.getInstance().apply {
             time = Date(lastCompletedExerciseDateRaw)
@@ -43,4 +54,9 @@ class ExerciseParametersProvider @Inject constructor(
         return date.get(Calendar.DAY_OF_YEAR) == other.get(Calendar.DAY_OF_YEAR) &&
                 date.get(Calendar.YEAR) == other.get(Calendar.YEAR)
     }
+
+    class Progress(
+        val completed: Int,
+        val next: Int?
+    )
 }

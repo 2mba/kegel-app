@@ -163,6 +163,11 @@
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
     </style>
 
+    <style name="ProgressDay">
+        <item name="android:layout_width">@dimen/progress_day_size</item>
+        <item name="android:layout_height">@dimen/progress_day_size</item>
+    </style>
+
     <style name="BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemTextAppearanceInactive">@style/TextAppearance.Navigation</item>
         <item name="itemTextAppearanceActive">@style/TextAppearance.Navigation</item>

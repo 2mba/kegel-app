@@ -11,7 +11,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/itemExercise"
+        android:id="@+id/itemProgress"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,65 +25,57 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:orientation="vertical">
+            android:layout_marginBottom="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemExerciseTitle"
                 style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/strings_screen_exercise_title"
+                android:text="@string/screen_home_progress_item_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:transitionName="itemTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/day"
-                style="@style/Widget.MaterialComponents.TextView"
+                android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_large"
-                android:text="@{@string/screen_home_day_pattern(viewModel.exerciseDay)}"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:transitionName="itemDay"
-                app:drawableTint="?colorAccent"
-                app:drawableTopCompat="@drawable/ic_sun_24"
-                app:layout_constraintEnd_toStartOf="@+id/level"
+                android:text="@{@string/screen_home_progress_item_level(viewModel.exerciseLevel)}"
+                android:textAppearance="?attr/textAppearanceCaption"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/itemExerciseTitle"
                 app:textAllCaps="true"
-                tools:text="@string/screen_home_day_pattern" />
+                tools:text="Level 1" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/level"
-                style="@style/Widget.MaterialComponents.TextView"
+                android:id="@+id/level2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/screen_home_level_pattern(viewModel.exerciseLevel)}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:transitionName="itemLevel"
-                app:drawableTint="?colorAccent"
-                app:drawableTopCompat="@drawable/ic_cup_24"
+                android:layout_marginHorizontal="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="@{@string/screen_home_progress_item_level(viewModel.exerciseLevel + 1)}}"
+                android:textAppearance="?attr/textAppearanceCaption"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/day"
-                app:layout_constraintTop_toTopOf="@+id/day"
+                app:layout_constraintTop_toBottomOf="@id/itemExerciseTitle"
                 app:textAllCaps="true"
-                tools:text="@string/screen_home_level_pattern" />
+                tools:text="Level 2" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStartExercise"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            <include
+                android:id="@+id/progress"
+                layout="@layout/layout_progress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:onClick="@{(view) -> viewModel.onStartExerciseClicked()}"
-                android:text="@string/screen_exercise_btn_start_title"
+                android:layout_marginHorizontal="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/day" />
+                app:layout_constraintTop_toBottomOf="@id/level"
+                app:viewModel="@{viewModel}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

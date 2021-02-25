@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="org.tumba.kegel_app.R" />
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="isInProgress"
+            type="Boolean" />
+
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="@dimen/progress_day_size"
+        android:layout_height="@dimen/progress_day_size"
+        android:duplicateParentState="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/progress_day_size"
+            android:layout_height="@dimen/progress_day_size"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_progress_item_selected"
+            android:duplicateParentState="true"
+            android:gravity="center"
+            android:setBackground="@{isSelected || isInProgress ? @drawable/bg_progress_item_selected : @drawable/bg_reminder_day_not_selected}"
+            android:setTextColor="@{isInProgress ? @color/black : @color/textColorPrimary}"
+            android:text="@{isSelected ? `` : text}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="12sp"
+            tools:text="1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:duplicateParentState="true"
+            android:setImageDrawable="@{isSelected ? @drawable/ic_ok : null}" />
+
+    </FrameLayout>
+</layout>
