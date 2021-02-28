@@ -25,13 +25,6 @@
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
-        <action
-            android:id="@+id/action_screen_home_to_settingsFragment"
-            app:destination="@id/screenSettings"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_open_enter"
-            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
 
     <fragment
@@ -80,6 +73,7 @@
     <fragment
         android:id="@+id/screenSettings"
         android:name="org.tumba.kegel_app.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

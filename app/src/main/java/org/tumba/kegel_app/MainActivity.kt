@@ -7,6 +7,7 @@ import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 import org.tumba.kegel_app.analytics.ScreenTracker
 import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.ui.home.ProgressViewedStore
 import org.tumba.kegel_app.utils.gone
 import org.tumba.kegel_app.utils.show
 import javax.inject.Inject
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var screenTracker: ScreenTracker
 
+    @Inject
+    lateinit var progressViewedStore: ProgressViewedStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -28,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         screenTracker.init(findNavController(R.id.navFragment))
         initNavigation()
+
+        if (savedInstanceState == null) {
+            progressViewedStore.isProgressViewed = false
+        }
     }
 
     private fun initNavigation() {
