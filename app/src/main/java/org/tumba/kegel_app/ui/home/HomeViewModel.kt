@@ -2,7 +2,6 @@ package org.tumba.kegel_app.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import kotlinx.coroutines.flow.map
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -25,7 +24,7 @@ class HomeViewModel @Inject constructor(
         .map { it.seconds.toInt(DurationUnit.MINUTES) }
         .asLiveData()
 
-    val progress = exerciseParametersProvider.observeProgress().asLiveData().map { ExerciseParametersProvider.Progress(3, 3) }
+    val progress = exerciseParametersProvider.observeProgress().asLiveData()
     val progressAnimation = MutableLiveData<Event<Boolean>>()
 
     fun onResume() {
