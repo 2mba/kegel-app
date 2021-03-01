@@ -17,7 +17,7 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 3
-        versionName "1.1.0-RC5"
+        versionName "1.1.0"
     }
     buildTypes {
         debug {
