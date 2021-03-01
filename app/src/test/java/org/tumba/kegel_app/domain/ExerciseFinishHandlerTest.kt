@@ -3,14 +3,13 @@ package org.tumba.kegel_app.domain
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.`should be equal to`
 import org.junit.Before
 import org.junit.Test
-import org.tumba.kegel_app.core.system.Preference
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.util.TestPreference
 import org.tumba.kegel_app.utils.DateTimeHelper
 import java.util.*
 
@@ -76,10 +75,4 @@ class ExerciseFinishHandlerTest {
         day.value `should be equal to` 1
     }
 
-    private class TestPreference<T>(override var value: T, override val key: String = "") : Preference<T> {
-
-        override fun asFlow(): Flow<T> {
-            throw IllegalStateException("Not implemented")
-        }
-    }
 }

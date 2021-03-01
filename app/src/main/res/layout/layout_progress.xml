@@ -19,7 +19,7 @@
             android:id="@+id/day1"
             style="@style/ProgressDay"
             layout="@layout/layout_progress_item"
-            app:isInProgress="@{viewModel.progress.next == 0}"
+            app:isInProgress="@{viewModel.progress.next != null &amp;&amp; viewModel.progress.next == 0}"
             app:isSelected="@{viewModel.progress.completed > 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/day2"

@@ -31,10 +31,15 @@ class ExerciseParametersProvider @Inject constructor(
     fun observeProgress(): Flow<Progress> {
         return observeDay().map { day ->
             val completedDays = exerciseSettingsRepository.exerciseDay.value
-            Progress(
-                completed = completedDays % 7,
-                next = if (completedDays == day) null else (day - 1) % 7
-            )
+            val isThereNoCompletedExercises = exerciseSettingsRepository.lastCompletedExerciseDate.value == 0L
+            if (isThereNoCompletedExercises) {
+                Progress(completed = 0, next = 0)
+            } else {
+                Progress(
+                    completed = completedDays % 7,
+                    next = if (completedDays == day) null else (day - 1) % 7
+                )
+            }
         }
     }
 
