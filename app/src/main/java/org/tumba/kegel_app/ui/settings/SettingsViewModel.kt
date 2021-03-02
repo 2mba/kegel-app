@@ -70,11 +70,13 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onSetLevelClicked() {
+        tracker.trackSetCustomLevelClicked()
         _showLevelPickerDialog.value = Event(true)
     }
 
     fun onLevelSelected(level: Int) {
         viewModelScope.launch {
+            tracker.trackCustomLevelSelected(level)
             settingsInteractor.setLevel(level)
             showSnackbar(
                 SnackbarData(resourceProvider.getString(R.string.screen_settings_level_confirmation_snackbar))
@@ -93,6 +95,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onRateAppClicked() {
+        tracker.trackRateAppClicked()
         _startReview.value = Event(true)
     }
 

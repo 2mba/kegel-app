@@ -32,4 +32,19 @@ class SettingsTracker @Inject constructor(analytics: Analytics) : TrackerScope {
             )
         )
     }
+
+    fun trackSetCustomLevelClicked() {
+        tracker.track(click("set_custom_level"))
+    }
+
+    fun trackCustomLevelSelected(level: Int) {
+        tracker.track(
+            click("custom_level_selected"),
+            bundleOf("level" to level)
+        )
+    }
+
+    fun trackRateAppClicked() {
+        tracker.track(click("rate_app"))
+    }
 }
