@@ -10,14 +10,15 @@ import javax.inject.Inject
 
 class ExerciseParametersProvider @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val dateTimeHelper: DateTimeHelper
+    private val dateTimeHelper: DateTimeHelper,
+    private val exerciseProgram: ExerciseProgram
 ) {
 
     fun observeLevel(): Flow<Int> = exerciseSettingsRepository.exerciseLevel.asFlow()
 
     fun observeNumberOfCompletedExercises(): Flow<Int> = exerciseSettingsRepository.numberOfCompletedExercises.asFlow()
 
-    fun observeExercisesDurationInSeconds(): Flow<Long> = exerciseSettingsRepository.exercisesDurationInSeconds.asFlow()
+    fun observeAllExercisesDurationInSeconds(): Flow<Long> = exerciseSettingsRepository.exercisesDurationInSeconds.asFlow()
 
     fun observeDay(): Flow<Int> {
         return combine(
@@ -43,6 +44,10 @@ class ExerciseParametersProvider @Inject constructor(
         }
     }
 
+    fun observeNextExerciseDurationInSeconds(): Flow<Long> {
+        return observeLevel().map { getFullExerciseDuration(exerciseProgram.getConfig()) }
+    }
+
     private fun calcDay(lastCompletedExerciseDateRaw: Long, day: Int): Int {
         val lastCompletedExerciseDate = Calendar.getInstance().apply {
             time = Date(lastCompletedExerciseDateRaw)
@@ -58,6 +63,10 @@ class ExerciseParametersProvider @Inject constructor(
     private fun isDatesHaveSameDays(date: Calendar, other: Calendar): Boolean {
         return date.get(Calendar.DAY_OF_YEAR) == other.get(Calendar.DAY_OF_YEAR) &&
                 date.get(Calendar.YEAR) == other.get(Calendar.YEAR)
+    }
+
+    private fun getFullExerciseDuration(config: ExerciseConfig): Long {
+        return (config.holdingDuration.toSeconds() + config.relaxDuration.toSeconds()) * config.repeats
     }
 
     class Progress(

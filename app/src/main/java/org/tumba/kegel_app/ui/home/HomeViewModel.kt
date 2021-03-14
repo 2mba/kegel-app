@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.map
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.utils.Event
+import org.tumba.kegel_app.utils.formatExerciseDuration
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -20,8 +21,12 @@ class HomeViewModel @Inject constructor(
     val exerciseLevel = exerciseParametersProvider.observeLevel().asLiveData()
     val exerciseDay = exerciseParametersProvider.observeDay().asLiveData()
     val numberOfExercises = exerciseParametersProvider.observeNumberOfCompletedExercises().asLiveData()
-    val exercisesDuration = exerciseParametersProvider.observeExercisesDurationInSeconds()
+    val allExercisesDuration = exerciseParametersProvider.observeAllExercisesDurationInSeconds()
         .map { it.seconds.toInt(DurationUnit.MINUTES) }
+        .asLiveData()
+
+    val nextExercisesDuration = exerciseParametersProvider.observeNextExerciseDurationInSeconds()
+        .map(::formatExerciseDuration)
         .asLiveData()
 
     val progress = exerciseParametersProvider.observeProgress().asLiveData()

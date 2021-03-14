@@ -21,6 +21,7 @@ import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.Event
+import org.tumba.kegel_app.utils.formatExerciseDuration
 import javax.inject.Inject
 
 class ExerciseViewModel @Inject constructor(
@@ -36,8 +37,8 @@ class ExerciseViewModel @Inject constructor(
     val exerciseKind = MutableLiveData(String.Empty)
     val exercisePlaybackState by lazy { _exercisePlaybackState.distinctUntilChanged() }
     val repeats = MutableLiveData(String.Empty)
-    val timeRemain by lazy { secondsRemain.map { formatTimeRemains(it) } }
-    val fullTimeRemain by lazy { fullSecondsRemain.map { formatTimeRemains(it) } }
+    val timeRemain by lazy { secondsRemain.map { formatExerciseDuration(it) } }
+    val fullTimeRemain by lazy { fullSecondsRemain.map { formatExerciseDuration(it) } }
     val exerciseProgress = MutableLiveData(0F)
     val exerciseProgressColor = MutableLiveData(Color.TRANSPARENT)
     val level = exerciseParametersProvider.observeLevel().asLiveData()
@@ -246,12 +247,6 @@ class ExerciseViewModel @Inject constructor(
         if (exit.value?.peekContent() != true) {
             exit.value = Event(true)
         }
-    }
-
-    private fun formatTimeRemains(seconds: Long): String {
-        val sec = seconds % 60
-        val min = seconds / 60
-        return String.format("%02d:%02d", min, sec)
     }
 
     private fun formatRepeats(repeatsRemain: Int, repeats: Int): String {

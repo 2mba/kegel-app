@@ -82,7 +82,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/screen_home_duration_pattern(viewModel.exercisesDuration)}"
+                android:text="@{@string/screen_home_duration_pattern(viewModel.allExercisesDuration)}"
                 android:textAppearance="?attr/textAppearanceBody1"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="@id/level"
