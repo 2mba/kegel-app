@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="screen_home_day_pattern">%s day</string>
-    <string name="screen_home_level_pattern">%s level</string>
+    <string name="screen_home_day_pattern">Day: %s</string>
+    <string name="screen_home_level_pattern">Level: %s</string>
     <string name="screen_home_duration_pattern">%s min</string>
     <string name="screen_home_hint_item_title">How to do Kegel Exercise?</string>
     <string name="screen_home_hint_item_text">Kegel exercises are simple exercises that you can do to make the muscles of your pelvic floor stronger.</string>
