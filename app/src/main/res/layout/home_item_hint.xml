@@ -14,18 +14,16 @@
         android:id="@+id/itemHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_margin"
         android:foreground="?selectableItemBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginHorizontal="@dimen/card_horizontal_padding"
+            android:layout_marginTop="@dimen/card_top_padding"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -44,6 +42,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="@string/screen_home_hint_item_text"
                 android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/textColorSecondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,6 +54,7 @@
                 android:layout_gravity="end"
                 android:onClick="@{(view) -> viewModel.onShowHintClicked()}"
                 android:text="@string/screen_home_hint_item_button"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

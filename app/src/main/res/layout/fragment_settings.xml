@@ -15,6 +15,15 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.SettingsFragment">
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorSurface"
+            app:layout_constraintBottom_toTopOf="@id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
@@ -64,7 +73,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/titleReminder"
                         app:srcCompat="@drawable/ic_calendar_24"
-                        app:tint="@color/colorPrimary" />
+                        app:tint="@color/colorAccent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/titleReminder"
@@ -150,7 +159,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/reminderTimeTitle"
                         app:srcCompat="@drawable/ic_time_24"
-                        app:tint="@color/colorPrimary" />
+                        app:tint="@color/colorAccent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/reminderTimeTitle"
@@ -259,7 +268,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_cup_24"
-                        app:tint="@color/colorPrimary" />
+                        app:tint="@color/colorAccent" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -331,7 +340,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_star_24"
-                        app:tint="@color/colorPrimary" />
+                        app:tint="@color/colorAccent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/rateTitle"

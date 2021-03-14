@@ -35,8 +35,8 @@
             android:setTextColor="@{isInProgress ? @color/black : @color/textColorPrimary}"
             android:text="@{isSelected ? `` : text}"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:textSize="13sp"
             tools:text="1" />
 
         <androidx.appcompat.widget.AppCompatImageView

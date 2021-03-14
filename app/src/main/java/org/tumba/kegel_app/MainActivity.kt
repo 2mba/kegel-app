@@ -1,9 +1,12 @@
 package org.tumba.kegel_app
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.tumba.kegel_app.analytics.ScreenTracker
 import org.tumba.kegel_app.di.appComponent
@@ -36,6 +39,17 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             progressViewedStore.isProgressViewed = false
         }
+
+        findViewById<View>(R.id.navView)?.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     private fun initNavigation() {

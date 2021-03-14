@@ -1,19 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorSurface</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
         <item name="homeAsUpIndicator">@drawable/ic_arrow_left_24</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogTheme</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
-        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+        <item name="android:statusBarColor">#33000000</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MdcTypographyStyles.Headline1
         </item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.MdcTypographyStyles.Headline2
@@ -44,11 +47,11 @@
     </style>
 
     <style name="SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerSize">8dp</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerSize">8dp</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="AppThemeDark" parent="ThemeOverlay.AppCompat.Dark">
@@ -59,88 +62,87 @@
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">96sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">60sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">48sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">34sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextAppearance.Navigation" parent="TextAppearance.MdcTypographyStyles.Caption"></style>
 
     <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/open_sans</item>
-        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="android:backgroundDimAmount">0.85</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
         </item>
     </style>
@@ -172,6 +174,9 @@
         <item name="itemTextAppearanceInactive">@style/TextAppearance.Navigation</item>
         <item name="itemTextAppearanceActive">@style/TextAppearance.Navigation</item>
         <item name="itemIconSize">22dp</item>
+        <item name="itemIconTint">@color/nav_bar_icon_color</item>
+        <item name="android:background">@color/white</item>
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
     <style name="NumberPicker">
@@ -192,14 +197,6 @@
         <item name="np_min">1</item>
     </style>
 
-    <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Snackbar" parent="">
-        <item name="colorOnSurface">@color/colorSurfaceSnackbar</item>
-    </style>
-
     <style name="SettingsSectionCaption">
         <item name="android:layout_marginStart">@dimen/margin_xxlarge</item>
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
@@ -207,5 +204,9 @@
         <item name="android:layout_marginBottom">@dimen/margin_xsmall</item>
         <item name="android:textAppearance">?attr/textAppearanceCaption</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
     </style>
 </resources>

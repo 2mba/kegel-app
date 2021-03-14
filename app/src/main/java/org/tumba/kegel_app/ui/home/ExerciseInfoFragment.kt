@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.databinding.FragmentExerciseInfoBinding
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
@@ -26,6 +27,11 @@ class ExerciseInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupInsets()
+    }
+
     private fun setupActionBar() {
         setToolbar(binding.toolbar)
         actionBar?.title = String.Empty
@@ -36,4 +42,18 @@ class ExerciseInfoFragment : Fragment() {
     private fun onBackPressed() {
         findNavController().navigateUp()
     }
+
+    private fun setupInsets() {
+        view?.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        binding.toolbar.applyInsetter {
+            type(statusBars = true) {
+                margin()
+            }
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
 import org.tumba.kegel_app.databinding.LayoutProgressItemBinding
 import org.tumba.kegel_app.di.appComponent
@@ -47,6 +48,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeNavigation(viewModel)
+        setupInsets()
         viewModel.progressAnimation.observeEvent(viewLifecycleOwner) {
             animateProgress()
         }
@@ -78,6 +80,14 @@ class HomeFragment : Fragment() {
                     .addTarget(day.root)
             )
             day.root.show()
+        }
+    }
+
+    private fun setupInsets() {
+        view?.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
         }
     }
 

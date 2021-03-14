@@ -12,19 +12,16 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/itemProgress"
-        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium">
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/card_top_padding"
+            android:layout_marginHorizontal="@dimen/card_horizontal_padding"
             android:layout_marginBottom="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatTextView

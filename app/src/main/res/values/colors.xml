@@ -3,13 +3,15 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <color name="colorPrimary">#4dd0e1</color>
-    <color name="colorPrimaryDark">#101A1C</color>
-    <color name="colorSurface">#182629</color>
+    <color name="colorPrimary">#374952</color>
+    <color name="colorPrimaryDark">#202B31</color>
+    <color name="colorSurface">#E5EBEE</color>
     <color name="colorSurfaceSnackbar">#D1D6D7</color>
-    <color name="colorAccent">#ff9800</color>
-    <color name="textColorPrimary">#D5FFFFFF</color>
-    <color name="textColorPrimaryDisabled">#4DFFFFFF</color>
+    <color name="colorAccent">#fc7f37</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="textColorPrimary">@color/colorPrimary</color>
+    <color name="textColorPrimaryDisabled">#C5C5C5</color>
+    <color name="textColorSecondary">#80374952</color>
     <color name="progressColor">#17FF9800</color>
 
     <color name="gray">#9f9f9f</color>

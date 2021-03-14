@@ -1,7 +1,6 @@
 package org.tumba.kegel_app
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import org.tumba.kegel_app.di.component.DaggerAppComponent
 import org.tumba.kegel_app.di.module.AppModule
 
@@ -14,6 +13,5 @@ class KegelApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent.inject(this)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }

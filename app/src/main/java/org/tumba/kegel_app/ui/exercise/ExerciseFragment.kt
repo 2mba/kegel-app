@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
@@ -55,6 +56,11 @@ class ExerciseFragment : Fragment() {
         initUi()
         observeViewModel()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupInsets()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -127,7 +133,7 @@ class ExerciseFragment : Fragment() {
         }
         viewLifecycleOwner.observe(viewModel.exerciseProgressColor) { color ->
             binding.progress.progressTintList = ColorStateList.valueOf(color)
-            binding.exercise.setTextColor(color)
+            binding.exercise.backgroundTintList = ColorStateList.valueOf(color)
         }
         viewLifecycleOwner.observeEvent(viewModel.exitConfirmationDialogVisible) { visible ->
             if (visible) showConfirmationDialog()
@@ -173,6 +179,19 @@ class ExerciseFragment : Fragment() {
 
     private fun navigateToExerciseResultFragment() {
         findNavController().navigate(ExerciseFragmentDirections.actionScreenExerciseToExerciseResultFragment())
+    }
+
+    private fun setupInsets() {
+        view?.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        binding.toolbar.applyInsetter {
+            type(statusBars = true) {
+                margin()
+            }
+        }
     }
 
     companion object {

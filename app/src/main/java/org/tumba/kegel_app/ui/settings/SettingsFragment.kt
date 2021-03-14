@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.BuildConfig
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
@@ -50,6 +51,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        setupInsets()
         viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), binding.root) {
             anchorView = activity?.findViewById(R.id.navView)
         }
@@ -108,6 +110,19 @@ class SettingsFragment : Fragment() {
                     Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
                 )
             )
+        }
+    }
+
+    private fun setupInsets() {
+        view?.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        binding.toolbar.applyInsetter {
+            type(statusBars = true) {
+                margin()
+            }
         }
     }
 
