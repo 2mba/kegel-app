@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should equal`
+import org.amshove.kluent.mock
 import org.junit.Before
 import org.junit.Test
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -34,7 +35,7 @@ class ExerciseParametersProviderTest {
     fun setup() {
         MockKAnnotations.init(this)
         every { dateTimeHelper.now() } returns Calendar.getInstance()
-        exerciseParametersProvider = ExerciseParametersProvider(exerciseSettingsRepository, dateTimeHelper)
+        exerciseParametersProvider = ExerciseParametersProvider(exerciseSettingsRepository, dateTimeHelper, mock())
     }
 
     @Test

@@ -18,33 +18,54 @@
         android:layout_marginTop="@dimen/card_vertical_margin"
         android:foreground="?selectableItemBackground">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/card_horizontal_padding"
-            android:layout_marginTop="@dimen/card_top_padding"
-            android:layout_marginBottom="@dimen/margin_medium"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgWomen"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:srcCompat="@drawable/ic_women_power_sitting_in_floor" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
                 style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/card_horizontal_padding"
+                android:layout_marginTop="@dimen/card_top_padding"
                 android:text="@string/screen_home_hint_item_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description"
                 style="@style/Widget.MaterialComponents.TextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/screen_home_hint_item_text"
                 android:textAppearance="?attr/textAppearanceBody1"
                 android:textColor="@color/textColorSecondary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/center"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnHint"
@@ -52,13 +73,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/card_horizontal_padding"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:onClick="@{(view) -> viewModel.onShowHintClicked()}"
                 android:text="@string/screen_home_hint_item_button"
                 android:textColor="@color/colorAccent"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 </layout>

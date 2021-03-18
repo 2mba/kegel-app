@@ -15,6 +15,20 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.SettingsFragment">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:alpha="0.05"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintVertical_bias="1"
+            app:srcCompat="@drawable/ic_fitness" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"

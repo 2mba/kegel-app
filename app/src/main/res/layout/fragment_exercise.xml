@@ -17,6 +17,20 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:alpha="0.05"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@id/infoSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:srcCompat="@drawable/ic_fitness" />
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
@@ -266,7 +280,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:rippleColor="@color/white"
                     tools:text="@string/screen_exercise_btn_pause" />
 
 
