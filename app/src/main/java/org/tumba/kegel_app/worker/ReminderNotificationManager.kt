@@ -26,6 +26,7 @@ class ReminderNotificationManager @Inject constructor(
 
     fun showExerciseNotifierNotification() {
         val pendingIntent = Intent(context, MainActivity::class.java).let { notificationIntent ->
+            notificationIntent.action = REMINDER_NOTIFICATION_ACTION
             PendingIntent.getActivity(context, REMINDER_REQUEST_CODE, notificationIntent, 0)
         }
         val notification = NotificationCompat.Builder(context, AppNotificationConstants.REMINDER_CHANNEL_ID)
@@ -53,6 +54,7 @@ class ReminderNotificationManager @Inject constructor(
     }
 
     companion object {
+        const val REMINDER_NOTIFICATION_ACTION = "REMINDER_NOTIFICATION_ACTION"
         private const val REMINDER_REQUEST_CODE = 1001
     }
 }

@@ -31,11 +31,12 @@ class ReminderWorkerScheduler @Inject constructor(
             exerciseSettingsRepository.reminderHour.value,
             exerciseSettingsRepository.reminderMinute.value
         )
+        val now = Calendar.getInstance().apply { add(Calendar.MINUTE, 1) }
         return Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, time.hour)
             set(Calendar.MINUTE, time.minute)
             set(Calendar.SECOND, 0)
-            if (before(Calendar.getInstance())) {
+            if (before(now)) {
                 add(Calendar.HOUR_OF_DAY, 24)
             }
         }

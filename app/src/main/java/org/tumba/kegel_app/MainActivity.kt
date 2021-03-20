@@ -1,5 +1,6 @@
 package org.tumba.kegel_app
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,11 +9,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.android.synthetic.main.activity_main.*
+import org.tumba.kegel_app.analytics.ReminderNotificationTracker
 import org.tumba.kegel_app.analytics.ScreenTracker
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.home.ProgressViewedStore
 import org.tumba.kegel_app.utils.gone
 import org.tumba.kegel_app.utils.show
+import org.tumba.kegel_app.worker.ReminderNotificationManager
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var screenTracker: ScreenTracker
+
+    @Inject
+    lateinit var reminderNotificationTracker: ReminderNotificationTracker
 
     @Inject
     lateinit var progressViewedStore: ProgressViewedStore
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             progressViewedStore.isProgressViewed = false
+            handleReminderNotificationIntent(intent)
         }
 
         findViewById<View>(R.id.navView)?.applyInsetter {
@@ -45,6 +52,11 @@ class MainActivity : AppCompatActivity() {
                 padding()
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleReminderNotificationIntent(intent)
     }
 
     override fun onStart() {
@@ -61,6 +73,14 @@ class MainActivity : AppCompatActivity() {
             } else {
                 navView.gone()
             }
+        }
+    }
+
+    private fun handleReminderNotificationIntent(intent: Intent? = null) {
+        val activityIntent = intent ?: getIntent()
+
+        if (activityIntent.action == ReminderNotificationManager.REMINDER_NOTIFICATION_ACTION) {
+            reminderNotificationTracker.trackReminderNotificationClicked()
         }
     }
 }
