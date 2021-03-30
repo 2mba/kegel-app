@@ -35,6 +35,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val isNotificationEnabled = Preference<Boolean>(preferences, PREF_KEY_NOTIFICATION, DEFAULT_NOTIFICATION)
 
+    val isFirstExerciseChallengeShown = Preference<Boolean>(preferences, PREF_KEY_FIRST_EXERCISE_CHALLENGE, false)
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -47,6 +49,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_LAST_COMPLETED_EXERCISE_DATE = "PREF_KEY_LAST_COMPLETED_EXERCISE_DATE"
         private const val PREF_KEY_REMINDER_HOUR = "PREF_KEY_REMINDER_HOUR"
         private const val PREF_KEY_REMINDER_MINUTE = "PREF_KEY_REMINDER_MINUTE"
+        private const val PREF_KEY_FIRST_EXERCISE_CHALLENGE = "PREF_KEY_FIRST_EXERCISE_CHALLENGE"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true

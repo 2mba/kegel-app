@@ -2,8 +2,11 @@ package org.tumba.kegel_app.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
+import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.utils.Event
 import org.tumba.kegel_app.utils.formatExerciseDuration
@@ -15,7 +18,8 @@ import kotlin.time.seconds
 @OptIn(ExperimentalTime::class)
 class HomeViewModel @Inject constructor(
     exerciseParametersProvider: ExerciseParametersProvider,
-    private val progressViewedStore: ProgressViewedStore
+    private val progressViewedStore: ProgressViewedStore,
+    private val exerciseInteractor: ExerciseInteractor
 ) : BaseViewModel() {
 
     val exerciseLevel = exerciseParametersProvider.observeLevel().asLiveData()
@@ -40,7 +44,14 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onStartExerciseClicked() {
-        navigate(HomeFragmentDirections.actionScreenHomeToScreenExercise())
+        if (exerciseInteractor.isThereCompletedExercise() || exerciseInteractor.isFirstExerciseChallengeShown()) {
+            navigate(HomeFragmentDirections.actionScreenHomeToScreenExercise())
+        } else {
+            viewModelScope.launch {
+                exerciseInteractor.setFirstExerciseChallengeShown()
+                navigate(HomeFragmentDirections.actionScreenHomeToFirstExerciseChallengeDialogFragment())
+            }
+        }
     }
 
     fun onShowHintClicked() {

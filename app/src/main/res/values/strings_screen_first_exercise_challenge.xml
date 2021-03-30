@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_first_exercise_challenge_title">First exercise challenge</string>
+    <string name="screen_first_exercise_challenge_message">Would like you to see how to do Kegel exercise?</string>
+    <string name="screen_first_exercise_challenge_yes">Yes</string>
+    <string name="screen_first_exercise_challenge_no">No, i know</string>
+</resources>

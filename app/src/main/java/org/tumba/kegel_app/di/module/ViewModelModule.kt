@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
 import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
+import org.tumba.kegel_app.ui.home.FirstExerciseChallengeViewModel
 import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.settings.SettingsViewModel
 import kotlin.reflect.KClass
@@ -33,6 +34,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
     internal abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FirstExerciseChallengeViewModel::class)
+    internal abstract fun firstExerciseChallengeViewModel(viewModel: FirstExerciseChallengeViewModel): ViewModel
+
 }
 
 

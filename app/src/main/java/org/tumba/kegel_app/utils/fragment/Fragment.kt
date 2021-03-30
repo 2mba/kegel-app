@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,15 @@ val Fragment.actionBar: ActionBar?
 
 fun Fragment.observeNavigation(navigable: Navigable) {
     navigable.navigation.observeEvent(viewLifecycleOwner) { direction ->
+        val controller = findNavController()
+        if (controller.currentDestination?.getAction(direction.actionId) != null) {
+            controller.navigate(direction)
+        }
+    }
+}
+
+fun DialogFragment.observeNavigation(navigable: Navigable) {
+    navigable.navigation.observeEvent(this) { direction ->
         val controller = findNavController()
         if (controller.currentDestination?.getAction(direction.actionId) != null) {
             controller.navigate(direction)

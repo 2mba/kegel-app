@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_first_exercise_challenge_title">Первое упражнение</string>
+    <string name="screen_first_exercise_challenge_message">Хотите посмотреть как делать упражнение Кегеля?</string>
+    <string name="screen_first_exercise_challenge_yes">Да</string>
+    <string name="screen_first_exercise_challenge_no">Нет, я знаю</string>
+</resources>

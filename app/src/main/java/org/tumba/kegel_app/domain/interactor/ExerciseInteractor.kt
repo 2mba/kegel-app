@@ -1,10 +1,7 @@
 package org.tumba.kegel_app.domain.interactor
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseRepository
@@ -82,6 +79,20 @@ class ExerciseInteractor @Inject constructor(
             exerciseService.startService()
         } else {
             exerciseService.stopService()
+        }
+    }
+
+    fun isThereCompletedExercise(): Boolean {
+        return exerciseSettingsRepository.lastCompletedExerciseDate.value != 0L
+    }
+
+    fun isFirstExerciseChallengeShown(): Boolean {
+        return exerciseSettingsRepository.isFirstExerciseChallengeShown.value
+    }
+
+    suspend fun setFirstExerciseChallengeShown() {
+        withContext(Dispatchers.IO) {
+            exerciseSettingsRepository.isFirstExerciseChallengeShown.value = true
         }
     }
 
