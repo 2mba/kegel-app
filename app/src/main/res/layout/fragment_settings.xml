@@ -47,6 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/title_settings"
+            app:titleMarginStart="@dimen/margin_xxlarge"
             app:titleTextAppearance="?attr/textAppearanceHeadline6" />
 
         <ScrollView

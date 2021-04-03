@@ -3,25 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="org.tumba.kegel_app.ui.home.HomeViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
+            android:background="@color/colorSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/screen_exercise_info_title"
             app:titleTextAppearance="?attr/textAppearanceHeadline6" />
 
         <ScrollView
@@ -32,86 +26,215 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_medium">
+                android:paddingBottom="80dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/itemExercise"
+                    android:id="@+id/warning"
                     style="@style/Widget.MaterialComponents.CardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/card_vertical_margin">
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:cardBackgroundColor="@color/colorSurfaceAccent"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/card_horizontal_padding"
-                        android:layout_marginTop="@dimen/card_top_padding"
+                        android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/card_horizontal_padding"
                         android:layout_marginBottom="@dimen/margin_medium"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_info_24"
+                            app:tint="@color/colorAccent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Widget.MaterialComponents.TextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/screen_exercise_info_common_title"
-                            android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/Widget.MaterialComponents.TextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:text="@string/screen_exercise_base_info_text"
-                            android:textAppearance="?attr/textAppearanceBody1" />
+                            android:layout_marginStart="@dimen/margin_medium"
+                            android:text="@string/screen_exercise_info_warning"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@color/colorAccent" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/itemExercise2"
-                    style="@style/Widget.MaterialComponents.CardView"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/itemCommon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/card_vertical_margin">
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/warning">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/commonIcon"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/card_horizontal_padding"
-                        android:layout_marginTop="@dimen/card_top_padding"
-                        android:layout_marginEnd="@dimen/card_horizontal_padding"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:orientation="vertical">
+                        android:layout_marginStart="@dimen/margin_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_fit_24"
+                        app:tint="@color/colorAccent" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/Widget.MaterialComponents.TextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/screen_exercise_info_how_to_title"
-                            android:textAppearance="?attr/textAppearanceHeadline6" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/commonTitle"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_info_common_title"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/Widget.MaterialComponents.TextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:text="@string/screen_exercise_info_how_to_text"
-                            android:textAppearance="?attr/textAppearanceBody1" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_base_info_text"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/commonTitle"
+                        app:layout_constraintTop_toBottomOf="@id/commonTitle" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/itemExerciseSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/itemCommon">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/hintIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_list_24"
+                        app:tint="@color/colorAccent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/hintTitle"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_info_how_to_title"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_info_how_to_text"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/hintTitle"
+                        app:layout_constraintTop_toBottomOf="@id/hintTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/itemExerciseSteps">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/otherIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_help_24"
+                        app:tint="@color/colorAccent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/otherTitle"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_info_other_title"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/otherText"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:text="@string/screen_exercise_info_other_text"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/otherTitle"
+                        app:layout_constraintTop_toBottomOf="@id/otherTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDone"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/screen_exercise_info_btn_done"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

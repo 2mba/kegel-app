@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onShowHintClicked() {
-        navigate(HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment())
+        navigate(HomeFragmentDirections.actionScreenHomeToExerciseInfoFragment(showExerciseButton = false))
     }
 }
 

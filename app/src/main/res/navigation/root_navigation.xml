@@ -71,7 +71,21 @@
         android:id="@+id/screenExerciseInfoFragment"
         android:name="org.tumba.kegel_app.ui.home.ExerciseInfoFragment"
         android:label="ExerciseInfo"
-        tools:layout="@layout/fragment_exercise_info" />
+        tools:layout="@layout/fragment_exercise_info">
+
+        <argument
+            android:name="showExerciseButton"
+            app:argType="boolean"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_screenExerciseInfoFragment_to_screenExercise"
+            app:destination="@id/screenExercise"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
+            app:popUpTo="@id/screenHome" />
+    </fragment>
 
     <fragment
         android:id="@+id/screenSettings"
@@ -82,13 +96,21 @@
     <dialog
         android:id="@+id/firstExerciseChallengeDialogFragment"
         android:name="org.tumba.kegel_app.ui.home.FirstExerciseChallengeDialogFragment"
-        android:label="FirstExerciseChallengeDialogFragment" >
+        android:label="FirstExerciseChallengeDialogFragment">
         <action
             android:id="@+id/action_firstExerciseChallengeDialogFragment_to_screenExercise"
-            app:destination="@id/screenExercise" />
+            app:destination="@id/screenExercise"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_firstExerciseChallengeDialogFragment_to_screenExerciseInfoFragment"
-            app:destination="@id/screenExerciseInfoFragment" />
+            app:destination="@id/screenExerciseInfoFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </dialog>
 
 </navigation>

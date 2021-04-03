@@ -7,6 +7,7 @@
     <color name="colorPrimaryDark">#202B31</color>
     <color name="colorSurface">#E5EBEE</color>
     <color name="colorSurfaceSnackbar">#D1D6D7</color>
+    <color name="colorSurfaceAccent">#FFE4DD</color>
     <color name="colorAccent">#fc7f37</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="textColorPrimary">@color/colorPrimary</color>

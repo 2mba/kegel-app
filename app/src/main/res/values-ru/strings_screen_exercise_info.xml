@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="screen_exercise_info_base_info_title">Упражение Кегеля</string>
+    <string name="screen_exercise_info_title">Упражнение Кегеля</string>
+    <string name="screen_exercise_info_base_info_title">Упражнение Кегеля</string>
     <string name="screen_exercise_base_info_text">Основная задача упражнений Кегеля состоит в том, чтобы помочь вам укрепить мышцы тазового дна.\n\nСо временем мышцы тазового дна теряют свою эластичность, поэтому, чтобы поддерживать органы малого таза здоровыми, важно тренировать эти мышцы. \n\nСогласно исследованиям, упражнения помогают контролировать недержание мочи и предотвратить опущение тазовых органов.</string>
     <string name="screen_exercise_info_how_to_title">Как делать упражнение?</string>
     <string name="screen_exercise_info_how_to_text">
         Суть упражнений заключается в сознательном напряжении и расслаблении мышц тазового дна. \n\nНа фазе сжатия сконцентрируйтесь, сожмите мышцы тазового дна. Важно при этом расслабить мышцы пресса, бёдер и ягодиц. \n\nКогда фаза сменится на фазу отдыха, полностью расслабьте мышцы. Обязательно следите за тем, чтобы после сокращения мышц достигалось расслабление.
     </string>
     <string name="screen_exercise_info_common_title">Общая информация</string>
+    <string name="screen_exercise_info_warning">Проконсультируйтесь с врачом перед тем как делать упражнение</string>
+    <string name="screen_exercise_info_btn_done">К упражнению</string>
+    <string name="screen_exercise_info_other_title">Дополнительно</string>
+    <string name="screen_exercise_info_other_text">Прочитайте дополнительно об упражнении Кегеля на <a href="https://www.mskcc.org/ru/cancer-care/patient-education/pelvic-floor-muscle-kegel-exercises-women">сайте</a></string>
+    <string name="screen_exercise_info_more_link">https://www.mskcc.org/ru/cancer-care/patient-education/pelvic-floor-muscle-kegel-exercises-women</string>
 </resources>

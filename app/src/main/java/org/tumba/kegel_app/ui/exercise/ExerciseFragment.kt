@@ -18,6 +18,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.ui.exercise.ExerciseFragmentDirections.Companion.actionScreenExerciseToExerciseInfoFragment
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
 import org.tumba.kegel_app.utils.Empty
@@ -72,7 +73,7 @@ class ExerciseFragment : Fragment() {
         return when (item.itemId) {
             R.id.help -> {
                 viewModel.onHelpClicked()
-                findNavController().navigate(ExerciseFragmentDirections.actionScreenExerciseToExerciseInfoFragment())
+                findNavController().navigate(actionScreenExerciseToExerciseInfoFragment(showExerciseButton = false))
                 true
             }
             else -> super.onOptionsItemSelected(item)

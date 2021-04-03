@@ -9,7 +9,7 @@ class FirstExerciseChallengeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     fun onClickShowExerciseInfo() {
-        navigate(actionFirstExerciseChallengeDialogFragmentToScreenExerciseInfoFragment())
+        navigate(actionFirstExerciseChallengeDialogFragmentToScreenExerciseInfoFragment(showExerciseButton = true))
     }
 
     fun onClickGoToExercise() {

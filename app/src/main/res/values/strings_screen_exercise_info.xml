@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="screen_exercise_info_title">Kegel Exercise</string>
     <string name="screen_exercise_info_base_info_title">Kegel Exercise</string>
     <string name="screen_exercise_base_info_text">Kegel exercises can help make the muscles under the uterus, bladder, and bowel (large intestine) stronger.\n\nThey can help both men and women who have problems with urine leakage or bowel control.</string>
     <string name="screen_exercise_info_how_to_title">How to do Kegel Exercise?</string>
     <string name="screen_exercise_info_how_to_text">Tense the muscles in your pelvic floor, then relax them. \n\nKeep other muscles relaxed. Don\'t contract your abdominal, leg, or buttock muscles, or lift your pelvis. \n\nGradually increase the length of contractions and relaxations.</string>
     <string name="screen_exercise_info_common_title">Summary</string>
+    <string name="screen_exercise_info_warning">Consult your doctor before starting an exercise</string>
+    <string name="screen_exercise_info_btn_done">To exercise</string>
+    <string name="screen_exercise_info_other_title">Misc</string>
+    <string name="screen_exercise_info_other_text">Read more about the Kegel exercise on <a href="https://www.mskcc.org/cancer-care/patient-education/pelvic-floor-muscle-kegel-exercises-women">the website</a></string>
+    <string name="screen_exercise_info_more_link">https://www.mskcc.org/ru/cancer-care/patient-education/pelvic-floor-muscle-kegel-exercises-women</string>
 </resources>
