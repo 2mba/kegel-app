@@ -2,6 +2,7 @@ package org.tumba.kegel_app.ui.settings
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
@@ -35,6 +36,12 @@ class SettingsViewModel @Inject constructor(
 
     private val _startReview = MutableLiveData<Event<Boolean>>()
     val startReview: LiveData<Event<Boolean>> = _startReview
+
+    private val _showNightModeDialog = MutableLiveData<Event<Boolean>>()
+    val showNightModeDialog: LiveData<Event<Boolean>> = _showNightModeDialog
+
+    private val _nightMode = MutableLiveData(settingsInteractor.getNightMode())
+    val nightMode: LiveData<Int> = _nightMode
 
     private val _reminderTime: Flow<SettingsInteractor.ReminderTime> = settingsInteractor.observeReminderTime()
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
@@ -99,8 +106,26 @@ class SettingsViewModel @Inject constructor(
         _startReview.value = Event(true)
     }
 
+    fun onNightModeClicked() {
+        // tracker.trackRateAppClicked()
+        _showNightModeDialog.value = Event(true)
+    }
+
+    fun onNightModeSelected(mode: Int) {
+        _nightMode.value = mode
+        settingsInteractor.setNightMode(mode)
+        viewModelScope.launch {
+            delay(NIGHT_MODE_SNACKBAR_DELAY_MILLIS)
+            showSnackbar(
+                SnackbarData(resourceProvider.getString(R.string.screen_settings_night_mode_confirmation_snackbar))
+            )
+        }
+
+    }
+
     companion object {
         private const val DAYS_IN_WEEK = 7
+        private const val NIGHT_MODE_SNACKBAR_DELAY_MILLIS = 500L
     }
 }
 

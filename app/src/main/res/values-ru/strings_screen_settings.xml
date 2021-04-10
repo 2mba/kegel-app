@@ -21,4 +21,9 @@
     <string name="screen_settings_level_confirmation_snackbar">Уровень установлен</string>
     <string name="screen_settings_rate_title">Оценить приложение</string>
     <string name="screen_settings_rate_subtitle">Поделитесь впечатлениями с нами</string>
+    <string name="screen_settings_night_mode_title">Темный режим</string>
+    <string name="screen_settings_night_mode_system">Автоматически</string>
+    <string name="screen_settings_night_mode_on">Включен</string>
+    <string name="screen_settings_night_mode_off">Выключен</string>
+    <string name="screen_settings_night_mode_confirmation_snackbar">Темный режим был изменен</string>
 </resources>

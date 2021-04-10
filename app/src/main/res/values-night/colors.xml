@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="colorPrimary">#698592</color>
+    <color name="colorPrimaryDark">#202B31</color>
+    <color name="colorSurface">#2A2D2F</color>
+    <color name="colorSurfaceColored">#364753</color>
+    <color name="colorSurfaceSnackbar">#D1D6D7</color>
+    <color name="colorSurfaceAccent">#33E58147</color>
+    <color name="colorAccent">#E58147</color>
+    <color name="colorBackground">#000000</color>
+    <color name="textColorPrimary">#DEFFFFFF</color>
+    <color name="textColorPrimaryDisabled">#80FFFFFF</color>
+    <color name="textColorSecondary">#99FFFFFF</color>
+    <color name="progressColor">#40FF9800</color>
+    <color name="selectableItemColorNotSelected">#1AFFFFFF</color>
+    <color name="selectableItemColorDisabled">#33FFFFFF</color>
+    <color name="selectableItemTextColorDisabled">@color/gray</color>
+    <color name="colorOnInvertedSurface">@color/textColorPrimary</color>
+    <color name="colorControl">@color/textColorPrimary</color>
+
+    <color name="gray">#CC9F9F9F</color>
+    <color name="divider">#17FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="confetti_1">#C67600</color>
+    <color name="confetti_2">#38BA86</color>
+    <color name="confetti_3">#BC356E</color>
+    <color name="confetti_4">#0E58D8</color>
+
+    <color name="exerciseColorHolding">#CC7E51</color>
+    <color name="exerciseColorRelax">#CC547174</color>
+    <color name="exerciseColorPaused">@color/gray</color>
+    <color name="exerciseColorPreparation">#CC7E51</color>
+
+    <color name="colorOnBg">?attr/colorOnPrimary</color>
+
+    <color name="fitnessGirlColorAccent">#D88E69</color>
+    <color name="fitnessGirlColorDark">#407E9D</color>
+</resources>

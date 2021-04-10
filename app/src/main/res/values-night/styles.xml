@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Navigation</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Navigation</item>
+        <item name="itemIconSize">22dp</item>
+        <item name="itemIconTint">@color/nav_bar_icon_color</item>
+        <item name="android:background">@color/colorSurface</item>
+        <item name="labelVisibilityMode">unlabeled</item>
+    </style>
+</resources>

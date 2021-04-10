@@ -1,7 +1,6 @@
 package org.tumba.kegel_app.ui.exercise
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -40,7 +39,7 @@ class ExerciseViewModel @Inject constructor(
     val timeRemain by lazy { secondsRemain.map { formatExerciseDuration(it) } }
     val fullTimeRemain by lazy { fullSecondsRemain.map { formatExerciseDuration(it) } }
     val exerciseProgress = MutableLiveData(0F)
-    val exerciseProgressColor = MutableLiveData(Color.TRANSPARENT)
+    val exerciseProgressColor = MutableLiveData(R.color.transparent)
     val level = exerciseParametersProvider.observeLevel().asLiveData()
     val day = exerciseParametersProvider.observeDay().asLiveData()
     val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
@@ -192,7 +191,7 @@ class ExerciseViewModel @Inject constructor(
             }
         }
         exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
-        exerciseProgressColor.value = state?.let { getExerciseProgressColor(state) } ?: Color.TRANSPARENT
+        exerciseProgressColor.value = state?.let { getExerciseProgressColor(state) } ?: R.color.transparent
         currentState = state
 
         if (state?.isPlayingState() == true) {
@@ -264,14 +263,14 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    @ColorInt
+    @ColorRes
     private fun getExerciseProgressColor(state: ExerciseState): Int {
         return when (state) {
-            is ExerciseState.Preparation -> resourceProvider.getColor(R.color.exerciseColorPreparation)
-            is ExerciseState.Holding -> resourceProvider.getColor(R.color.exerciseColorHolding)
-            is ExerciseState.Relax -> resourceProvider.getColor(R.color.exerciseColorRelax)
-            is ExerciseState.Pause -> resourceProvider.getColor(R.color.exerciseColorPaused)
-            else -> Color.TRANSPARENT
+            is ExerciseState.Preparation -> R.color.exerciseColorPreparation
+            is ExerciseState.Holding -> R.color.exerciseColorHolding
+            is ExerciseState.Relax -> R.color.exerciseColorRelax
+            is ExerciseState.Pause -> R.color.exerciseColorPaused
+            else -> R.color.transparent
         }
     }
 }

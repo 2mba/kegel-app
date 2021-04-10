@@ -21,4 +21,9 @@
     <string name="screen_settings_level_confirmation_snackbar">The level has been set</string>
     <string name="screen_settings_rate_title">Rate the app</string>
     <string name="screen_settings_rate_subtitle">Share your feedback with us</string>
+    <string name="screen_settings_night_mode_title">Night mode</string>
+    <string name="screen_settings_night_mode_system">Auto</string>
+    <string name="screen_settings_night_mode_on">Enabled</string>
+    <string name="screen_settings_night_mode_off">Disabled</string>
+    <string name="screen_settings_night_mode_confirmation_snackbar">Night mode has been changed</string>
 </resources>

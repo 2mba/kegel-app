@@ -10,6 +10,8 @@ import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.analytics.Analytics
 import org.tumba.kegel_app.analytics.FirebaseAnalytics
+import org.tumba.kegel_app.core.system.NightModeManager
+import org.tumba.kegel_app.core.system.NightModeManagerImpl
 import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.core.system.ResourceProviderImpl
 import javax.inject.Singleton
@@ -25,7 +27,8 @@ class AppModule(private val application: KegelApplication) {
 
     @Singleton
     @Provides
-    fun provideResourceProvider(context: Context): ResourceProvider = ResourceProviderImpl(context.applicationContext.resources)
+    fun provideResourceProvider(context: Context): ResourceProvider =
+        ResourceProviderImpl(context.applicationContext.resources)
 
     @Singleton
     @Provides
@@ -46,6 +49,9 @@ class AppModule(private val application: KegelApplication) {
     fun provideReviewManagerFactory(context: Context): ReviewManager {
         return ReviewManagerFactory.create(context)
     }
+
+    @Provides
+    fun provideNightModeManager(impl: NightModeManagerImpl): NightModeManager = impl
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"

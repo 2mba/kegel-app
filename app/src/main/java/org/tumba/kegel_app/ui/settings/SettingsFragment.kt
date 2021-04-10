@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -70,6 +71,9 @@ class SettingsFragment : Fragment() {
         viewModel.startReview.observeEvent(viewLifecycleOwner) {
             openGooglePlayAppPage()
         }
+        viewModel.showNightModeDialog.observeEvent(viewLifecycleOwner) {
+            showNightModePickerDialog()
+        }
     }
 
     private fun showReminderTimePicker() {
@@ -111,6 +115,28 @@ class SettingsFragment : Fragment() {
                 )
             )
         }
+    }
+
+    private fun showNightModePickerDialog() {
+        val nightModeValues = arrayOf(
+            getString(R.string.screen_settings_night_mode_system),
+            getString(R.string.screen_settings_night_mode_on),
+            getString(R.string.screen_settings_night_mode_off)
+        )
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_settings_night_mode_title)
+            .setItems(nightModeValues) { _, selected ->
+                val value = when (selected) {
+                    0 -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    1 -> AppCompatDelegate.MODE_NIGHT_YES
+                    2 -> AppCompatDelegate.MODE_NIGHT_NO
+                    else -> AppCompatDelegate.MODE_NIGHT_NO
+                }
+                viewModel.onNightModeSelected(value)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+            .show()
     }
 
     private fun setupInsets() {

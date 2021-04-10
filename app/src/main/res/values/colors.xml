@@ -6,6 +6,7 @@
     <color name="colorPrimary">#374952</color>
     <color name="colorPrimaryDark">#202B31</color>
     <color name="colorSurface">#E5EBEE</color>
+    <color name="colorSurfaceColored">@color/colorPrimary</color>
     <color name="colorSurfaceSnackbar">#D1D6D7</color>
     <color name="colorSurfaceAccent">#FFE4DD</color>
     <color name="colorAccent">#fc7f37</color>
@@ -14,6 +15,11 @@
     <color name="textColorPrimaryDisabled">#C5C5C5</color>
     <color name="textColorSecondary">#80374952</color>
     <color name="progressColor">#17FF9800</color>
+    <color name="selectableItemColorNotSelected">#20000000</color>
+    <color name="selectableItemColorDisabled">#3E000000</color>
+    <color name="selectableItemTextColorDisabled">@color/white</color>
+    <color name="colorOnInvertedSurface">@color/white</color>
+    <color name="colorControl">@color/colorPrimary</color>
 
     <color name="gray">#9f9f9f</color>
     <color name="divider">#17FFFFFF</color>
@@ -30,4 +36,7 @@
     <color name="exerciseColorPreparation">@color/colorAccent</color>
 
     <color name="colorOnBg">?attr/colorOnPrimary</color>
+
+    <color name="fitnessGirlColorAccent">#EE8855</color>
+    <color name="fitnessGirlColorDark">#2E83AD</color>
 </resources>
