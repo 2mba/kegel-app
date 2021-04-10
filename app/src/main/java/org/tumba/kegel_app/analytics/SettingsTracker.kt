@@ -47,4 +47,12 @@ class SettingsTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun trackRateAppClicked() {
         tracker.track(click("rate_app"))
     }
+
+    fun trackNightModeClicked() {
+        tracker.track(click("night_mode"))
+    }
+
+    fun trackNightModeSelected() {
+        tracker.track("night_mode_selected")
+    }
 }

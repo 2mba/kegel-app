@@ -107,7 +107,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onNightModeClicked() {
-        // tracker.trackRateAppClicked()
+        tracker.trackNightModeClicked()
         _showNightModeDialog.value = Event(true)
     }
 
@@ -120,7 +120,7 @@ class SettingsViewModel @Inject constructor(
                 SnackbarData(resourceProvider.getString(R.string.screen_settings_night_mode_confirmation_snackbar))
             )
         }
-
+        tracker.trackNightModeSelected()
     }
 
     companion object {
