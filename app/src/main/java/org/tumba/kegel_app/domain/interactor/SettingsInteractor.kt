@@ -4,13 +4,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
+import org.tumba.kegel_app.core.system.NightModeManager
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.worker.ReminderWorkerManager
 import javax.inject.Inject
 
 class SettingsInteractor @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val reminderWorkerManager: ReminderWorkerManager
+    private val reminderWorkerManager: ReminderWorkerManager,
+    private val nightModeManager: NightModeManager
 ) {
 
     fun observeReminderEnabled(): Flow<Boolean> {
@@ -66,6 +68,19 @@ class SettingsInteractor @Inject constructor(
         withContext(Dispatchers.Default) {
             exerciseSettingsRepository.exerciseLevel.value = level
         }
+    }
+
+    fun setNightMode(mode: Int) {
+        nightModeManager.setNightMode(mode)
+        exerciseSettingsRepository.nightMode.value = mode
+    }
+
+    fun getNightMode(): Int {
+        return nightModeManager.getNightMode()
+    }
+
+    fun restoreNightMode() {
+        nightModeManager.setNightMode(exerciseSettingsRepository.nightMode.value)
     }
 
     data class ReminderTime(val hour: Int, val minute: Int)

@@ -17,7 +17,7 @@
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/card_vertical_margin"
         android:onClick="@{(view) -> viewModel.onStartExerciseClicked()}"
-        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardBackgroundColor="@color/colorSurfaceColored"
         app:rippleColor="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
                 android:layout_marginTop="@dimen/card_top_padding"
                 android:text="@string/strings_screen_exercise_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="@color/white"
+                android:textColor="@color/colorOnInvertedSurface"
                 android:transitionName="itemTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
                 android:gravity="start"
                 android:text="@{@string/screen_home_day_pattern(viewModel.exerciseDay)}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/white"
+                android:textColor="@color/colorOnInvertedSurface"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_sun_16"
                 app:drawableTint="?colorAccent"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:drawablePadding="@dimen/margin_small"
                 android:text="@{@string/screen_home_level_pattern(viewModel.exerciseLevel)}"
-                android:textColor="@color/white"
+                android:textColor="@color/colorOnInvertedSurface"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_cup_16"
                 app:drawableTint="?colorAccent"
@@ -103,7 +103,7 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:text="@{viewModel.nextExercisesDuration}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/white"
+                android:textColor="@color/colorOnInvertedSurface"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/btnStartExercise"
                 app:layout_constraintStart_toEndOf="@id/btnStartExercise"

@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.ProgressBar
 import androidx.activity.addCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -132,7 +133,8 @@ class ExerciseFragment : Fragment() {
             lastAnimation = progressAnimation
             binding.progress.startAnimation(progressAnimation)
         }
-        viewLifecycleOwner.observe(viewModel.exerciseProgressColor) { color ->
+        viewLifecycleOwner.observe(viewModel.exerciseProgressColor) { colorRes ->
+            val color = ResourcesCompat.getColor(resources, colorRes, null)
             binding.progress.progressTintList = ColorStateList.valueOf(color)
             binding.exercise.backgroundTintList = ColorStateList.valueOf(color)
         }

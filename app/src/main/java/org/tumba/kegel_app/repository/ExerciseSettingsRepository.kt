@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.repository
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.tumba.kegel_app.core.system.Preference
 import javax.inject.Inject
@@ -37,6 +38,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val isFirstExerciseChallengeShown = Preference<Boolean>(preferences, PREF_KEY_FIRST_EXERCISE_CHALLENGE, false)
 
+    val nightMode = Preference<Int>(preferences, PREF_KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -50,6 +53,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_REMINDER_HOUR = "PREF_KEY_REMINDER_HOUR"
         private const val PREF_KEY_REMINDER_MINUTE = "PREF_KEY_REMINDER_MINUTE"
         private const val PREF_KEY_FIRST_EXERCISE_CHALLENGE = "PREF_KEY_FIRST_EXERCISE_CHALLENGE"
+        private const val PREF_KEY_NIGHT_MODE = "PREF_KEY_NIGHT_MODE"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
