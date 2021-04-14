@@ -1,15 +1,14 @@
 package org.tumba.kegel_app.ui.exercise
 
 import androidx.annotation.ColorRes
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ExerciseTracker
-import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
@@ -18,7 +17,6 @@ import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
-import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.Event
 import org.tumba.kegel_app.utils.formatExerciseDuration
 import javax.inject.Inject
@@ -29,17 +27,49 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val exerciseParametersProvider: ExerciseParametersProvider,
     private val exerciseNameProvider: ExerciseNameProvider,
-    private val resourceProvider: ResourceProvider,
     private val tracker: ExerciseTracker
 ) : BaseViewModel() {
 
-    val exerciseKind = MutableLiveData(String.Empty)
-    val exercisePlaybackState by lazy { _exercisePlaybackState.distinctUntilChanged() }
-    val repeats = MutableLiveData(String.Empty)
-    val timeRemain by lazy { secondsRemain.map { formatExerciseDuration(it) } }
-    val fullTimeRemain by lazy { fullSecondsRemain.map { formatExerciseDuration(it) } }
-    val exerciseProgress = MutableLiveData(0F)
-    val exerciseProgressColor = MutableLiveData(R.color.transparent)
+    init {
+        startExerciseIfNoExerciseInProgress()
+    }
+
+    private val exerciseState = exerciseInteractor.observeExerciseState()
+        .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
+
+    val exerciseKind = exerciseState.map { exerciseNameProvider.exerciseName(it) }.asLiveData()
+    val exercisePlaybackState by lazy { _exercisePlaybackState.asLiveData() }
+
+    val repeats = exerciseState.map { state ->
+        if (state is ExerciseState.SingleExercise) {
+            formatRepeats(state.exerciseInfo.repeatRemains, state.exerciseInfo.repeats)
+        } else {
+            "0"
+        }
+    }.asLiveData()
+
+    private val secondsRemain = exerciseState.map { state ->
+        if (state is ExerciseState.SingleExercise) state.singleExerciseInfo.remainSeconds else 0
+    }
+    private val fullSecondsRemain = exerciseState.map { state ->
+        if (state is ExerciseState.SingleExercise) state.exerciseInfo.remainSeconds else 0
+    }
+    val timeRemain = secondsRemain.map { formatExerciseDuration(it) }.asLiveData()
+    val fullTimeRemain = fullSecondsRemain.map { formatExerciseDuration(it) }.asLiveData()
+    val exerciseProgress = exerciseState.map { state ->
+        if (state is ExerciseState.SingleExercise) calculateProgress(state) else 0F
+    }.asLiveData()
+
+    private val _exercisePlaybackState = exerciseState.map { state ->
+        when (state) {
+            is ExerciseState.Pause -> Paused
+            is ExerciseState.SingleExercise -> Playing
+            is ExerciseState.Finish -> Stopped
+            else -> Playing
+        }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, Playing)
+
+    val exerciseProgressColor = exerciseState.map { getExerciseProgressColor(it) }.asLiveData()
     val level = exerciseParametersProvider.observeLevel().asLiveData()
     val day = exerciseParametersProvider.observeDay().asLiveData()
     val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
@@ -51,17 +81,13 @@ class ExerciseViewModel @Inject constructor(
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
-    private val _exercisePlaybackState = MutableLiveData(Playing)
-    private val secondsRemain = MutableLiveData(0L)
-    private val fullSecondsRemain = MutableLiveData(0L)
-    private var exerciseDuration = 0L
-    private var currentState: ExerciseState? = null
-    private var isProgressReversed = true
+    private var exerciseDuration = exerciseState.filterIsInstance<ExerciseState.SingleExercise>()
+        .map { it.singleExerciseInfo.exerciseDurationSeconds }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
     private var isExerciseStoppedFromExerciseScreen = false
 
     init {
-        startExerciseIfNoExerciseInProgress()
-        observeExerciseState()
+        ExerciseFinishHandler().observeExerciseState(exerciseState)
     }
 
     fun onClickPlay() {
@@ -152,50 +178,11 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    private fun observeExerciseState() {
-        viewModelScope.launch {
-            exerciseInteractor.observeExerciseState().collect { onExerciseEventReceived(it) }
-        }
-    }
-
     private suspend fun createExercise() {
         with(exerciseInteractor) {
             clearExercise()
             createExercise()
             startExercise()
-        }
-    }
-
-    private fun onExerciseEventReceived(state: ExerciseState?) {
-        when (state) {
-            is ExerciseState.SingleExercise -> {
-                exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
-                secondsRemain.value = state.singleExerciseInfo.remainSeconds
-                fullSecondsRemain.value = state.exerciseInfo.remainSeconds
-                repeats.value = formatRepeats(state.exerciseInfo.repeatRemains, state.exerciseInfo.repeats)
-                isProgressReversed = isProgressReversed(state)
-                updateExerciseProgress()
-            }
-            is ExerciseState.Pause -> {
-                exerciseDuration = state.singleExerciseInfo.exerciseDurationSeconds
-                secondsRemain.value = state.singleExerciseInfo.remainSeconds
-                repeats.value = formatRepeats(state.exerciseInfo.repeatRemains, state.exerciseInfo.repeats)
-                fullSecondsRemain.value = state.exerciseInfo.remainSeconds
-                _exercisePlaybackState.value = Paused
-            }
-            is ExerciseState.Finish -> {
-                _exercisePlaybackState.value = Stopped
-                handleExerciseFinish(state)
-            }
-            else -> {
-            }
-        }
-        exerciseKind.value = state?.let { exerciseNameProvider.exerciseName(state) }.orEmpty()
-        exerciseProgressColor.value = state?.let { getExerciseProgressColor(state) } ?: R.color.transparent
-        currentState = state
-
-        if (state?.isPlayingState() == true) {
-            _exercisePlaybackState.value = Playing
         }
     }
 
@@ -206,40 +193,10 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    private fun updateExerciseProgress() {
-        val secondsRemain = secondsRemain.value ?: 0
-        exerciseProgress.value = if (isProgressReversed) {
-            1 - secondsRemain / (exerciseDuration).toFloat()
-        } else {
-            secondsRemain / (exerciseDuration).toFloat()
-        }
-    }
-
-    private fun handleExerciseFinish(state: ExerciseState.Finish) {
-        tracker.trackFinished()
-        if (!state.isForceFinished) {
-            navigateToExerciseResult.value = Event(true)
-        } else {
-            exit()
-        }
-        if (isExerciseStoppedFromExerciseScreen) {
-            clearNotification()
-        }
-    }
-
     private fun clearNotification() {
         if (exerciseSettingsRepository.isNotificationEnabled.value) {
             exerciseServiceInteractor.clearNotification()
         }
-    }
-
-    private fun ExerciseState.isPlayingState(): Boolean {
-        val playingStates = listOf(
-            ExerciseState.Preparation::class,
-            ExerciseState.Relax::class,
-            ExerciseState.Holding::class
-        )
-        return playingStates.any { it == this::class }
     }
 
     private fun exit() {
@@ -271,6 +228,39 @@ class ExerciseViewModel @Inject constructor(
             is ExerciseState.Relax -> R.color.exerciseColorRelax
             is ExerciseState.Pause -> R.color.exerciseColorPaused
             else -> R.color.transparent
+        }
+    }
+
+
+    private fun calculateProgress(state: ExerciseState): Float {
+        val secondsRemain = (state as? ExerciseState.SingleExercise)?.singleExerciseInfo?.remainSeconds ?: 0
+        return if (isProgressReversed(state)) {
+            1 - secondsRemain / (exerciseDuration.value).toFloat()
+        } else {
+            secondsRemain / (exerciseDuration.value).toFloat()
+        }
+    }
+
+    private inner class ExerciseFinishHandler {
+
+        fun observeExerciseState(exerciseState: SharedFlow<ExerciseState>) {
+            viewModelScope.launch {
+                exerciseState
+                    .filterIsInstance<ExerciseState.Finish>()
+                    .collect(::handleExerciseFinish)
+            }
+        }
+
+        private fun handleExerciseFinish(state: ExerciseState.Finish) {
+            tracker.trackFinished()
+            if (!state.isForceFinished) {
+                navigateToExerciseResult.value = Event(true)
+            } else {
+                exit()
+            }
+            if (isExerciseStoppedFromExerciseScreen) {
+                clearNotification()
+            }
         }
     }
 }
