@@ -101,6 +101,7 @@ class Exercise(
                 startedAt = now(),
                 timeForSkip = Duration.ZERO
             )
+            vibrate(Strength.Medium)
         }
         notifyState()
     }
