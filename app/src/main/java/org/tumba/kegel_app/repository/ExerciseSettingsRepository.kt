@@ -36,6 +36,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val isNotificationEnabled = Preference<Boolean>(preferences, PREF_KEY_NOTIFICATION, DEFAULT_NOTIFICATION)
 
+    val isSoundEnabled = Preference<Boolean>(preferences, PREF_KEY_SOUND, DEFAULT_SOUND)
+
     val isFirstExerciseChallengeShown = Preference<Boolean>(preferences, PREF_KEY_FIRST_EXERCISE_CHALLENGE, false)
 
     val nightMode = Preference<Int>(preferences, PREF_KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -43,6 +45,7 @@ class ExerciseSettingsRepository @Inject constructor(
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
+        private const val PREF_KEY_SOUND = "PREF_KEY_SOUND"
         private const val PREF_KEY_EXERCISE_DAY = "PREF_KEY_EXERCISE_DAY"
         private const val PREF_KEY_NOTIFICATION = "PREF_KEY_NOTIFICATION"
         private const val PREF_NUMBER_OF_EXERCISES = "PREF_NUMBER_OF_EXERCISES"
@@ -58,6 +61,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
         private const val DEFAULT_NOTIFICATION = true
+        private const val DEFAULT_SOUND = false
         private const val DEFAULT_NUMBER_OF_EXERCISES = 0
         private const val DEFAULT_EXERCISES_DURATIONS = 0L
         private const val DEFAULT_REMINDER_DAYS = 0b1111111

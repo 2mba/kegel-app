@@ -2,7 +2,6 @@ package org.tumba.kegel_app.domain.interactor
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -13,9 +12,9 @@ import javax.inject.Inject
 class ExerciseInteractor @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val vibrationManager: VibrationManager,
     private val exerciseService: ExerciseService,
     private val exerciseProgram: ExerciseProgram,
+    private val exerciseEffectsHandler: ExerciseEffectsHandler,
     private val exerciseFinishHandler: ExerciseFinishHandler
 ) {
 
@@ -46,11 +45,12 @@ class ExerciseInteractor @Inject constructor(
         }
         val exercise = getExercise()
         if (exercise != null) {
-            with(CoroutineScope(GlobalScope.coroutineContext + Dispatchers.IO)) {
+            with(CoroutineScope(GlobalScope.coroutineContext + Dispatchers.Default)) {
                 launch {
                     exercise.observeState().collect { exerciseFinishHandler.onExerciseStateChanged(it) }
                 }
             }
+            exerciseEffectsHandler.onStartExercise(exercise.observeState())
             exercise.start()
         }
     }
@@ -96,13 +96,7 @@ class ExerciseInteractor @Inject constructor(
         }
     }
 
-    private fun createExerciseFrom(config: ExerciseConfig): Exercise {
-        return Exercise(
-            config = config,
-            vibrationManager = vibrationManager,
-            vibrationEnabledStateProvider = { exerciseSettingsRepository.isVibrationEnabled.value }
-        )
-    }
+    private fun createExerciseFrom(config: ExerciseConfig) = Exercise(config)
 
     private fun ExerciseState.isInProgress(): Boolean {
         val playingStates = listOf(

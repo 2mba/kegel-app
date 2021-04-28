@@ -78,6 +78,9 @@ class ExerciseViewModel @Inject constructor(
     val isNotificationEnabled = exerciseSettingsRepository.isNotificationEnabled
         .asFlow()
         .asLiveData(Dispatchers.Default)
+    val isSoundEnabled = exerciseSettingsRepository.isSoundEnabled
+        .asFlow()
+        .asLiveData(Dispatchers.Default)
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
@@ -117,6 +120,15 @@ class ExerciseViewModel @Inject constructor(
         }
         viewModelScope.launch {
             exerciseSettingsRepository.isVibrationEnabled.value = enabled
+        }
+    }
+
+    fun onSoundStateChanged(enabled: Boolean) {
+        if (isSoundEnabled.value != enabled) {
+            // tracker.trackChangeVibration(enabled)
+        }
+        viewModelScope.launch {
+            exerciseSettingsRepository.isSoundEnabled.value = enabled
         }
     }
 

@@ -16,6 +16,7 @@
     <string name="strings_screen_exercise_title">Exercise</string>
     <string name="screen_exercise_btn_start_title">Do exercise</string>
     <string name="screen_exercise_vibration_caption">Vibration</string>
+    <string name="screen_exercise_sound_caption">Sound</string>
     <string name="screen_exercise_notification_caption">Notification</string>
     <string name="screen_exercise_exit_confirmation_dialog_message">Do you want to stop exercise and exit?</string>
     <string name="screen_exercise_exit_confirmation_dialog_title">Warning</string>

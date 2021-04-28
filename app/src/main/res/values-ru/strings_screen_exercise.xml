@@ -16,6 +16,7 @@
     <string name="strings_screen_exercise_title">Упражнение</string>
     <string name="screen_exercise_btn_start_title">Приступить к тренировке</string>
     <string name="screen_exercise_vibration_caption">Вибрация</string>
+    <string name="screen_exercise_sound_caption">Звук</string>
     <string name="screen_exercise_notification_caption">Уведомление</string>
     <string name="screen_exercise_exit_confirmation_dialog_message">Вы хотите остановить упражнение и выйти?</string>
     <string name="screen_exercise_exit_confirmation_dialog_title">Внимание</string>

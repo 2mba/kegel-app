@@ -1,11 +1,9 @@
 package org.tumba.kegel_app.domain
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import org.tumba.kegel_app.core.system.VibrationManager
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.tumba.kegel_app.core.system.VibrationManager.Strength
 import org.tumba.kegel_app.domain.ExerciseStateInternal.ExerciseKind
 import java.util.concurrent.TimeUnit
@@ -19,17 +17,19 @@ import kotlin.time.TimeSource
 @OptIn(ExperimentalTime::class)
 class Exercise(
     private val config: ExerciseConfig,
-    private val vibrationManager: VibrationManager,
-    private val vibrationEnabledStateProvider: () -> Boolean
 ) : CoroutineScope {
 
     override val coroutineContext = Dispatchers.Default + SupervisorJob()
 
     private var tickJob: Job? = null
-    private val eventsChannel = BroadcastChannel<ExerciseState>(CONFLATED)
+    private val eventsChannel = MutableSharedFlow<ExerciseState>(
+        replay = 1,
+        extraBufferCapacity = 10,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     private var exerciseState: ExerciseStateInternal = ExerciseStateInternal.NotStated
 
-    fun observeState(): Flow<ExerciseState> = eventsChannel.asFlow()
+    fun observeState(): Flow<ExerciseState> = eventsChannel
 
     fun start() {
         check(exerciseState == ExerciseStateInternal.NotStated) { "Exercise should not be started" }
@@ -141,6 +141,7 @@ class Exercise(
             }
         }
         notifyState()
+
     }
 
     private fun finishExercise() {
@@ -152,12 +153,12 @@ class Exercise(
         launch {
             when (val state = exerciseState) {
                 ExerciseStateInternal.NotStated -> {
-                    eventsChannel.send(ExerciseState.NotStarted)
+                    eventsChannel.emit(ExerciseState.NotStarted)
                 }
                 is ExerciseStateInternal.InProgress -> notifyInProgressState(state)
                 is ExerciseStateInternal.Pause -> {
                     val remainSeconds = getExerciseRemainTimeSeconds(state.pausedState)
-                    eventsChannel.send(
+                    eventsChannel.emit(
                         ExerciseState.Pause(
                             singleExerciseInfo = SingleExerciseInfo(
                                 remainSeconds = remainSeconds,
@@ -174,7 +175,7 @@ class Exercise(
                         durationSeconds = getFullExerciseDuration(),
                         repeats = config.repeats
                     )
-                    eventsChannel.send(ExerciseState.Finish(state.isForceFinished, exerciseInfo))
+                    eventsChannel.emit(ExerciseState.Finish(state.isForceFinished, exerciseInfo))
                 }
             }
         }
@@ -188,17 +189,17 @@ class Exercise(
         )
         when (state.exerciseKind) {
             ExerciseKind.PREPARATION -> {
-                eventsChannel.send(
+                eventsChannel.emit(
                     ExerciseState.Preparation(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             ExerciseKind.HOLDING -> {
-                eventsChannel.send(
+                eventsChannel.emit(
                     ExerciseState.Holding(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             ExerciseKind.RELAX -> {
-                eventsChannel.send(
+                eventsChannel.emit(
                     ExerciseState.Relax(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
@@ -243,10 +244,6 @@ class Exercise(
     }
 
     private fun vibrate(strength: Strength) {
-        val isVibrationEnabled = vibrationEnabledStateProvider()
-        if (isVibrationEnabled) {
-            vibrationManager.vibrate(strength)
-        }
     }
 
     private fun startTickUpdates() {
@@ -301,3 +298,5 @@ data class Time(
 )
 
 fun Time.toSeconds(): Long = unit.toSeconds(quantity)
+
+

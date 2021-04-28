@@ -90,6 +90,9 @@ class ExerciseFragment : Fragment() {
         binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onNotificationStateChanged(isChecked)
         }
+        binding.soundSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onSoundStateChanged(isChecked)
+        }
     }
 
     private fun setupActionBar() {
