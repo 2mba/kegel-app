@@ -55,4 +55,12 @@ class SettingsTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun trackNightModeSelected() {
         tracker.track("night_mode_selected")
     }
+
+    fun trackSoundVolumeClicked() {
+        tracker.track(click("sound_volume"))
+    }
+
+    fun trackSoundVolumeSelected() {
+        tracker.track("sound_volume_selected")
+    }
 }

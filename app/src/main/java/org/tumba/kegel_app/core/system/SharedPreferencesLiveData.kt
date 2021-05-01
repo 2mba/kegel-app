@@ -154,6 +154,7 @@ class PreferenceImpl<T>(
             java.lang.Integer::class.java -> flowPreference.getInt(key, defValue as Int).asFlow()
             java.lang.Long::class.java -> flowPreference.getLong(key, defValue as Long).asFlow()
             java.lang.Boolean::class.java -> flowPreference.getBoolean(key, defValue as Boolean).asFlow()
+            java.lang.Float::class.java -> flowPreference.getFloat(key, defValue as Float).asFlow()
             else -> throw IllegalStateException("Unknown class $clazz")
         } as Flow<T>
     }
@@ -163,6 +164,7 @@ class PreferenceImpl<T>(
             java.lang.Integer::class.java -> preferences.getInt(key, defValue as Int)
             java.lang.Long::class.java -> preferences.getLong(key, defValue as Long)
             java.lang.Boolean::class.java -> preferences.getBoolean(key, defValue as Boolean)
+            java.lang.Float::class.java -> preferences.getFloat(key, defValue as Float)
             else -> throw IllegalStateException("Unknown class $clazz")
         } as T
     }
@@ -172,6 +174,7 @@ class PreferenceImpl<T>(
             java.lang.Integer::class.java -> preferences.edit().putInt(key, value as Int).apply()
             java.lang.Long::class.java -> preferences.edit().putLong(key, value as Long).apply()
             java.lang.Boolean::class.java -> preferences.edit().putBoolean(key, value as Boolean).apply()
+            java.lang.Float::class.java -> preferences.edit().putFloat(key, value as Float).apply()
             else -> throw IllegalStateException("Unknown class $clazz")
         } as T
     }

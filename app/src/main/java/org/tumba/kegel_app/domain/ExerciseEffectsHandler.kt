@@ -1,10 +1,7 @@
 package org.tumba.kegel_app.domain
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import org.tumba.kegel_app.core.system.SoundManager
 import org.tumba.kegel_app.core.system.VibrationManager
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
@@ -22,9 +19,18 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
 ) : ExerciseEffectsHandler {
 
     private val coroutineScope = CoroutineScope(GlobalScope.coroutineContext + Dispatchers.Main)
+    private var soundVolume = 0f
+    private var soundObserverJob: Job? = null
 
     override fun onStartExercise(state: Flow<ExerciseState>) {
         soundManager.build()
+        soundObserverJob?.cancel()
+        soundObserverJob = coroutineScope.launch {
+            exerciseSettingsRepository.soundVolume
+                .asFlow()
+                .flowOn(Dispatchers.Default)
+                .collect { soundVolume = it }
+        }
         coroutineScope.launch { handleExerciseKindChanges(state) }
         coroutineScope.launch { handleExerciseFinish(state) }
     }
@@ -42,7 +48,10 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
 
     private suspend fun handleExerciseFinish(state: Flow<ExerciseState>) {
         state.filterIsInstance<ExerciseState.Finish>()
-            .collect { soundManager.release() }
+            .collect {
+                soundManager.release()
+                soundObserverJob?.cancel()
+            }
     }
 
     private fun vibrate() {
@@ -53,7 +62,7 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
 
     private fun playSound() {
         if (exerciseSettingsRepository.isSoundEnabled.value) {
-            soundManager.play()
+            soundManager.play(exerciseSettingsRepository.soundVolume.value)
         }
     }
 }

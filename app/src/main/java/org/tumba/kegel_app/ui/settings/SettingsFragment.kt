@@ -18,6 +18,7 @@ import org.tumba.kegel_app.BuildConfig
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
 import org.tumba.kegel_app.databinding.LayoutLevelPickerDialogBinding
+import org.tumba.kegel_app.databinding.LayoutSoundVolumePickerDialogBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
 import org.tumba.kegel_app.utils.fragment.observeSnackbar
@@ -73,6 +74,9 @@ class SettingsFragment : Fragment() {
         }
         viewModel.showNightModeDialog.observeEvent(viewLifecycleOwner) {
             showNightModePickerDialog()
+        }
+        viewModel.showSoundLevelPickerDialog.observeEvent(viewLifecycleOwner) {
+            showSoundVolumePickerDialog()
         }
     }
 
@@ -135,6 +139,20 @@ class SettingsFragment : Fragment() {
                 viewModel.onNightModeSelected(value)
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+            .show()
+    }
+
+    private fun showSoundVolumePickerDialog() {
+        val binding = LayoutSoundVolumePickerDialogBinding.inflate(layoutInflater)
+        binding.slider.value = (viewModel.soundVolume.value ?: 0).toFloat()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_settings_sound_volume_title)
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .setPositiveButton(android.R.string.ok)  { _, _ ->
+                viewModel.onSoundVolumeSelected(binding.slider.value.toInt())
+            }
             .create()
             .show()
     }

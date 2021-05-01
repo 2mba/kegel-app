@@ -42,6 +42,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val nightMode = Preference<Int>(preferences, PREF_KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
+    val soundVolume = Preference<Float>(preferences, PREF_KEY_SOUND_VOLUME, DEFAULT_SOUND_VOLUME)
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -57,6 +59,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_REMINDER_MINUTE = "PREF_KEY_REMINDER_MINUTE"
         private const val PREF_KEY_FIRST_EXERCISE_CHALLENGE = "PREF_KEY_FIRST_EXERCISE_CHALLENGE"
         private const val PREF_KEY_NIGHT_MODE = "PREF_KEY_NIGHT_MODE"
+        private const val PREF_KEY_SOUND_VOLUME = "PREF_KEY_SOUND_VOLUME"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
@@ -68,5 +71,6 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_REMINDER_ENABLED = false
         private const val DEFAULT_REMINDER_HOUR = 12
         private const val DEFAULT_REMINDER_MINUTE = 0
+        private const val DEFAULT_SOUND_VOLUME = 1f
     }
 }

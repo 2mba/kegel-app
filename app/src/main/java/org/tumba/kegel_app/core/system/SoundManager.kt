@@ -12,10 +12,12 @@ interface SoundManager {
 
     fun release()
 
-    fun play()
+    fun play(volume: Float)
 }
 
-class SoundManagerImpl @Inject constructor(private val context: Context) : SoundManager {
+class SoundManagerImpl @Inject constructor(
+    private val context: Context
+) : SoundManager {
 
     private val attributes = AudioAttributes.Builder()
         .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
@@ -38,7 +40,10 @@ class SoundManagerImpl @Inject constructor(private val context: Context) : Sound
         soundBell = null
     }
 
-    override fun play() {
-        soundBell?.let { sounds?.play(it, 1f, 1f, 0, 0, 1f) }
+    override fun play(volume: Float) {
+        soundBell?.let { sound ->
+            val volumeNormalized = volume.coerceIn(0f, 1f)
+            sounds?.play(sound, volumeNormalized, volumeNormalized, 0, 0, 1f)
+        }
     }
 }

@@ -3,10 +3,7 @@ package org.tumba.kegel_app.ui.settings
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.SettingsTracker
@@ -40,6 +37,9 @@ class SettingsViewModel @Inject constructor(
     private val _showNightModeDialog = MutableLiveData<Event<Boolean>>()
     val showNightModeDialog: LiveData<Event<Boolean>> = _showNightModeDialog
 
+    private val _showSoundLevelPickerDialog = MutableLiveData<Event<Boolean>>()
+    val showSoundLevelPickerDialog: LiveData<Event<Boolean>> = _showSoundLevelPickerDialog
+
     private val _nightMode = MutableLiveData(settingsInteractor.getNightMode())
     val nightMode: LiveData<Int> = _nightMode
 
@@ -50,6 +50,10 @@ class SettingsViewModel @Inject constructor(
         .map { time -> String.format("%02d:%02d", time.hour, time.minute) }
 
     val level = settingsInteractor.observeLevel().stateIn(viewModelScope, SharingStarted.Eagerly, 0)
+
+    val soundVolume = settingsInteractor.observeSoundVolume()
+        .map { (it * MAX_SOUND_VOLUME).toInt() }
+        .asLiveData()
 
     fun onReminderDayClicked(idx: Int) {
         if (isReminderEnabled.value != true) return
@@ -123,9 +127,21 @@ class SettingsViewModel @Inject constructor(
         tracker.trackNightModeSelected()
     }
 
+    fun onSoundVolumeClicked() {
+        tracker.trackSoundVolumeClicked()
+        _showSoundLevelPickerDialog.value = Event(true)
+    }
+
+    fun onSoundVolumeSelected(volume: Int) {
+        tracker.trackSoundVolumeSelected()
+        settingsInteractor.setSoundVolume(volume.toFloat() / MAX_SOUND_VOLUME)
+    }
+
     companion object {
         private const val DAYS_IN_WEEK = 7
         private const val NIGHT_MODE_SNACKBAR_DELAY_MILLIS = 500L
+        private const val MAX_SOUND_VOLUME = 10
+
     }
 }
 

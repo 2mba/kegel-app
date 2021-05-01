@@ -83,6 +83,14 @@ class SettingsInteractor @Inject constructor(
         nightModeManager.setNightMode(exerciseSettingsRepository.nightMode.value)
     }
 
+    fun observeSoundVolume(): Flow<Float> {
+        return exerciseSettingsRepository.soundVolume.asFlow()
+    }
+
+    fun setSoundVolume(value: Float) {
+        exerciseSettingsRepository.soundVolume.value = value
+    }
+
     data class ReminderTime(val hour: Int, val minute: Int)
 }
 

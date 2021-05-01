@@ -26,4 +26,5 @@
     <string name="screen_settings_night_mode_on">Включен</string>
     <string name="screen_settings_night_mode_off">Выключен</string>
     <string name="screen_settings_night_mode_confirmation_snackbar">Темный режим был изменен</string>
+    <string name="screen_settings_sound_volume_title">Громкость звука</string>
 </resources>
