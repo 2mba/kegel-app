@@ -125,7 +125,7 @@ class ExerciseViewModel @Inject constructor(
 
     fun onSoundStateChanged(enabled: Boolean) {
         if (isSoundEnabled.value != enabled) {
-            // tracker.trackChangeVibration(enabled)
+            tracker.trackChangeSound(enabled)
         }
         viewModelScope.launch {
             exerciseSettingsRepository.isSoundEnabled.value = enabled

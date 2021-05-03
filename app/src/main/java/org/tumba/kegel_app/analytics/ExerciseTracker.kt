@@ -27,6 +27,10 @@ class ExerciseTracker @Inject constructor(analytics: Analytics) : TrackerScope {
         tracker.track("change_notification", bundleOf("enabled" to enabled))
     }
 
+    fun trackChangeSound(enabled: Boolean) {
+        tracker.track("change_sound", bundleOf("enabled" to enabled))
+    }
+
     fun exitConfirmed() {
         tracker.track("exit_confirmed")
     }
