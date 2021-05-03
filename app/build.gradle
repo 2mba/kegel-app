@@ -117,6 +117,8 @@ dependencies {
 
     implementation "dev.chrisbanes.insetter:insetter:0.5.0"
     implementation "dev.chrisbanes.insetter:insetter-dbx:0.5.0"
+    implementation 'com.github.princekin-f:EasyFloat:2.0.2'
+
 
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"

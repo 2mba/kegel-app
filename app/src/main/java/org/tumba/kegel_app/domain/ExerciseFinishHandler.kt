@@ -9,11 +9,19 @@ class ExerciseFinishHandler @Inject constructor(
     private val exerciseParametersProvider: ExerciseParametersProvider
 ) {
 
+    private var onFinishListeners = mutableListOf<() -> Unit>()
+
     suspend fun onExerciseStateChanged(state: ExerciseState) {
         if (state is ExerciseState.Finish && !state.isForceFinished) {
+            onFinishListeners.forEach { it.invoke() }
+            onFinishListeners.clear()
             updateLevelAndNumberOfExercises()
             updateExercisesDuration(state)
         }
+    }
+
+    fun onFinish(block: () -> Unit) {
+        onFinishListeners.add(block)
     }
 
     private suspend fun updateLevelAndNumberOfExercises() {

@@ -3,6 +3,7 @@ package org.tumba.kegel_app.domain.interactor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.tumba.kegel_app.domain.*
+import org.tumba.kegel_app.floatingview.FloatingViewManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseService
@@ -15,7 +16,8 @@ class ExerciseInteractor @Inject constructor(
     private val exerciseService: ExerciseService,
     private val exerciseProgram: ExerciseProgram,
     private val exerciseEffectsHandler: ExerciseEffectsHandler,
-    private val exerciseFinishHandler: ExerciseFinishHandler
+    private val exerciseFinishHandler: ExerciseFinishHandler,
+    private val floatingViewManager: FloatingViewManager
 ) {
 
     suspend fun getExercise(): Exercise? {
@@ -45,13 +47,21 @@ class ExerciseInteractor @Inject constructor(
         }
         val exercise = getExercise()
         if (exercise != null) {
-            with(CoroutineScope(GlobalScope.coroutineContext + Dispatchers.Default)) {
-                launch {
+            with(CoroutineScope(GlobalScope.coroutineContext)) {
+                launch(Dispatchers.Default) {
                     exercise.observeState().collect { exerciseFinishHandler.onExerciseStateChanged(it) }
+                }
+                launch(Dispatchers.Main) {
+                    exercise.observeState().collect { floatingViewManager.updateFloatingViewState(it) }
+                }
+                exerciseFinishHandler.onFinish {
+                    launch(Dispatchers.Main) { floatingViewManager.hideFloatingView() }
                 }
             }
             exerciseEffectsHandler.onStartExercise(exercise.observeState())
+            floatingViewManager.showFloatingView()
             exercise.start()
+
         }
     }
 

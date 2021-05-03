@@ -19,6 +19,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
+import org.tumba.kegel_app.floatingview.FloatingViewManager
 import org.tumba.kegel_app.ui.exercise.ExerciseFragmentDirections.Companion.actionScreenExerciseToExerciseInfoFragment
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
@@ -36,6 +37,8 @@ class ExerciseFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var floatingViewManager: FloatingViewManager
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null

@@ -35,6 +35,6 @@ class ExerciseProgram @Inject constructor(
         private const val RELAX_TIME_MIN_SECONDS = 3L
         private const val RELAX_TIME_MAX_SECONDS = 5L
         private const val RELAX_TIME_COEFFICIENT = 0.6
-        private const val REPEATS = 10
+        private const val REPEATS = 2
     }
 }
