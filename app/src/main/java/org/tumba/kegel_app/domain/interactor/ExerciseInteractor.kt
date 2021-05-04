@@ -7,6 +7,7 @@ import org.tumba.kegel_app.floatingview.FloatingViewManager
 import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseService
+import org.tumba.kegel_app.ui.exercise.ExerciseBackgroundMode
 import javax.inject.Inject
 
 @Suppress("EXPERIMENTAL_API_USAGE")
@@ -59,9 +60,10 @@ class ExerciseInteractor @Inject constructor(
                 }
             }
             exerciseEffectsHandler.onStartExercise(exercise.observeState())
-            floatingViewManager.showFloatingView()
+            if (observeBackgroundMode().first() == ExerciseBackgroundMode.FLOATING_VIEW) {
+                floatingViewManager.showFloatingView()
+            }
             exercise.start()
-
         }
     }
 
@@ -81,17 +83,6 @@ class ExerciseInteractor @Inject constructor(
         exerciseRepository.deleteExercise()
     }
 
-    suspend fun setNotificationEnabled(enabled: Boolean) {
-        if (exerciseSettingsRepository.isNotificationEnabled.value == enabled) return
-
-        exerciseSettingsRepository.isNotificationEnabled.value = enabled
-        if (enabled && isExerciseInProgress()) {
-            exerciseService.startService()
-        } else {
-            exerciseService.stopService()
-        }
-    }
-
     fun isThereCompletedExercise(): Boolean {
         return exerciseSettingsRepository.lastCompletedExerciseDate.value != 0L
     }
@@ -103,6 +94,33 @@ class ExerciseInteractor @Inject constructor(
     suspend fun setFirstExerciseChallengeShown() {
         withContext(Dispatchers.IO) {
             exerciseSettingsRepository.isFirstExerciseChallengeShown.value = true
+        }
+    }
+
+    fun observeBackgroundMode(): Flow<ExerciseBackgroundMode> {
+        return exerciseSettingsRepository.backgroundMode
+            .asFlow()
+            .map { ExerciseBackgroundMode.values().getOrElse(it) { ExerciseBackgroundMode.NONE } }
+    }
+
+    suspend fun setBackgroundMode(backgroundMode: ExerciseBackgroundMode) {
+        if (!isExerciseInProgress()) {
+            return
+        }
+        exerciseSettingsRepository.backgroundMode.value = backgroundMode.ordinal
+        when (backgroundMode) {
+            ExerciseBackgroundMode.NONE -> {
+                exerciseService.stopService()
+                floatingViewManager.hideFloatingView()
+            }
+            ExerciseBackgroundMode.NOTIFICATION -> {
+                exerciseService.startService()
+                floatingViewManager.hideFloatingView()
+            }
+            ExerciseBackgroundMode.FLOATING_VIEW -> {
+                exerciseService.startService()
+                floatingViewManager.showFloatingView()
+            }
         }
     }
 

@@ -9,6 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.transition.TransitionManager
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.ui.exercise.ExerciseBackgroundMode
+import org.tumba.kegel_app.ui.exercise.getExerciseBackgroundModeStringsMap
 
 @BindingAdapter("bindGoneUnless", "animateVisibility", requireAll = false)
 fun bindGoneUnless(view: View, visible: Boolean, animateVisibility: Boolean) {
@@ -41,4 +43,11 @@ fun bindNightModeValue(view: TextView, mode: Int) {
         else -> R.string.screen_settings_night_mode_off
     }
     view.setText(value)
+}
+
+@BindingAdapter("bindBackgroundMode")
+fun bindBackgroundMode(view: TextView, backgroundMode: ExerciseBackgroundMode?) {
+    view.text = backgroundMode?.let { getExerciseBackgroundModeStringsMap()[it] }
+        ?.let { view.resources.getString(it) }
+        ?: String.Empty
 }

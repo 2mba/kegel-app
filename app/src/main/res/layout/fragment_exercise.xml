@@ -162,7 +162,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:background="#1fff"
+                    android:background="@color/divider"
                     app:layout_constraintBottom_toTopOf="@id/notificationLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -172,33 +172,49 @@
                     android:id="@+id/notificationLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/card_horizontal_padding"
-                    android:layout_marginEnd="@dimen/card_horizontal_padding"
+                    android:background="?selectableItemBackground"
+                    android:onClick="@{(view) -> viewModel.onBackgroundModeClicked()}"
+                    android:paddingHorizontal="@dimen/card_horizontal_padding"
+                    android:paddingVertical="@dimen/margin_small"
                     app:layout_constraintBottom_toTopOf="@+id/vibrationLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/notificationText"
+                        android:id="@+id/notificationTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="@string/screen_exercise_notification_caption"
+                        android:text="@string/screen_exercise_background_mode_title"
                         android:textAppearance="?attr/textAppearanceBody1"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/notificationSubtitle"
                         app:layout_constraintEnd_toStartOf="@id/notificationSwitch"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/notificationSubtitle"
+                        bindBackgroundMode="@{viewModel.backgroundMode}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/notificationSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/notificationTitle" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/notificationSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{viewModel.isNotificationEnabled}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_chevron_right"
+                        app:tint="@color/gray"
                         app:useMaterialThemeColors="false" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -311,11 +327,11 @@
                     android:text="@{viewModel.exercisePlaybackState == ExercisePlaybackStateUiModel.Playing ? @string/screen_exercise_btn_pause: @string/screen_exercise_btn_play}"
                     android:textColor="@color/colorAccent"
                     app:iconGravity="textStart"
-                    app:strokeColor="@color/colorAccent"
                     app:iconTint="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:strokeColor="@color/colorAccent"
                     tools:text="@string/screen_exercise_btn_pause" />
 
 
@@ -328,8 +344,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.timeRemain}"
-            android:textColor="@color/colorPrimary"
             android:textAppearance="?attr/textAppearanceHeadline2"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/exercise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -341,10 +357,11 @@
             android:id="@+id/exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.exerciseKind}"
             android:background="@drawable/bg_exercise_type_text"
-            android:paddingVertical="@dimen/margin_xsmall"
+            android:backgroundTint="@color/colorAccent"
             android:paddingHorizontal="@dimen/margin_medium"
+            android:paddingVertical="@dimen/margin_xsmall"
+            android:text="@{viewModel.exerciseKind}"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/infoSurface"
@@ -352,7 +369,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timer"
             app:textAllCaps="true"
-            android:backgroundTint="@color/colorAccent"
             tools:text="Сжатие" />
 
 

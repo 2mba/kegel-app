@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.analytics
 
 import androidx.core.os.bundleOf
+import org.tumba.kegel_app.ui.exercise.ExerciseBackgroundMode
 import javax.inject.Inject
 
 class ExerciseTracker @Inject constructor(analytics: Analytics) : TrackerScope {
@@ -23,8 +24,11 @@ class ExerciseTracker @Inject constructor(analytics: Analytics) : TrackerScope {
         tracker.track("change_vibration", bundleOf("enabled" to enabled))
     }
 
-    fun trackChangeNotification(enabled: Boolean) {
-        tracker.track("change_notification", bundleOf("enabled" to enabled))
+    fun trackChangeBackgroundMode(mode: ExerciseBackgroundMode) {
+        tracker.track("change_background_mode", bundleOf("mode" to mode.ordinal))
+        if (mode == ExerciseBackgroundMode.FLOATING_VIEW) {
+            tracker.track("background_mode_floating_view_selected")
+        }
     }
 
     fun trackChangeSound(enabled: Boolean) {

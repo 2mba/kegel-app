@@ -38,11 +38,7 @@ class FloatingViewManager @Inject constructor(
                 createResult { _, _, view ->
                     if (view != null) {
                         floatingView = LayoutSystemOverlayExerciseBinding.bind((view as ViewGroup).children.first())
-                        floatingView?.root?.setOnClickListener {
-                            val intent = Intent(context, MainActivity::class.java)
-                            intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(context, intent, null)
-                        }
+                        floatingView?.root?.setOnClickListener { openApp() }
                     }
                 }
                 dismiss { floatingView = null }
@@ -51,7 +47,7 @@ class FloatingViewManager @Inject constructor(
     }
 
     fun hideFloatingView() {
-        EasyFloat.hide(TAG_FLOATING_VIEW_EXERCISE)
+        EasyFloat.dismiss(TAG_FLOATING_VIEW_EXERCISE)
         floatingView = null
     }
 
@@ -63,13 +59,20 @@ class FloatingViewManager @Inject constructor(
         )
     }
 
+    private fun openApp() {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        startActivity(context, intent, null)
+    }
+
     @ColorRes
     private fun getExerciseProgressColor(state: ExerciseState): Int {
         return when (state) {
-            is ExerciseState.Preparation -> R.color.exerciseColorPreparation
-            is ExerciseState.Holding -> R.color.exerciseColorHolding
-            is ExerciseState.Relax -> R.color.exerciseColorRelax
-            is ExerciseState.Pause -> R.color.exerciseColorPaused
+            is ExerciseState.Preparation -> R.color.floatingViewExerciseColorPreparation
+            is ExerciseState.Holding -> R.color.floatingViewExerciseColorHolding
+            is ExerciseState.Relax -> R.color.floatingViewExerciseColorRelax
+            is ExerciseState.Pause -> R.color.floatingViewExerciseColorPaused
+            is ExerciseState.Finish -> R.color.floatingViewExerciseColorFinish
             else -> R.color.transparent
         }
     }

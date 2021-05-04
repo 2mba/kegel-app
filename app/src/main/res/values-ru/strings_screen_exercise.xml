@@ -17,9 +17,12 @@
     <string name="screen_exercise_btn_start_title">Приступить к тренировке</string>
     <string name="screen_exercise_vibration_caption">Вибрация</string>
     <string name="screen_exercise_sound_caption">Звук</string>
-    <string name="screen_exercise_notification_caption">Уведомление</string>
     <string name="screen_exercise_exit_confirmation_dialog_message">Вы хотите остановить упражнение и выйти?</string>
     <string name="screen_exercise_exit_confirmation_dialog_title">Внимание</string>
     <string name="screen_exercise_exit_confirmation_dialog_exit">Выйти</string>
     <string name="screen_exercise_exit_confirmation_dialog_stay">Остаться</string>
+    <string name="screen_exercise_background_mode_title">Фоновый режим</string>
+    <string name="screen_exercise_background_mode_none">Выключен</string>
+    <string name="screen_exercise_background_mode_notification">Уведомление</string>
+    <string name="screen_exercise_background_mode_floating_view">Уведомление + плавающая панель</string>
 </resources>

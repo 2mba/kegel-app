@@ -75,15 +75,15 @@ class ExerciseViewModel @Inject constructor(
     val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
         .asFlow()
         .asLiveData(Dispatchers.Default)
-    val isNotificationEnabled = exerciseSettingsRepository.isNotificationEnabled
-        .asFlow()
-        .asLiveData(Dispatchers.Default)
     val isSoundEnabled = exerciseSettingsRepository.isSoundEnabled
         .asFlow()
+        .asLiveData(Dispatchers.Default)
+    val backgroundMode = exerciseInteractor.observeBackgroundMode()
         .asLiveData(Dispatchers.Default)
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
+    val showBackgroundModeDialog = MutableLiveData(Event(false))
     private var exerciseDuration = exerciseState.filterIsInstance<ExerciseState.SingleExercise>()
         .map { it.singleExerciseInfo.exerciseDurationSeconds }
         .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
@@ -105,12 +105,16 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    fun onNotificationStateChanged(enabled: Boolean) {
-        if (isNotificationEnabled.value != enabled) {
-            tracker.trackChangeNotification(enabled)
+    fun onBackgroundModeClicked() {
+        showBackgroundModeDialog.value = Event(true)
+    }
+
+    fun onBackgroundModeSelected(backgroundMode: ExerciseBackgroundMode) {
+        if (this.backgroundMode.value != backgroundMode) {
+            tracker.trackChangeBackgroundMode(backgroundMode)
         }
         viewModelScope.launch {
-            exerciseInteractor.setNotificationEnabled(enabled)
+            exerciseInteractor.setBackgroundMode(backgroundMode)
         }
     }
 

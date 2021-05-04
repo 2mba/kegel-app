@@ -35,6 +35,12 @@
     <color name="exerciseColorPaused">@color/gray</color>
     <color name="exerciseColorPreparation">#CC7E51</color>
 
+    <color name="floatingViewExerciseColorHolding">#CC7E51</color>
+    <color name="floatingViewExerciseColorRelax">#547174</color>
+    <color name="floatingViewExerciseColorPaused">@color/gray</color>
+    <color name="floatingViewExerciseColorPreparation">#CC7E51</color>
+    <color name="floatingViewExerciseColorFinish">@color/gray</color>
+
     <color name="colorOnBg">?attr/colorOnPrimary</color>
 
     <color name="fitnessGirlColorAccent">#D88E69</color>

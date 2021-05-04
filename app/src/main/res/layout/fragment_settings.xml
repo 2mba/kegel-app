@@ -369,11 +369,11 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginBottom="@dimen/margin_medium"
                         android:text="@{viewModel.soundVolume.toString()}"
-                        tools:text="5"
                         android:textAppearance="?attr/textAppearanceCaption"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleSoundLevel" />
+                        app:layout_constraintTop_toBottomOf="@id/titleSoundLevel"
+                        tools:text="5" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"

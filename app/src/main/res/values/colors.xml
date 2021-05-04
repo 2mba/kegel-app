@@ -22,7 +22,7 @@
     <color name="colorControl">@color/colorPrimary</color>
 
     <color name="gray">#9f9f9f</color>
-    <color name="divider">#17FFFFFF</color>
+    <color name="divider">#17000000</color>
     <color name="transparent">#00000000</color>
 
     <color name="confetti_1">#FDA421</color>
@@ -34,6 +34,12 @@
     <color name="exerciseColorRelax">#8CD6DF</color>
     <color name="exerciseColorPaused">@color/gray</color>
     <color name="exerciseColorPreparation">@color/colorAccent</color>
+
+    <color name="floatingViewExerciseColorHolding">@color/colorAccent</color>
+    <color name="floatingViewExerciseColorRelax">#8CD6DF</color>
+    <color name="floatingViewExerciseColorPaused">@color/gray</color>
+    <color name="floatingViewExerciseColorPreparation">@color/colorAccent</color>
+    <color name="floatingViewExerciseColorFinish">@color/gray</color>
 
     <color name="colorOnBg">?attr/colorOnPrimary</color>
 

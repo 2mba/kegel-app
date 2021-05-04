@@ -90,9 +90,6 @@ class ExerciseFragment : Fragment() {
         binding.vibrationSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onVibrationStateChanged(isChecked)
         }
-        binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onNotificationStateChanged(isChecked)
-        }
         binding.soundSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onSoundStateChanged(isChecked)
         }
@@ -153,6 +150,9 @@ class ExerciseFragment : Fragment() {
         viewLifecycleOwner.observeEvent(viewModel.navigateToExerciseResult) { navigate ->
             if (navigate) navigateToExerciseResultFragment()
         }
+        viewLifecycleOwner.observeEvent(viewModel.showBackgroundModeDialog) { showBackgroundModeDialog ->
+            if (showBackgroundModeDialog) showBackgroundModeDialog()
+        }
     }
 
     private fun observeExerciseState() {
@@ -201,6 +201,21 @@ class ExerciseFragment : Fragment() {
                 margin()
             }
         }
+    }
+
+    private fun showBackgroundModeDialog() {
+        val strings = getExerciseBackgroundModeStringsMap()
+        val values = ExerciseBackgroundMode.values()
+            .map { getString(strings.getValue(it)) }
+            .toTypedArray()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_exercise_background_mode_title)
+            .setItems(values) { _, selected ->
+                viewModel.onBackgroundModeSelected(ExerciseBackgroundMode.values()[selected])
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+            .show()
     }
 
     companion object {

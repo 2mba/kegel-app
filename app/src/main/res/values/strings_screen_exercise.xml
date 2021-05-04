@@ -17,9 +17,12 @@
     <string name="screen_exercise_btn_start_title">Do exercise</string>
     <string name="screen_exercise_vibration_caption">Vibration</string>
     <string name="screen_exercise_sound_caption">Sound</string>
-    <string name="screen_exercise_notification_caption">Notification</string>
     <string name="screen_exercise_exit_confirmation_dialog_message">Do you want to stop exercise and exit?</string>
     <string name="screen_exercise_exit_confirmation_dialog_title">Warning</string>
     <string name="screen_exercise_exit_confirmation_dialog_exit">Exit</string>
     <string name="screen_exercise_exit_confirmation_dialog_stay">Stay</string>
+    <string name="screen_exercise_background_mode_title">Background mode</string>
+    <string name="screen_exercise_background_mode_none">Disabled</string>
+    <string name="screen_exercise_background_mode_notification">Notification</string>
+    <string name="screen_exercise_background_mode_floating_view">Notification + floating panel</string>
 </resources>
