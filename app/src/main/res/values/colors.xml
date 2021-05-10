@@ -19,6 +19,7 @@
     <color name="selectableItemColorDisabled">#3E000000</color>
     <color name="selectableItemTextColorDisabled">@color/white</color>
     <color name="colorOnInvertedSurface">@color/white</color>
+    <color name="colorSecondaryOnInvertedSurface">#80FFFFFF</color>
     <color name="colorControl">@color/colorPrimary</color>
 
     <color name="gray">#9f9f9f</color>

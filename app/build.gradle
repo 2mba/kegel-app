@@ -119,6 +119,8 @@ dependencies {
     implementation "dev.chrisbanes.insetter:insetter-dbx:0.5.0"
     implementation 'com.github.princekin-f:EasyFloat:2.0.2'
 
+    implementation "com.android.billingclient:billing:$billingVersion"
+    implementation "com.android.billingclient:billing-ktx:$billingVersion"
 
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"

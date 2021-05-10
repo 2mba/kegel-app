@@ -1,6 +1,7 @@
 package org.tumba.kegel_app.ui.exercise
 
 import androidx.annotation.ColorRes
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ExerciseTracker
+import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
@@ -27,6 +29,7 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val exerciseParametersProvider: ExerciseParametersProvider,
     private val exerciseNameProvider: ExerciseNameProvider,
+    private val proUpgradeManager: ProUpgradeManager,
     private val tracker: ExerciseTracker
 ) : BaseViewModel() {
 
@@ -84,6 +87,10 @@ class ExerciseViewModel @Inject constructor(
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
     val showBackgroundModeDialog = MutableLiveData(Event(false))
+
+    val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
+    val startProPurchasingFlow = MutableLiveData(Event(false))
+
     private var exerciseDuration = exerciseState.filterIsInstance<ExerciseState.SingleExercise>()
         .map { it.singleExerciseInfo.exerciseDurationSeconds }
         .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
@@ -130,6 +137,9 @@ class ExerciseViewModel @Inject constructor(
     fun onSoundStateChanged(enabled: Boolean) {
         if (isSoundEnabled.value != enabled) {
             tracker.trackChangeSound(enabled)
+            if (isProAvailable.value == false) {
+                startProPurchasingFlow.value = Event(true)
+            }
         }
         viewModelScope.launch {
             exerciseSettingsRepository.isSoundEnabled.value = enabled
