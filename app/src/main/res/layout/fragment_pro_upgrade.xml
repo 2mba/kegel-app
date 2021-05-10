@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.proupgrade.ProUpgradeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:text="Upgrade to\nPRO"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/colorOnInvertedSurface"
+            app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/props"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_xlarge"
+            app:layout_constraintBottom_toTopOf="@id/btnDone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/star">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/propsIconSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toBottomOf="@id/propsTitleSound"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propsTitleSound"
+                app:srcCompat="@drawable/ic_props_tick" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsTitleSound"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="Sound"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsSubtitleSound"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/propsIconSound"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsSubtitleSound"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Do a workout in background with sound accompaniment"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorSecondaryOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsTitleBackground"
+                app:layout_constraintEnd_toEndOf="@id/propsTitleSound"
+                app:layout_constraintStart_toStartOf="@id/propsTitleSound"
+                app:layout_constraintTop_toBottomOf="@id/propsTitleSound" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/propsIconBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toBottomOf="@id/propsTitleBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propsTitleBackground"
+                app:srcCompat="@drawable/ic_props_tick" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsTitleBackground"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Background"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsSubtitleBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/propsIconBackground"
+                app:layout_constraintTop_toBottomOf="@id/propsSubtitleSound" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsSubtitleBackground"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Do a Kegel exercise while using other apps with floating panel that draw over other apps"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorSecondaryOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@+id/propsTitleAds"
+                app:layout_constraintEnd_toEndOf="@id/propsTitleBackground"
+                app:layout_constraintStart_toStartOf="@id/propsTitleBackground"
+                app:layout_constraintTop_toBottomOf="@id/propsTitleBackground" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/propsIconAds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toBottomOf="@id/propsTitleAds"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propsTitleAds"
+                app:srcCompat="@drawable/ic_props_tick" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsTitleAds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="No ads"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsSubtitleAds"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/propsIconAds"
+                app:layout_constraintTop_toBottomOf="@id/propsSubtitleBackground" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsSubtitleAds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Enjoy the app without ads"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorSecondaryOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsTitlePurchase"
+                app:layout_constraintEnd_toEndOf="@id/propsTitleAds"
+                app:layout_constraintStart_toStartOf="@id/propsTitleAds"
+                app:layout_constraintTop_toBottomOf="@id/propsTitleAds" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/propsIconPurchase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toBottomOf="@id/propsTitlePurchase"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propsTitlePurchase"
+                app:srcCompat="@drawable/ic_props_tick" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsTitlePurchase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Lifetime purchase"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/colorOnInvertedSurface"
+                app:layout_constraintBottom_toTopOf="@id/propsSubtitlePurchase"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/propsIconPurchase"
+                app:layout_constraintTop_toBottomOf="@id/propsSubtitleAds" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/propsSubtitlePurchase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Get full and endless access to premium features of the app. No more periodic purchases"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorSecondaryOnInvertedSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/propsTitlePurchase"
+                app:layout_constraintStart_toStartOf="@id/propsTitlePurchase"
+                app:layout_constraintTop_toBottomOf="@id/propsTitlePurchase" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/colorOnInvertedSurface"
+            app:layout_constraintBottom_toTopOf="@id/props"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:srcCompat="@drawable/star" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDone"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Get * 399 RUB"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:visibility="visible"
+            app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

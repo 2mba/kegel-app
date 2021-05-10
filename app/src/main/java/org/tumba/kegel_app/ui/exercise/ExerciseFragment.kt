@@ -1,12 +1,15 @@
 package org.tumba.kegel_app.ui.exercise
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
@@ -16,10 +19,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.applyInsetter
+import kotlinx.android.synthetic.main.list_item_exercise_background_mode.view.*
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.billing.BillingManager
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
-import org.tumba.kegel_app.floatingview.FloatingViewManager
 import org.tumba.kegel_app.ui.exercise.ExerciseFragmentDirections.Companion.actionScreenExerciseToExerciseInfoFragment
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
@@ -37,8 +41,10 @@ class ExerciseFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     @Inject
-    lateinit var floatingViewManager: FloatingViewManager
+    lateinit var billingManager: BillingManager
+
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null
@@ -153,6 +159,11 @@ class ExerciseFragment : Fragment() {
         viewLifecycleOwner.observeEvent(viewModel.showBackgroundModeDialog) { showBackgroundModeDialog ->
             if (showBackgroundModeDialog) showBackgroundModeDialog()
         }
+        viewLifecycleOwner.observeEvent(viewModel.startProPurchasingFlow) { startProPurchasingFlow ->
+            if (startProPurchasingFlow) {
+                billingManager.startProUpgradePurchaseFlow(requireActivity())
+            }
+        }
     }
 
     private fun observeExerciseState() {
@@ -204,13 +215,9 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun showBackgroundModeDialog() {
-        val strings = getExerciseBackgroundModeStringsMap()
-        val values = ExerciseBackgroundMode.values()
-            .map { getString(strings.getValue(it)) }
-            .toTypedArray()
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.screen_exercise_background_mode_title)
-            .setItems(values) { _, selected ->
+            .setAdapter(BackgroundModeSelectorAdapter(requireContext())) { _, selected ->
                 viewModel.onBackgroundModeSelected(ExerciseBackgroundMode.values()[selected])
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> }
@@ -234,5 +241,34 @@ class ExerciseFragment : Fragment() {
             val value = from + (to - from) * interpolatedTime
             progressBar.progress = value.toInt()
         }
+    }
+}
+
+class BackgroundModeSelectorAdapter(context: Context) : ArrayAdapter<ExerciseBackgroundMode>(
+    context,
+    R.layout.list_item_exercise_background_mode,
+    ExerciseBackgroundMode.values()
+) {
+
+    private val values: List<String>
+    private val proIcon: Drawable?
+
+    init {
+        val strings = getExerciseBackgroundModeStringsMap()
+        values = ExerciseBackgroundMode.values().map { context.getString(strings.getValue(it)) }
+        proIcon = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_pro, null)
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = super.getView(position, convertView, parent)
+        val item = getItem(position)
+        view.value.text = values.getOrNull(position).orEmpty()
+        view.value.setCompoundDrawablesWithIntrinsicBounds(
+            null,
+            null,
+            if (item == ExerciseBackgroundMode.FLOATING_VIEW) proIcon else null,
+            null
+        )
+        return view
     }
 }

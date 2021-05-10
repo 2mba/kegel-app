@@ -1,5 +1,6 @@
 package org.tumba.kegel_app.utils
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -50,4 +51,17 @@ fun bindBackgroundMode(view: TextView, backgroundMode: ExerciseBackgroundMode?) 
     view.text = backgroundMode?.let { getExerciseBackgroundModeStringsMap()[it] }
         ?.let { view.resources.getString(it) }
         ?: String.Empty
+}
+
+
+@BindingAdapter("bindDrawableEndCompat")
+fun bindDrawableEndCompat(view: TextView, drawable: Drawable?) {
+    if (drawable != null) {
+        view.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            null,
+            null,
+            drawable,
+            null
+        )
+    }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isProLabelVisible"
+            type="Boolean" />
+
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+
+    <androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/value"
+        android:layout_width="match_parent"
+        android:layout_height="?listPreferredItemHeightSmall"
+        android:drawablePadding="@dimen/margin_small"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/margin_medium2"
+        android:paddingEnd="@dimen/margin_medium2"
+        android:text="@{text}"
+        android:textAppearance="?textAppearanceBody2"
+        app:drawableEndCompat="@drawable/ic_pro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Test" />
+
+
+</layout>

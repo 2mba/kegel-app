@@ -46,6 +46,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val backgroundMode = Preference<Int>(preferences, PREF_KEY_BACKGROUND_MODE, DEFAULT_BACKGROUND_MODE)
 
+    val isProAvailable = Preference<Boolean>(preferences, PREF_KEY_PRO_AVAILABLE, DEFAULT_PRO_AVAILABLE)
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -63,6 +65,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_NIGHT_MODE = "PREF_KEY_NIGHT_MODE"
         private const val PREF_KEY_SOUND_VOLUME = "PREF_KEY_SOUND_VOLUME"
         private const val PREF_KEY_BACKGROUND_MODE = "PREF_KEY_BACKGROUND_MODE"
+        private const val PREF_KEY_PRO_AVAILABLE = "PREF_KEY_PRO_AVAILABLE"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true
@@ -76,5 +79,6 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_REMINDER_MINUTE = 0
         private const val DEFAULT_SOUND_VOLUME = 1f
         private const val DEFAULT_BACKGROUND_MODE = 1
+        private const val DEFAULT_PRO_AVAILABLE = false
     }
 }
