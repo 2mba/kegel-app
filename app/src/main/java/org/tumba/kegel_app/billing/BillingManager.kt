@@ -2,7 +2,6 @@ package org.tumba.kegel_app.billing
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import com.android.billingclient.api.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -12,8 +11,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.tumba.kegel_app.billing.ProUpgradeManager.Companion.SKU_UPGRADE_PRO
 import org.tumba.kegel_app.utils.IgnoreErrorHandler
 import org.tumba.kegel_app.utils.asCoroutineExceptionHandler
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -33,13 +34,17 @@ class BillingManager @Inject constructor(private val context: Context) {
     )
     val purchases: Flow<List<Purchase>> = _purchases
 
+    private val _billingResultUpdates = MutableSharedFlow<BillingResult>(replay = 0, extraBufferCapacity = 1)
+    val billingResultUpdates: Flow<BillingResult> = _billingResultUpdates
     private var _isDetailsLoaded = false
     val isDetailsLoaded: Boolean
         get() = _isDetailsLoaded
 
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
-        Log.e("!!!!!!", billingResult.debugMessage)
+        Timber.d("purchasesUpdatedListener ${logPurchases(purchases)}")
         purchases?.let { _purchases.tryEmit(it) }
+        _billingResultUpdates.tryEmit(billingResult)
+        acknowledgePurchases(purchases ?: emptyList())
     }
 
     private var billingClient = BillingClient.newBuilder(context)
@@ -49,10 +54,15 @@ class BillingManager @Inject constructor(private val context: Context) {
 
 
     fun onAppStarted() {
-        GlobalScope.launch(Dispatchers.Main + IgnoreErrorHandler.asCoroutineExceptionHandler()) {
+        GlobalScope.launch {
+            loadBillingData()
+        }
+    }
+
+    suspend fun loadBillingData(): BillingResult {
+        return withContext(Dispatchers.Main + IgnoreErrorHandler.asCoroutineExceptionHandler()) {
             connectAndQuerySkuDetails()
         }
-
     }
 
     private suspend fun connectAndQuerySkuDetails(): BillingResult {
@@ -68,14 +78,10 @@ class BillingManager @Inject constructor(private val context: Context) {
         return suspendCoroutine { continuation ->
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    Log.e("!!!!", " onBillingSetupFinished ${billingResult.debugMessage}")
                     continuation.resume(billingResult)
                 }
 
                 override fun onBillingServiceDisconnected() {
-                    // Try to restart the connection on the next request to
-                    // Google Play by calling the startConnection() method.
-                    Log.e("!!!!", " onBillingServiceDisconnected")
                 }
             })
         }
@@ -96,35 +102,56 @@ class BillingManager @Inject constructor(private val context: Context) {
         val purchasesResult = withContext(Dispatchers.IO) {
             billingClient.queryPurchases(BillingClient.SkuType.INAPP)
         }
-        purchasesResult.purchasesList?.let { _purchases.tryEmit(it) }
+        purchasesResult.purchasesList?.let { purchases ->
+            _purchases.tryEmit(purchases)
+            acknowledgePurchases(purchases)
+        }
 
-        Log.e("!!!!", " querySkuDetails ${skuDetailsResult.billingResult.debugMessage}")
-        Log.e("!!!!", " querySkuDetails ${skuDetailsResult.skuDetailsList?.firstOrNull()?.description}")
+        Timber.d("querySkuDetails ${skuDetailsResult.billingResult.debugMessage}")
+        Timber.d(
+            "querySkuDetails list = %s, message = %s",
+            skuDetailsResult.skuDetailsList?.firstOrNull()?.description,
+            skuDetailsResult.billingResult.debugMessage
+        )
+        Timber.d("queryPurchases ${logPurchases(purchasesResult.purchasesList)}")
         _isDetailsLoaded = true
 
         return purchasesResult.billingResult
     }
 
-    fun startProUpgradePurchaseFlow(activity: Activity) {
+    fun startPurchaseFlow(activity: Activity, sku: String) {
         GlobalScope.launch(Dispatchers.Main + IgnoreErrorHandler.asCoroutineExceptionHandler()) {
             if (!billingClient.isReady) {
                 connectAndQuerySkuDetails()
             }
-            val proUpgradeSkuDetails = getSkuDetails(SKU_UPGRADE_PRO) ?: return@launch
+            val proUpgradeSkuDetails = getSkuDetails(sku) ?: return@launch
             val flowParams = BillingFlowParams.newBuilder()
                 .setSkuDetails(proUpgradeSkuDetails)
                 .build()
             val result = billingClient.launchBillingFlow(activity, flowParams)
-            Log.e("!!!!", " startProUpgradePurchaseFlow ${result.debugMessage}  -> ${result.responseCode}")
+            Timber.d("startPurchaseFlow ${result.debugMessage}  -> ${result.responseCode}")
         }
+    }
+
+    private fun acknowledgePurchases(purchases: List<Purchase>) {
+        purchases.asSequence()
+            .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED && !it.isAcknowledged }
+            .forEach { purchase ->
+                Timber.d("acknowledgePurchases ${purchase.sku}")
+                val params = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+                billingClient.acknowledgePurchase(params) { result ->
+                    Timber.d("acknowledgePurchases ${result.debugMessage} -> ${result.responseCode}")
+                }
+            }
     }
 
     private suspend fun getSkuDetails(sku: String): SkuDetails? {
         return skuDetails.firstOrNull()?.firstOrNull { it.sku == sku }
     }
 
-    companion object {
-        const val SKU_UPGRADE_PRO = "pro_upgrade"
+    private fun logPurchases(purchases: List<Purchase>?): String? {
+        return purchases?.joinToString { "${it.sku}, state = ${it.purchaseState}" }
     }
 }
-

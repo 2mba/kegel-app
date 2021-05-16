@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="screen_exercise_menu_help">Помощь</string>
+    <string name="screen_exercise_menu_upgrade_to_pro">Upgrade to pro</string>
     <string name="screen_exercise_repeats">Повторений: %s</string>
     <string name="screen_exercise_remain_time">Осталось: %s</string>
     <string name="screen_exercise_day">День: %s</string>

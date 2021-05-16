@@ -45,4 +45,6 @@
 
     <color name="fitnessGirlColorAccent">#D88E69</color>
     <color name="fitnessGirlColorDark">#407E9D</color>
+
+    <color name="proUpgradeBackground">#374952</color>
 </resources>

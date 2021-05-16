@@ -27,4 +27,5 @@
     <string name="screen_settings_night_mode_off">Disabled</string>
     <string name="screen_settings_night_mode_confirmation_snackbar">Night mode has been changed</string>
     <string name="screen_settings_sound_volume_title">Sound volume</string>
+    <string name="screen_settings_btn_upgrade_to_pro">Upgrade to PRO</string>
 </resources>

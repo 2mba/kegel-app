@@ -19,6 +19,7 @@ import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
+import org.tumba.kegel_app.ui.home.HomeFragmentDirections
 import org.tumba.kegel_app.utils.Event
 import org.tumba.kegel_app.utils.formatExerciseDuration
 import javax.inject.Inject
@@ -89,7 +90,6 @@ class ExerciseViewModel @Inject constructor(
     val showBackgroundModeDialog = MutableLiveData(Event(false))
 
     val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
-    val startProPurchasingFlow = MutableLiveData(Event(false))
 
     private var exerciseDuration = exerciseState.filterIsInstance<ExerciseState.SingleExercise>()
         .map { it.singleExerciseInfo.exerciseDurationSeconds }
@@ -117,6 +117,10 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onBackgroundModeSelected(backgroundMode: ExerciseBackgroundMode) {
+        if (isProAvailable.value == false && backgroundMode == ExerciseBackgroundMode.FLOATING_VIEW) {
+            pauseAndNavigateToProUpgradeScreen()
+            return
+        }
         if (this.backgroundMode.value != backgroundMode) {
             tracker.trackChangeBackgroundMode(backgroundMode)
         }
@@ -135,14 +139,15 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onSoundStateChanged(enabled: Boolean) {
-        if (isSoundEnabled.value != enabled) {
-            tracker.trackChangeSound(enabled)
-            if (isProAvailable.value == false) {
-                startProPurchasingFlow.value = Event(true)
-            }
-        }
-        viewModelScope.launch {
-            exerciseSettingsRepository.isSoundEnabled.value = enabled
+        changeSoundState(enabled)
+    }
+
+    fun onClickSound() {
+        if (isProAvailable.value == false) {
+            pauseAndNavigateToProUpgradeScreen()
+        } else {
+            val invertedState = !(isSoundEnabled.value ?: false)
+            changeSoundState(invertedState)
         }
     }
 
@@ -176,6 +181,20 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
+    fun onMenuUpgradeToProClicked() {
+        pauseAndNavigateToProUpgradeScreen()
+    }
+
+    private fun changeSoundState(enabled: Boolean) {
+        if (isSoundEnabled.value == enabled) {
+            return
+        }
+        tracker.trackChangeSound(enabled)
+        viewModelScope.launch {
+            exerciseSettingsRepository.isSoundEnabled.value = enabled
+        }
+    }
+
     private fun switchPlayback() {
         when (exercisePlaybackState.value) {
             Playing -> {
@@ -191,6 +210,14 @@ class ExerciseViewModel @Inject constructor(
                 }
             }
             else -> {
+            }
+        }
+    }
+
+    private fun pause() {
+        if (exercisePlaybackState.value == Playing) {
+            viewModelScope.launch {
+                exerciseInteractor.pauseExercise()
             }
         }
     }
@@ -229,6 +256,11 @@ class ExerciseViewModel @Inject constructor(
         if (exit.value?.peekContent() != true) {
             exit.value = Event(true)
         }
+    }
+
+    private fun pauseAndNavigateToProUpgradeScreen() {
+        pause()
+        navigate(HomeFragmentDirections.actionGlobalScreenProUpgrade())
     }
 
     private fun formatRepeats(repeatsRemain: Int, repeats: Int): String {

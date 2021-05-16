@@ -30,6 +30,12 @@ fun Fragment.observeNavigation(navigable: Navigable) {
             controller.navigate(direction)
         }
     }
+    navigable.back.observeEvent(viewLifecycleOwner) { back ->
+        val controller = findNavController()
+        if (back) {
+            controller.popBackStack()
+        }
+    }
 }
 
 fun DialogFragment.observeNavigation(navigable: Navigable) {
@@ -37,6 +43,12 @@ fun DialogFragment.observeNavigation(navigable: Navigable) {
         val controller = findNavController()
         if (controller.currentDestination?.getAction(direction.actionId) != null) {
             controller.navigate(direction)
+        }
+    }
+    navigable.back.observeEvent(this) { back ->
+        val controller = findNavController()
+        if (back) {
+            controller.popBackStack()
         }
     }
 }

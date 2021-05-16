@@ -122,6 +122,8 @@ dependencies {
     implementation "com.android.billingclient:billing:$billingVersion"
     implementation "com.android.billingclient:billing-ktx:$billingVersion"
 
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

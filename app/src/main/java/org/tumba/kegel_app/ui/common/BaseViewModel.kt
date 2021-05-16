@@ -57,14 +57,24 @@ interface Navigable {
 
     val navigation: LiveData<Event<NavDirections>>
 
+    val back: LiveData<Event<Boolean>>
+
     fun navigate(direction: NavDirections)
+
+    fun back()
 }
 
 class NavigableImpl : Navigable {
 
     override val navigation = MutableLiveData<Event<NavDirections>>()
 
+    override val back = MutableLiveData<Event<Boolean>>()
+
     override fun navigate(direction: NavDirections) {
         navigation.value = Event(direction)
+    }
+
+    override fun back() {
+        back.value = Event(true)
     }
 }
