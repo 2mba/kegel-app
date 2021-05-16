@@ -47,4 +47,7 @@
     <color name="fitnessGirlColorDark">#407E9D</color>
 
     <color name="proUpgradeBackground">#374952</color>
+
+    <color name="proUpgradeIconColor">#E56565</color>
+    <color name="proUpgradeStatusIconColor">#33FFFFFF</color>
 </resources>
