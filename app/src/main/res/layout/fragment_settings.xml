@@ -48,7 +48,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/title_settings"
             app:titleMarginStart="@dimen/margin_xxlarge"
-            app:titleTextAppearance="?attr/textAppearanceHeadline6" />
+            app:titleTextAppearance="?attr/textAppearanceHeadline6">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                bindGoneUnless="@{viewModel.isProAvailable}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                app:srcCompat="@drawable/ic_pro_status" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -64,14 +73,34 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_medium">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpgradeToPro"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    bindGoneUnless="@{!viewModel.isProAvailable}"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:onClick="@{() -> viewModel.onProUpgradeClicked()}"
+                    android:text="@string/screen_settings_btn_upgrade_to_pro"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent"
+                    app:fontFamily="@font/montserrat_bold"
+                    app:icon="@drawable/ic_star_24"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:strokeColor="@color/colorAccent"
+                    app:strokeWidth="2dp" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/sectionReminder"
                     style="@style/SettingsSectionCaption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/screen_settings_section_reminder"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="@string/screen_settings_section_reminder" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -346,7 +375,6 @@
                         app:srcCompat="@drawable/ic_cup_24"
                         app:tint="@color/colorAccent" />
 
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/titleSoundLevel"
                         style="@style/Widget.MaterialComponents.TextView"
@@ -355,10 +383,13 @@
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
+                        android:drawablePadding="@dimen/margin_small"
                         android:text="@string/screen_settings_sound_volume_title"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
+                        app:bindDrawableEndCompat="@{viewModel.isProAvailable ? null : @drawable/ic_pro}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:drawableEnd="@drawable/ic_pro" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/subtitleSoundLevel"

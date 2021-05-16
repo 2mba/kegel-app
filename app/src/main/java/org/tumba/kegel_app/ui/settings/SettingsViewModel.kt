@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.SettingsTracker
+import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val resourceProvider: ResourceProvider,
+    private val proUpgradeManager: ProUpgradeManager,
     private val tracker: SettingsTracker
 ) : BaseViewModel() {
 
@@ -54,6 +56,8 @@ class SettingsViewModel @Inject constructor(
     val soundVolume = settingsInteractor.observeSoundVolume()
         .map { (it * MAX_SOUND_VOLUME).toInt() }
         .asLiveData()
+
+    val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
 
     fun onReminderDayClicked(idx: Int) {
         if (isReminderEnabled.value != true) return
@@ -129,12 +133,20 @@ class SettingsViewModel @Inject constructor(
 
     fun onSoundVolumeClicked() {
         tracker.trackSoundVolumeClicked()
-        _showSoundLevelPickerDialog.value = Event(true)
+        if (isProAvailable.value == false) {
+            navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
+        } else {
+            _showSoundLevelPickerDialog.value = Event(true)
+        }
     }
 
     fun onSoundVolumeSelected(volume: Int) {
         tracker.trackSoundVolumeSelected()
         settingsInteractor.setSoundVolume(volume.toFloat() / MAX_SOUND_VOLUME)
+    }
+
+    fun onProUpgradeClicked() {
+        navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
     }
 
     companion object {

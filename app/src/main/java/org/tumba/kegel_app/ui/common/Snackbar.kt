@@ -23,3 +23,7 @@ class SnackbarSourceImpl : SnackbarSource {
         this.snackbar.value = Event(snackbar)
     }
 }
+
+fun SnackbarSource.showSnackbar(message: String) {
+    showSnackbar(SnackbarData(message))
+}

@@ -21,6 +21,7 @@ import org.tumba.kegel_app.databinding.LayoutLevelPickerDialogBinding
 import org.tumba.kegel_app.databinding.LayoutSoundVolumePickerDialogBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
+import org.tumba.kegel_app.utils.fragment.observeNavigation
 import org.tumba.kegel_app.utils.fragment.observeSnackbar
 import org.tumba.kegel_app.utils.observeEvent
 import javax.inject.Inject
@@ -54,6 +55,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupInsets()
+        observeNavigation(viewModel)
         viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), binding.root) {
             anchorView = activity?.findViewById(R.id.navView)
         }
@@ -150,7 +152,7 @@ class SettingsFragment : Fragment() {
             .setTitle(R.string.screen_settings_sound_volume_title)
             .setView(binding.root)
             .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            .setPositiveButton(android.R.string.ok)  { _, _ ->
+            .setPositiveButton(android.R.string.ok) { _, _ ->
                 viewModel.onSoundVolumeSelected(binding.slider.value.toInt())
             }
             .create()
@@ -158,16 +160,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupInsets() {
-        view?.applyInsetter {
-            type(navigationBars = true) {
-                padding()
-            }
-        }
         binding.toolbar.applyInsetter {
             type(statusBars = true) {
                 margin()
             }
         }
     }
-
 }

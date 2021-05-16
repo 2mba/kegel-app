@@ -5,6 +5,7 @@ import org.tumba.kegel_app.billing.BillingManager
 import org.tumba.kegel_app.di.component.DaggerAppComponent
 import org.tumba.kegel_app.di.module.AppModule
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
+import timber.log.Timber
 import javax.inject.Inject
 
 class KegelApplication : Application() {
@@ -24,5 +25,6 @@ class KegelApplication : Application() {
         appComponent.inject(this)
         settingsInteractor.restoreNightMode()
         billingManager.onAppStarted()
+        Timber.plant(Timber.DebugTree())
     }
 }

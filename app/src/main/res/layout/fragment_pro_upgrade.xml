@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,29 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/colorPrimary">
+        android:background="@drawable/bg_upgrade_to_pro">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="?actionBarSize"
-            android:background="@color/transparent"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/colorOnInvertedSurface"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_24"
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_large"
-            android:text="Upgrade to\nPRO"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/screen_pro_upgrade_title"
             android:textAppearance="?attr/textAppearanceHeadline4"
             android:textColor="@color/colorOnInvertedSurface"
             app:fontFamily="@font/montserrat_bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/close"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,10 +50,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_xlarge"
-            app:layout_constraintBottom_toTopOf="@id/btnDone"
+            android:layout_marginBottom="@dimen/margin_medium"
+            app:layout_constraintBottom_toTopOf="@id/btnUpgrade"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/star">
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintVertical_bias="1">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/propsIconSound"
@@ -64,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:text="Sound"
+                android:text="@string/screen_pro_upgrade_pros_sound_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/colorOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsSubtitleSound"
@@ -76,7 +85,7 @@
                 android:id="@+id/propsSubtitleSound"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Do a workout in background with sound accompaniment"
+                android:text="@string/screen_pro_upgrade_pros_sound_text"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/colorSecondaryOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsTitleBackground"
@@ -101,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="Background"
+                android:text="@string/screen_pro_upgrade_pros_background_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/colorOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsSubtitleBackground"
@@ -113,7 +122,7 @@
                 android:id="@+id/propsSubtitleBackground"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Do a Kegel exercise while using other apps with floating panel that draw over other apps"
+                android:text="@string/screen_pro_upgrade_pros_background_text"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/colorSecondaryOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@+id/propsTitleAds"
@@ -138,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="No ads"
+                android:text="@string/screen_pro_upgrade_pros_ads_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/colorOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsSubtitleAds"
@@ -150,7 +159,7 @@
                 android:id="@+id/propsSubtitleAds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Enjoy the app without ads"
+                android:text="@string/screen_pro_upgrade_pros_ads_text"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/colorSecondaryOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsTitlePurchase"
@@ -175,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="Lifetime purchase"
+                android:text="@string/screen_pro_upgrade_pros_purchase_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/colorOnInvertedSurface"
                 app:layout_constraintBottom_toTopOf="@id/propsSubtitlePurchase"
@@ -187,7 +196,7 @@
                 android:id="@+id/propsSubtitlePurchase"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Get full and endless access to premium features of the app. No more periodic purchases"
+                android:text="@string/screen_pro_upgrade_pros_purchase_text"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/colorSecondaryOnInvertedSurface"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -203,6 +212,7 @@
             android:layout_marginHorizontal="@dimen/margin_large"
             android:textAppearance="?attr/textAppearanceHeadline4"
             android:textColor="@color/colorOnInvertedSurface"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@id/props"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,21 +221,60 @@
             app:srcCompat="@drawable/star" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDone"
+            android:id="@+id/btnUpgrade"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_marginHorizontal="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xsmall"
             android:backgroundTint="@color/colorAccent"
-            android:text="Get * 399 RUB"
+            android:onClick="@{(view) -> viewModel.onUpgradeToProClicked()}"
+            android:text="@{viewModel.price != null ? @string/screen_pro_upgrade_btn_get(viewModel.price): ``}"
             android:textColor="@color/white"
             android:textSize="15dp"
             android:visibility="visible"
             app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintBottom_toTopOf="@id/btnRestorePurchase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="GET * 300 RUB" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRestorePurchase"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:onClick="@{(view) -> viewModel.onRestorePurchaseClicked()}"
+            android:text="@string/screen_pro_upgrade_btn_restore"
+            android:textColor="@color/textColorGray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/white" />
 
+        <FrameLayout
+            android:id="@+id/loadingLayout"
+            bindGoneUnless="@{viewModel.isLoading}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#4D000000"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

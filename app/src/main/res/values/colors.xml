@@ -14,6 +14,7 @@
     <color name="textColorPrimary">@color/colorPrimary</color>
     <color name="textColorPrimaryDisabled">#C5C5C5</color>
     <color name="textColorSecondary">#80374952</color>
+    <color name="textColorGray">#80FFFFFF</color>
     <color name="progressColor">#17FF9800</color>
     <color name="selectableItemColorNotSelected">#20000000</color>
     <color name="selectableItemColorDisabled">#3E000000</color>
@@ -46,4 +47,6 @@
 
     <color name="fitnessGirlColorAccent">#EE8855</color>
     <color name="fitnessGirlColorDark">#2E83AD</color>
+
+    <color name="proUpgradeBackground">@color/colorPrimary</color>
 </resources>
