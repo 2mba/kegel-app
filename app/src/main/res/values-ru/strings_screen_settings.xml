@@ -28,4 +28,11 @@
     <string name="screen_settings_night_mode_confirmation_snackbar">Темный режим был изменен</string>
     <string name="screen_settings_sound_volume_title">Громкость звука</string>
     <string name="screen_settings_btn_upgrade_to_pro">Улучшить до PRO</string>
+    <string name="screen_settings_sound_pack_title">Звук</string>
+    <string name="screen_settings_sound_pack_bell_1">Колокол 1</string>
+    <string name="screen_settings_sound_pack_bell_2">Колокол 2</string>
+    <string name="screen_settings_sound_pack_tweet">Чирикание</string>
+    <string name="screen_settings_sound_pack_music_1">Музыкальный инструмент 1</string>
+    <string name="screen_settings_sound_pack_music_2">Музыкальный инструмент 2</string>
+    <string name="screen_settings_sound_pack_clap">Хлопок</string>
 </resources>

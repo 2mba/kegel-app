@@ -49,5 +49,6 @@
     <color name="proUpgradeBackground">#374952</color>
 
     <color name="proUpgradeIconColor">#E56565</color>
+    <color name="proUpgradeIconTextColor">#000000</color>
     <color name="proUpgradeStatusIconColor">#33FFFFFF</color>
 </resources>

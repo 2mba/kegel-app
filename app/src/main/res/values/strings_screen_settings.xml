@@ -28,4 +28,11 @@
     <string name="screen_settings_night_mode_confirmation_snackbar">Night mode has been changed</string>
     <string name="screen_settings_sound_volume_title">Sound volume</string>
     <string name="screen_settings_btn_upgrade_to_pro">Upgrade to PRO</string>
+    <string name="screen_settings_sound_pack_title">Sound</string>
+    <string name="screen_settings_sound_pack_bell_1">Bell 1</string>
+    <string name="screen_settings_sound_pack_bell_2">Bell 2</string>
+    <string name="screen_settings_sound_pack_tweet">Tweet</string>
+    <string name="screen_settings_sound_pack_music_1">Musical instrument 1</string>
+    <string name="screen_settings_sound_pack_music_2">Musical instrument 2</string>
+    <string name="screen_settings_sound_pack_clap">Clap</string>
 </resources>
