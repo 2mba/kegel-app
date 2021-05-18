@@ -80,6 +80,9 @@ class SettingsFragment : Fragment() {
         viewModel.showSoundLevelPickerDialog.observeEvent(viewLifecycleOwner) {
             showSoundVolumePickerDialog()
         }
+        viewModel.showSoundPackPickerDialog.observeEvent(viewLifecycleOwner) {
+            showSoundPackPickerDialog()
+        }
     }
 
     private fun showReminderTimePicker() {
@@ -155,6 +158,17 @@ class SettingsFragment : Fragment() {
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 viewModel.onSoundVolumeSelected(binding.slider.value.toInt())
             }
+            .create()
+            .show()
+    }
+
+    private fun showSoundPackPickerDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_settings_sound_pack_title)
+            .setItems(viewModel.soundPackNames.toTypedArray()) { _, selected ->
+                viewModel.onSoundPackSelected(selected)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
             .create()
             .show()
     }

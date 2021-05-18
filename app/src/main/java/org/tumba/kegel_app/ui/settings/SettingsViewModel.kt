@@ -9,9 +9,12 @@ import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.SettingsTracker
 import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.core.system.ResourceProvider
+import org.tumba.kegel_app.core.system.SoundManager
 import org.tumba.kegel_app.domain.interactor.SettingsInteractor
+import org.tumba.kegel_app.sound.SoundPackManager
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.SnackbarData
+import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.Event
 import javax.inject.Inject
 
@@ -19,6 +22,8 @@ class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val resourceProvider: ResourceProvider,
     private val proUpgradeManager: ProUpgradeManager,
+    private val soundPackManager: SoundPackManager,
+    private val soundManager: SoundManager,
     private val tracker: SettingsTracker
 ) : BaseViewModel() {
 
@@ -42,6 +47,9 @@ class SettingsViewModel @Inject constructor(
     private val _showSoundLevelPickerDialog = MutableLiveData<Event<Boolean>>()
     val showSoundLevelPickerDialog: LiveData<Event<Boolean>> = _showSoundLevelPickerDialog
 
+    private val _showSoundPackPickerDialog = MutableLiveData<Event<Boolean>>()
+    val showSoundPackPickerDialog: LiveData<Event<Boolean>> = _showSoundPackPickerDialog
+
     private val _nightMode = MutableLiveData(settingsInteractor.getNightMode())
     val nightMode: LiveData<Int> = _nightMode
 
@@ -57,7 +65,16 @@ class SettingsViewModel @Inject constructor(
         .map { (it * MAX_SOUND_VOLUME).toInt() }
         .asLiveData()
 
+    val soundPackNames = soundPackManager.getAllPackNames()
+    val soundPack = settingsInteractor.observeSoundPack()
+        .map { soundPackNames.getOrElse(it) { String.Empty } }
+        .asLiveData()
+
     val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
+
+    init {
+        soundManager.build()
+    }
 
     fun onReminderDayClicked(idx: Int) {
         if (isReminderEnabled.value != true) return
@@ -145,15 +162,40 @@ class SettingsViewModel @Inject constructor(
         settingsInteractor.setSoundVolume(volume.toFloat() / MAX_SOUND_VOLUME)
     }
 
+    fun onSoundPackClicked() {
+        tracker.trackSoundPackClicked()
+        if (isProAvailable.value == false) {
+            navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
+        } else {
+            _showSoundPackPickerDialog.value = Event(true)
+        }
+    }
+
+    fun onSoundPackSelected(id: Int) {
+        tracker.trackSoundPackSelected(id)
+        soundPackManager.getPack(id)?.preparationSoundId?.let { soundId ->
+            soundManager.play(
+                volume = (soundVolume.value ?: 0).toFloat() / MAX_SOUND_VOLUME,
+                soundId = soundId
+            )
+        }
+        viewModelScope.launch {
+            settingsInteractor.setSoundPack(id)
+        }
+    }
+
     fun onProUpgradeClicked() {
         navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        soundManager.release()
     }
 
     companion object {
         private const val DAYS_IN_WEEK = 7
         private const val NIGHT_MODE_SNACKBAR_DELAY_MILLIS = 500L
         private const val MAX_SOUND_VOLUME = 10
-
     }
 }
-

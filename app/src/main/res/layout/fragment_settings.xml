@@ -359,6 +359,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:onClick="@{(view) -> viewModel.onSoundPackClicked()}"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/soundPackIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_cup_24"
+                        app:tint="@color/colorAccent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/titleSoundPack"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:text="@string/screen_settings_sound_pack_title"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        app:bindDrawableEndCompat="@{viewModel.isProAvailable ? null : @drawable/ic_pro}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:drawableEnd="@drawable/ic_pro" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/subtitleSoundPack"
+                        style="@style/Widget.MaterialComponents.TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:text="@{viewModel.soundPack}"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleSoundPack"
+                        tools:text="Tweet" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_chevron_right"
+                        app:tint="@color/gray" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="@{(view) -> viewModel.onSoundVolumeClicked()}"
                     android:orientation="vertical"
                     android:visibility="visible">

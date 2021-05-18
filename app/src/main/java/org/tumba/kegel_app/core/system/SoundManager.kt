@@ -3,7 +3,7 @@ package org.tumba.kegel_app.core.system
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
-import org.tumba.kegel_app.R
+import org.tumba.kegel_app.sound.SoundPackManager
 import javax.inject.Inject
 
 interface SoundManager {
@@ -12,11 +12,12 @@ interface SoundManager {
 
     fun release()
 
-    fun play(volume: Float)
+    fun play(volume: Float, soundId: Int)
 }
 
 class SoundManagerImpl @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val soundPackManager: SoundPackManager
 ) : SoundManager {
 
     private val attributes = AudioAttributes.Builder()
@@ -24,26 +25,31 @@ class SoundManagerImpl @Inject constructor(
         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
         .build()
 
-    private var sounds: SoundPool? = null
-    private var soundBell: Int? = null
+    private var soundPool: SoundPool? = null
+    private var soundIds = mutableMapOf<Int, Int>()
 
     override fun build() {
-        sounds = SoundPool.Builder()
+        soundPool = SoundPool.Builder()
             .setAudioAttributes(attributes)
             .setMaxStreams(2)
             .build()
-        soundBell = sounds?.load(context, R.raw.bell, 1)
+
+        soundPackManager.getAllPacks().forEach { pack ->
+            soundPool?.load(context, pack.preparationSoundId, 1)?.let { soundId ->
+                soundIds[pack.preparationSoundId] = soundId
+            }
+        }
     }
 
     override fun release() {
-        sounds?.release()
-        soundBell = null
+        soundPool?.release()
+        soundIds.clear()
     }
 
-    override fun play(volume: Float) {
-        soundBell?.let { sound ->
+    override fun play(volume: Float, soundId: Int) {
+        soundIds[soundId]?.let { sound ->
             val volumeNormalized = volume.coerceIn(0f, 1f)
-            sounds?.play(sound, volumeNormalized, volumeNormalized, 0, 0, 1f)
+            soundPool?.play(sound, volumeNormalized, volumeNormalized, 0, 0, 1f)
         }
     }
 }

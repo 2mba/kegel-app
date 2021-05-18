@@ -63,4 +63,12 @@ class SettingsTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun trackSoundVolumeSelected() {
         tracker.track("sound_volume_selected")
     }
+
+    fun trackSoundPackClicked() {
+        tracker.track(click("sound_pack"))
+    }
+
+    fun trackSoundPackSelected(id: Int) {
+        tracker.track("sound_pack_selected", bundleOf("id" to id))
+    }
 }

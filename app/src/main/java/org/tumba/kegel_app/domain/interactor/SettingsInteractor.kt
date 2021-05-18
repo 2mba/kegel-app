@@ -91,6 +91,16 @@ class SettingsInteractor @Inject constructor(
         exerciseSettingsRepository.soundVolume.value = value
     }
 
+    fun observeSoundPack(): Flow<Int> {
+        return exerciseSettingsRepository.soundPack.asFlow()
+    }
+
+    suspend fun setSoundPack(id: Int) {
+        withContext(Dispatchers.Default) {
+            exerciseSettingsRepository.soundPack.value = id
+        }
+    }
+
     data class ReminderTime(val hour: Int, val minute: Int)
 }
 
