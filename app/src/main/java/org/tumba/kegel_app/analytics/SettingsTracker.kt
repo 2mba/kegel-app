@@ -71,4 +71,16 @@ class SettingsTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun trackSoundPackSelected(id: Int) {
         tracker.track("sound_pack_selected", bundleOf("id" to id))
     }
+
+    fun trackNavigateToProUpgradeFromButton() {
+        tracker.track("navigate_to_pro_upgrade_from_setting_upgrade_button")
+    }
+
+    fun trackNavigateToProUpgradeFromSoundVolume() {
+        tracker.track("navigate_to_pro_upgrade_from_setting_sound_volume")
+    }
+
+    fun trackNavigateToProUpgradeFromSoundPack() {
+        tracker.track("navigate_to_pro_upgrade_from_setting_sound_pack")
+    }
 }

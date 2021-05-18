@@ -151,6 +151,7 @@ class SettingsViewModel @Inject constructor(
     fun onSoundVolumeClicked() {
         tracker.trackSoundVolumeClicked()
         if (isProAvailable.value == false) {
+            tracker.trackNavigateToProUpgradeFromSoundVolume()
             navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
         } else {
             _showSoundLevelPickerDialog.value = Event(true)
@@ -165,6 +166,7 @@ class SettingsViewModel @Inject constructor(
     fun onSoundPackClicked() {
         tracker.trackSoundPackClicked()
         if (isProAvailable.value == false) {
+            tracker.trackNavigateToProUpgradeFromSoundPack()
             navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
         } else {
             _showSoundPackPickerDialog.value = Event(true)
@@ -185,6 +187,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onProUpgradeClicked() {
+        tracker.trackNavigateToProUpgradeFromButton()
         navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
     }
 

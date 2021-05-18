@@ -51,7 +51,10 @@ class ProUpgradeFragment : Fragment() {
         observeViewModel()
         observeNavigation(viewModel)
         viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), binding.root)
-        binding.close.setOnClickListener { findNavController().navigateUp() }
+        binding.close.setOnClickListener {
+            viewModel.onClickClose()
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupInsets() {

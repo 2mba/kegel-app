@@ -118,6 +118,7 @@ class ExerciseViewModel @Inject constructor(
 
     fun onBackgroundModeSelected(backgroundMode: ExerciseBackgroundMode) {
         if (isProAvailable.value == false && backgroundMode == ExerciseBackgroundMode.FLOATING_VIEW) {
+            tracker.trackNavigateToProUpgradeFromBackgroundMode()
             pauseAndNavigateToProUpgradeScreen()
             return
         }
@@ -144,6 +145,7 @@ class ExerciseViewModel @Inject constructor(
 
     fun onClickSound() {
         if (isProAvailable.value == false) {
+            tracker.trackNavigateToProUpgradeFromSound()
             pauseAndNavigateToProUpgradeScreen()
         } else {
             val invertedState = !(isSoundEnabled.value ?: false)
@@ -182,6 +184,7 @@ class ExerciseViewModel @Inject constructor(
     }
 
     fun onMenuUpgradeToProClicked() {
+        tracker.trackNavigateToProUpgradeFromMenuOption()
         pauseAndNavigateToProUpgradeScreen()
     }
 
