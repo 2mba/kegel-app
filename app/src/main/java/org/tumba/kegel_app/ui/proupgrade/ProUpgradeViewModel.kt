@@ -8,6 +8,7 @@ import com.android.billingclient.api.BillingClient
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.analytics.ProUpgradeTracker
 import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -20,7 +21,9 @@ import javax.inject.Inject
 
 class ProUpgradeViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
-    private val proUpgradeManager: ProUpgradeManager
+    private val proUpgradeManager: ProUpgradeManager,
+    private val tracker: ProUpgradeTracker
+
 ) : BaseViewModel() {
 
     val price: LiveData<String?> = proUpgradeManager.proUpgradeSkuDetails
@@ -41,19 +44,23 @@ class ProUpgradeViewModel @Inject constructor(
     }
 
     fun onUpgradeToProClicked() {
+        tracker.trackClickBuy()
         startProPurchasingFlow.value = Event(true)
         handlePurchase()
     }
 
     fun onRestorePurchaseClicked() {
+        tracker.trackClickRestorePurchase()
         viewModelScope.launch(IgnoreErrorHandler.asCoroutineExceptionHandler()) {
             try {
                 isLoading.value = true
                 val result = proUpgradeManager.restorePurchases()
                 if (result.responseCode == BillingClient.BillingResponseCode.OK) {
+                    tracker.trackLoadRestorePurchaseSuccessful()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_message_purchases_restored))
                     back()
                 } else {
+                    tracker.trackRestorePurchaseFailed()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_error_failed_restore_purchases))
                 }
             } finally {
@@ -62,14 +69,20 @@ class ProUpgradeViewModel @Inject constructor(
         }
     }
 
+    fun onClickClose() {
+        tracker.trackClose()
+    }
+
     private fun loadBillingDetails() {
         viewModelScope.launch(IgnoreErrorHandler.asCoroutineExceptionHandler()) {
             val result = proUpgradeManager.loadBillingDetails()
             when (result?.responseCode) {
                 null, BillingClient.BillingResponseCode.OK -> {
                     // ok, do nothing
+                    tracker.trackLoadDetailsSuccessful()
                 }
                 else -> {
+                    tracker.trackLoadDetailsFailed()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_error_something_went_wrong))
                 }
             }
@@ -82,13 +95,16 @@ class ProUpgradeViewModel @Inject constructor(
             Timber.d("handlePurchase ${result?.debugMessage}, code = ${result?.responseCode}")
             when (result?.responseCode) {
                 BillingClient.BillingResponseCode.OK -> {
+                    tracker.trackUpgradeSuccessful()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_message_upgraded_successfully))
                     back()
                 }
                 BillingClient.BillingResponseCode.USER_CANCELED -> {
+                    tracker.trackUpgradeCancelled()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_error_upgrade_cancelled))
                 }
                 else -> {
+                    tracker.trackUpgradeFailed()
                     showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_error_failed_upgrade))
                 }
             }

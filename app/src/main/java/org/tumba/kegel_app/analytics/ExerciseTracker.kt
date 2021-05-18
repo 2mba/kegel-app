@@ -46,4 +46,16 @@ class ExerciseTracker @Inject constructor(analytics: Analytics) : TrackerScope {
     fun trackFinished() {
         tracker.track("finished")
     }
+
+    fun trackNavigateToProUpgradeFromBackgroundMode() {
+        tracker.track("navigate_to_pro_upgrade_from_background_mode")
+    }
+
+    fun trackNavigateToProUpgradeFromMenuOption() {
+        tracker.track("navigate_to_pro_upgrade_from_menu_option")
+    }
+
+    fun trackNavigateToProUpgradeFromSound() {
+        tracker.track("navigate_to_pro_upgrade_from_sound")
+    }
 }
