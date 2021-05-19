@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.res.ColorStateList
+import android.view.Gravity
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat.startActivity
@@ -27,12 +28,17 @@ class FloatingViewManager @Inject constructor(
 
     private var floatingView: LayoutSystemOverlayExerciseBinding? = null
 
+    init {
+        // hideFloatingView()
+    }
+
     fun showFloatingView() {
         EasyFloat.with(context.applicationContext)
             .setTag(TAG_FLOATING_VIEW_EXERCISE)
             .setDragEnable(true)
             .setShowPattern(ShowPattern.BACKGROUND)
             .setSidePattern(SidePattern.RESULT_SIDE)
+            .setGravity(Gravity.CENTER_VERTICAL.or(Gravity.END), 0, 0)
             .setLayout(R.layout.layout_system_overlay_exercise)
             .registerCallback {
                 createResult { _, _, view ->
