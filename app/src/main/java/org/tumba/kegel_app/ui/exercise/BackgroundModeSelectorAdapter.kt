@@ -9,7 +9,10 @@ import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.list_item_exercise_background_mode.view.*
 import org.tumba.kegel_app.R
 
-class BackgroundModeSelectorAdapter(context: Context) : ArrayAdapter<ExerciseBackgroundMode>(
+class BackgroundModeSelectorAdapter(
+    context: Context,
+    private val isProAvailable: Boolean
+) : ArrayAdapter<ExerciseBackgroundMode>(
     context,
     R.layout.list_item_exercise_background_mode,
     ExerciseBackgroundMode.values()
@@ -31,7 +34,7 @@ class BackgroundModeSelectorAdapter(context: Context) : ArrayAdapter<ExerciseBac
         view.value.setCompoundDrawablesWithIntrinsicBounds(
             null,
             null,
-            if (item == ExerciseBackgroundMode.FLOATING_VIEW) proIcon else null,
+            if (item == ExerciseBackgroundMode.FLOATING_VIEW && !isProAvailable) proIcon else null,
             null
         )
         return view
