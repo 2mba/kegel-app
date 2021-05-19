@@ -223,7 +223,12 @@ class ExerciseFragment : Fragment() {
     private fun showBackgroundModeDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.screen_exercise_background_mode_title)
-            .setAdapter(BackgroundModeSelectorAdapter(requireContext())) { _, selected ->
+            .setAdapter(
+                BackgroundModeSelectorAdapter(
+                    context = requireContext(),
+                    isProAvailable = viewModel.isProAvailable.value ?: false
+                )
+            ) { _, selected ->
                 viewModel.onBackgroundModeSelected(ExerciseBackgroundMode.values()[selected])
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> }
