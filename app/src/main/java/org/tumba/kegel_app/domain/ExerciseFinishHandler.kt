@@ -12,11 +12,13 @@ class ExerciseFinishHandler @Inject constructor(
     private var onFinishListeners = mutableListOf<() -> Unit>()
 
     suspend fun onExerciseStateChanged(state: ExerciseState) {
-        if (state is ExerciseState.Finish && !state.isForceFinished) {
+        if (state is ExerciseState.Finish) {
             onFinishListeners.forEach { it.invoke() }
             onFinishListeners.clear()
-            updateLevelAndNumberOfExercises()
-            updateExercisesDuration(state)
+            if (!state.isForceFinished) {
+                updateLevelAndNumberOfExercises()
+                updateExercisesDuration(state)
+            }
         }
     }
 
