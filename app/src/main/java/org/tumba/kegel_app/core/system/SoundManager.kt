@@ -34,9 +34,18 @@ class SoundManagerImpl @Inject constructor(
             .setMaxStreams(2)
             .build()
 
+        val loadedSoundIds = mutableSetOf<Int>()
         soundPackManager.getAllPacks().forEach { pack ->
-            soundPool?.load(context, pack.preparationSoundId, 1)?.let { soundId ->
-                soundIds[pack.preparationSoundId] = soundId
+            loadSound(loadedSoundIds, pack.relaxSoundId)
+            loadSound(loadedSoundIds, pack.holdSoundId)
+        }
+    }
+
+    private fun loadSound(loadedSoundIds: MutableSet<Int>, rawSoundId: Int) {
+        if (!loadedSoundIds.contains(rawSoundId)) {
+            loadedSoundIds.add(rawSoundId)
+            soundPool?.load(context, rawSoundId, 1)?.let { soundId ->
+                soundIds[rawSoundId] = soundId
             }
         }
     }
