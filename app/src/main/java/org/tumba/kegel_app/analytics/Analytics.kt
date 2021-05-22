@@ -12,9 +12,11 @@ interface Analytics {
     fun trackScreen(screen: String, args: Bundle? = null)
 
     fun track(eventName: String, screenName: String? = null, parameters: Bundle? = null)
+
+    fun setUserProperty(name: String, value: String)
 }
 
-class FirebaseAnalytics @Inject constructor(): Analytics {
+class FirebaseAnalytics @Inject constructor() : Analytics {
 
     private val firebase = Firebase.analytics
 
@@ -33,6 +35,10 @@ class FirebaseAnalytics @Inject constructor(): Analytics {
             parametersNotNull.putString(OriginFirebaseAnalytics.Param.SCREEN_NAME, screenName)
         }
         firebase.logEvent(eventName, parameters)
+    }
+
+    override fun setUserProperty(name: String, value: String) {
+        firebase.setUserProperty(name, value)
     }
 
     companion object {

@@ -6,6 +6,7 @@ import com.android.billingclient.api.Purchase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.plus
+import org.tumba.kegel_app.analytics.UserPropertyTracker
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.utils.IgnoreErrorHandler
 import org.tumba.kegel_app.utils.asCoroutineExceptionHandler
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 @Singleton
 class ProUpgradeManager @Inject constructor(
     private val billingManager: BillingManager,
-    private val settingsRepository: ExerciseSettingsRepository
+    private val settingsRepository: ExerciseSettingsRepository,
+    private val userPropertyTracker: UserPropertyTracker
 ) {
 
     @Suppress("USELESS_CAST")
@@ -26,6 +28,7 @@ class ProUpgradeManager @Inject constructor(
         updateProAvailabilityInSettings(purchases)
         val isProPurchased = isProPurchased(purchases)
         val isProAvailableFromSettings = (settingsRepository.isProAvailable.value && isProPurchased == null)
+        trackProPurchased(isProPurchased)
         isProAvailableFromSettings || isProPurchased == true
     }.shareIn(GlobalScope + IgnoreErrorHandler.asCoroutineExceptionHandler(), SharingStarted.Eagerly, replay = 1)
 
@@ -70,6 +73,12 @@ class ProUpgradeManager @Inject constructor(
             if (settingsRepository.isProAvailable.value != isProPurchased) {
                 settingsRepository.isProAvailable.value = isProPurchased
             }
+        }
+    }
+
+    private fun trackProPurchased(isProPurchased: Boolean?) {
+        if (isProPurchased != null) {
+            userPropertyTracker.setProPurchased(isProPurchased)
         }
     }
 
