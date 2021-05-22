@@ -18,6 +18,7 @@ import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment
 import org.tumba.kegel_app.ui.settings.SettingsFragment
 import org.tumba.kegel_app.worker.ReminderWorker
+import org.tumba.vacuum_app.ui.home.FirstEntryDialogFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -43,6 +44,8 @@ interface AppComponent {
     fun inject(obj: FirstExerciseChallengeDialogFragment)
 
     fun inject(obj: ProUpgradeFragment)
+
+    fun inject(obj: FirstEntryDialogFragment)
 
     fun getExerciseViewModel(): ExerciseViewModel
 

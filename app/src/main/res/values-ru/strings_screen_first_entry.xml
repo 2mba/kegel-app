@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_first_entry_title">Добро пожаловать!</string>
+    <string name="screen_first_entry_message">Чтобы использовать это приложение, подтвердите согласие</string>
+    <string name="screen_first_entry_privacy_policy_link"><a href="https://santaevpavel.github.io/kegel-landing/docs/privacy.html">Privacy Policy</a></string>
+    <string name="screen_first_entry_terms_of_usage_link"><a href="https://santaevpavel.github.io/kegel-landing/docs/terms.html">Terms of usage</a></string>
+    <string name="screen_first_entry_done">Готово</string>
+</resources>

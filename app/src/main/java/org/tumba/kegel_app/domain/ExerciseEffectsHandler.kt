@@ -95,7 +95,6 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
     private fun getSoundId(state: ExerciseState): Int? {
         return soundPack?.let { soundPack ->
             when (state) {
-                is ExerciseState.Preparation -> soundPack.preparationSoundId
                 is ExerciseState.Holding -> soundPack.holdSoundId
                 is ExerciseState.Relax -> soundPack.relaxSoundId
                 else -> null

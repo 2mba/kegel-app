@@ -50,6 +50,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val isProAvailable = Preference<Boolean>(preferences, PREF_KEY_PRO_AVAILABLE, DEFAULT_PRO_AVAILABLE)
 
+    val isUserAgreementConfirmed = Preference<Boolean>(preferences, PREF_KEY_USER_AGREEMENT_CONFIRMATION, false)
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -69,6 +71,7 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val PREF_KEY_SOUND_PACK = "PREF_KEY_SOUND_PACK"
         private const val PREF_KEY_BACKGROUND_MODE = "PREF_KEY_BACKGROUND_MODE"
         private const val PREF_KEY_PRO_AVAILABLE = "PREF_KEY_PRO_AVAILABLE"
+        private const val PREF_KEY_USER_AGREEMENT_CONFIRMATION = "PREF_KEY_USER_AGREEMENT_CONFIRMATION"
         private const val DEFAULT_EXERCISE_LEVEL = 1
         private const val DEFAULT_EXERCISE_DAY = 1
         private const val DEFAULT_VIBRATION = true

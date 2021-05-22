@@ -37,6 +37,9 @@ class HomeViewModel @Inject constructor(
     val progressAnimation = MutableLiveData<Event<Boolean>>()
 
     fun onResume() {
+        if (!exerciseInteractor.isUserAgreementConfirmed()) {
+            navigate(HomeFragmentDirections.actionScreenHomeToFirstEntryDialogFragment())
+        }
         if (!progressViewedStore.isProgressViewed) {
             progressViewedStore.isProgressViewed = true
             progressAnimation.value = Event(true)

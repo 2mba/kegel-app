@@ -11,6 +11,7 @@ import org.tumba.kegel_app.ui.home.FirstExerciseChallengeViewModel
 import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeViewModel
 import org.tumba.kegel_app.ui.settings.SettingsViewModel
+import org.tumba.vacuum_app.ui.home.FirstEntryViewModel
 import kotlin.reflect.KClass
 
 @Module
@@ -46,6 +47,10 @@ abstract class ViewModelModule {
     @ViewModelKey(ProUpgradeViewModel::class)
     internal abstract fun proUpgrageViewModel(viewModel: ProUpgradeViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(FirstEntryViewModel::class)
+    internal abstract fun firstEntryViewModel(viewModel: FirstEntryViewModel): ViewModel
 }
 
 

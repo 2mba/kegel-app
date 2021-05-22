@@ -124,6 +124,16 @@ class ExerciseInteractor @Inject constructor(
         }
     }
 
+    fun isUserAgreementConfirmed(): Boolean {
+        return exerciseSettingsRepository.isUserAgreementConfirmed.value
+    }
+
+    suspend fun setUserAgreementConfirmed() {
+        withContext(Dispatchers.IO) {
+            exerciseSettingsRepository.isUserAgreementConfirmed.value = true
+        }
+    }
+
     private fun createExerciseFrom(config: ExerciseConfig) = Exercise(config)
 
     private fun ExerciseState.isInProgress(): Boolean {

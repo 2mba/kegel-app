@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_screenHome_to_firstExerciseChallengeDialogFragment"
             app:destination="@id/firstExerciseChallengeDialogFragment" />
+        <action
+            android:id="@+id/action_screenHome_to_firstEntryDialogFragment"
+            app:destination="@id/firstEntryDialogFragment" />
     </fragment>
 
     <fragment
@@ -124,5 +127,10 @@
         app:exitAnim="@anim/fragment_open_exit"
         app:popEnterAnim="@anim/fragment_open_enter"
         app:popExitAnim="@anim/fragment_open_exit" />
+
+    <dialog
+        android:id="@+id/firstEntryDialogFragment"
+        android:name="org.tumba.vacuum_app.ui.home.FirstEntryDialogFragment"
+        android:label="FirstEntryDialogFragment"></dialog>
 
 </navigation>
