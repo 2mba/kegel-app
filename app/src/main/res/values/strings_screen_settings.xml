@@ -30,6 +30,7 @@
     <string name="screen_settings_btn_upgrade_to_pro">Upgrade to PRO</string>
     <string name="screen_settings_sound_pack_title">Sound</string>
     <string name="screen_settings_sound_pack_bell_1">Bell 1</string>
+    <string name="screen_settings_sound_pack_voice">Voice</string>
     <string name="screen_settings_sound_pack_bell_2">Bell 2</string>
     <string name="screen_settings_sound_pack_tweet">Tweet</string>
     <string name="screen_settings_sound_pack_music_1">Musical instrument 1</string>

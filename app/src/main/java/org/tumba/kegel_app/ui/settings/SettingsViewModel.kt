@@ -175,7 +175,7 @@ class SettingsViewModel @Inject constructor(
 
     fun onSoundPackSelected(id: Int) {
         tracker.trackSoundPackSelected(id)
-        soundPackManager.getPack(id)?.preparationSoundId?.let { soundId ->
+        soundPackManager.getPack(id)?.holdSoundId?.let { soundId ->
             soundManager.play(
                 volume = (soundVolume.value ?: 0).toFloat() / MAX_SOUND_VOLUME,
                 soundId = soundId
