@@ -191,6 +191,10 @@ class SettingsViewModel @Inject constructor(
         navigate(SettingsFragmentDirections.actionGlobalScreenProUpgrade())
     }
 
+    fun onAboutAppClicked() {
+        navigate(SettingsFragmentDirections.actionScreenSettingsToAboutAppFragment())
+    }
+
     override fun onCleared() {
         super.onCleared()
         soundManager.release()

@@ -36,4 +36,6 @@
     <string name="screen_settings_sound_pack_music_1">Musical instrument 1</string>
     <string name="screen_settings_sound_pack_music_2">Musical instrument 2</string>
     <string name="screen_settings_sound_pack_clap">Clap</string>
+    <string name="screen_settings_about_app_title">About app</string>
+    <string name="screen_settings_about_app_subtitle">Term of usage, app version</string>
 </resources>

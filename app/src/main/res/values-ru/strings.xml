@@ -8,4 +8,5 @@
     <string name="exercise_notification_action_pause">Пауза</string>
     <string name="exercise_notification_action_stop">Завершить</string>
     <string name="title_settings">Настройки</string>
+    <string name="title_about_app">О приложении</string>
 </resources>

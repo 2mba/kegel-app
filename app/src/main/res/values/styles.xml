@@ -209,4 +209,9 @@
     <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">0dp</item>
     </style>
+
+    <style name="SettingsSubTitle">
+        <item name="android:lines">1</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+    </style>
 </resources>

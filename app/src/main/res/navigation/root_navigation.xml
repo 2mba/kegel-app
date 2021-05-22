@@ -94,7 +94,15 @@
         android:id="@+id/screenSettings"
         android:name="org.tumba.kegel_app.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_screenSettings_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
 
     <dialog
         android:id="@+id/firstExerciseChallengeDialogFragment"
@@ -120,6 +128,7 @@
         android:id="@+id/screenProUpgrade"
         android:name="org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment"
         android:label="ProUpgradeFragment" />
+
     <action
         android:id="@+id/action_global_screenProUpgrade"
         app:destination="@id/screenProUpgrade"
@@ -131,6 +140,37 @@
     <dialog
         android:id="@+id/firstEntryDialogFragment"
         android:name="org.tumba.vacuum_app.ui.home.FirstEntryDialogFragment"
-        android:label="FirstEntryDialogFragment"></dialog>
+        android:label="FirstEntryDialogFragment" />
+
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="org.tumba.kegel_app.ui.settings.AboutAppFragment"
+        android:label="AboutAppFragment" />
+
+    <activity
+        android:id="@+id/externalPrivacyPolicy"
+        app:action="android.intent.action.VIEW"
+        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/privacy.html"/>
+
+    <activity
+        android:id="@+id/externalTermOfUsage"
+        app:action="android.intent.action.VIEW"
+        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/terms.html"/>
+
+    <action
+        android:id="@+id/action_global_externalPrivacyPolicy"
+        app:destination="@id/externalPrivacyPolicy"
+        app:enterAnim="@anim/fragment_open_enter"
+        app:exitAnim="@anim/fragment_open_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
+
+    <action
+        android:id="@+id/action_global_externalTermOfUsage"
+        app:destination="@id/externalTermOfUsage"
+        app:enterAnim="@anim/fragment_open_enter"
+        app:exitAnim="@anim/fragment_open_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
 
 </navigation>

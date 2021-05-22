@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_about_app_privacy_policy_title">Политика конфиденциальности</string>
+    <string name="screen_about_app_term_of_usage_title">Условия использования</string>
+    <string name="screen_about_app_version_title">Версия</string>
+</resources>
