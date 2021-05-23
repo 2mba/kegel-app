@@ -190,6 +190,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line"
+                    android:background="@color/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 
