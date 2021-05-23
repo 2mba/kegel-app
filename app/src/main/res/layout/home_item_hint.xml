@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 app:srcCompat="@drawable/ic_women_power_sitting_in_floor" />
@@ -42,12 +43,13 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/Widget.MaterialComponents.TextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_horizontal_padding"
+                android:layout_marginHorizontal="@dimen/card_horizontal_padding"
                 android:layout_marginTop="@dimen/card_top_padding"
                 android:text="@string/screen_home_hint_item_title"
                 android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
