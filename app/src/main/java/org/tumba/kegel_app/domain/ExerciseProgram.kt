@@ -28,7 +28,7 @@ class ExerciseProgram @Inject constructor(
     }
 
     companion object {
-        private const val PREPARATION_TIME_SECONDS = 5L
+        private const val PREPARATION_TIME_SECONDS = 3L
         private const val HOLDING_TIME_MIN_SECONDS = 3L
         private const val HOLDING_TIME_MAX_SECONDS = 20L
         private const val HOLDING_TIME_COEFFICIENT = 1.0
