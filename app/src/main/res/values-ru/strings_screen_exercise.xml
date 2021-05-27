@@ -26,4 +26,8 @@
     <string name="screen_exercise_background_mode_none">Выключен</string>
     <string name="screen_exercise_background_mode_notification">Уведомление</string>
     <string name="screen_exercise_background_mode_floating_view">Уведомление + плавающая панель</string>
+    <string name="screen_exercise_draw_over_app_dialog_title">Нужно разрешение для отрисовки плавающей панели</string>
+    <string name="screen_exercise_draw_over_app_dialog_btn_ok">К настройкам</string>
+    <string name="screen_exercise_draw_over_app_dialog_request_failed">Разрешение на отрисовку поверх других приложений не выдано</string>
+    <string name="screen_exercise_draw_over_app_dialog_request_success">Плавающая панель активирована</string>
 </resources>

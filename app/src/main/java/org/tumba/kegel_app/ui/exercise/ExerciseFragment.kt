@@ -1,7 +1,11 @@
 package org.tumba.kegel_app.ui.exercise
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
@@ -27,6 +31,7 @@ import org.tumba.kegel_app.ui.utils.ViewModelFactory
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.observeNavigation
+import org.tumba.kegel_app.utils.fragment.observeSnackbar
 import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
 import org.tumba.kegel_app.utils.observeEvent
@@ -43,6 +48,8 @@ class ExerciseFragment : Fragment() {
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null
+
+    private var dialogs = mutableListOf<DialogInterface>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +75,7 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupInsets()
+        viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), view)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -91,6 +99,13 @@ class ExerciseFragment : Fragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DRAW_OVER_APP_REQUEST_CODE) {
+            viewModel.onDrawOverAppResult()
         }
     }
 
@@ -170,6 +185,15 @@ class ExerciseFragment : Fragment() {
         viewLifecycleOwner.observeEvent(viewModel.showBackgroundModeDialog) { showBackgroundModeDialog ->
             if (showBackgroundModeDialog) showBackgroundModeDialog()
         }
+        viewLifecycleOwner.observeEvent(viewModel.showDrawOverAppsDialog) { showDrawOverAppsDialog ->
+            if (showDrawOverAppsDialog) showDrawOverAppsDialog()
+        }
+        viewLifecycleOwner.observeEvent(viewModel.navigateToDrawOverAppSettings) { navigateToDrawOverAppSettings ->
+            if (navigateToDrawOverAppSettings) navigateToDrawOverAppSettings()
+        }
+        viewLifecycleOwner.observeEvent(viewModel.dismissShownDialogs) { dismissShownDialogs ->
+            if (dismissShownDialogs) dismissShownDialogs()
+        }
     }
 
     private fun observeExerciseState() {
@@ -221,7 +245,7 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun showBackgroundModeDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.screen_exercise_background_mode_title)
             .setAdapter(
                 BackgroundModeSelectorAdapter(
@@ -233,11 +257,41 @@ class ExerciseFragment : Fragment() {
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> }
             .create()
-            .show()
+        dialogs.add(dialog)
+        dialog.show()
+    }
+
+    private fun showDrawOverAppsDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_exercise_draw_over_app_dialog_title)
+            .setView(R.layout.layout_draw_over_apps_dialog)
+            .setPositiveButton(R.string.screen_exercise_draw_over_app_dialog_btn_ok) { _, _ ->
+                viewModel.onConfirmedDrawOverApp()
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+        dialogs.add(dialog)
+        dialog.show()
+    }
+
+    private fun navigateToDrawOverAppSettings() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + requireContext().packageName)
+            )
+            startActivityForResult(intent, DRAW_OVER_APP_REQUEST_CODE)
+        }
+    }
+
+    private fun dismissShownDialogs() {
+        dialogs.forEach { it.dismiss() }
+        dialogs.clear()
     }
 
     companion object {
         private const val PROGRESS_MAX = 1000
+        private const val DRAW_OVER_APP_REQUEST_CODE = 100
         private const val PROGRESS_ANIMATION_DURATION_MILLIS = 200L
     }
 

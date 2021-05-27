@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.billing.ProUpgradeManager
+import org.tumba.kegel_app.core.system.PermissionProvider
+import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
@@ -18,6 +20,7 @@ import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
+import org.tumba.kegel_app.ui.common.showSnackbar
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.home.HomeFragmentDirections
 import org.tumba.kegel_app.utils.Event
@@ -31,7 +34,9 @@ class ExerciseViewModel @Inject constructor(
     private val exerciseParametersProvider: ExerciseParametersProvider,
     private val exerciseNameProvider: ExerciseNameProvider,
     private val proUpgradeManager: ProUpgradeManager,
-    private val tracker: ExerciseTracker
+    private val tracker: ExerciseTracker,
+    private val resourceProvider: ResourceProvider,
+    private val permissionProvider: PermissionProvider
 ) : BaseViewModel() {
 
     init {
@@ -88,6 +93,9 @@ class ExerciseViewModel @Inject constructor(
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))
     val showBackgroundModeDialog = MutableLiveData(Event(false))
+    val showDrawOverAppsDialog = MutableLiveData(Event(false))
+    val navigateToDrawOverAppSettings = MutableLiveData(Event(false))
+    val dismissShownDialogs = MutableLiveData(Event(false))
 
     val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
 
@@ -126,7 +134,27 @@ class ExerciseViewModel @Inject constructor(
             tracker.trackChangeBackgroundMode(backgroundMode)
         }
         viewModelScope.launch {
-            exerciseInteractor.setBackgroundMode(backgroundMode)
+            if (backgroundMode == ExerciseBackgroundMode.FLOATING_VIEW && !permissionProvider.canDrawOverlays()) {
+                pause()
+                showDrawOverAppsDialog.value = Event(true)
+            } else {
+                exerciseInteractor.setBackgroundMode(backgroundMode)
+            }
+        }
+    }
+
+    fun onConfirmedDrawOverApp() {
+        navigateToDrawOverAppSettings.value = Event(true)
+    }
+
+    fun onDrawOverAppResult() {
+        if (permissionProvider.canDrawOverlays()) {
+            viewModelScope.launch {
+                exerciseInteractor.setBackgroundMode(ExerciseBackgroundMode.FLOATING_VIEW)
+            }
+            showSnackbar(resourceProvider.getString(R.string.screen_exercise_draw_over_app_dialog_request_success))
+        } else {
+            showSnackbar(resourceProvider.getString(R.string.screen_exercise_draw_over_app_dialog_request_failed))
         }
     }
 
@@ -315,6 +343,7 @@ class ExerciseViewModel @Inject constructor(
         private fun handleExerciseFinish(state: ExerciseState.Finish) {
             tracker.trackFinished()
             if (!state.isForceFinished) {
+                dismissShownDialogs.value = Event(true)
                 navigateToExerciseResult.value = Event(true)
             } else {
                 exit()

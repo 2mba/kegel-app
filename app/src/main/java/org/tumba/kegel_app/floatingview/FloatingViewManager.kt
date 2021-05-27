@@ -28,10 +28,6 @@ class FloatingViewManager @Inject constructor(
 
     private var floatingView: LayoutSystemOverlayExerciseBinding? = null
 
-    init {
-        // hideFloatingView()
-    }
-
     fun showFloatingView() {
         EasyFloat.with(context.applicationContext)
             .setTag(TAG_FLOATING_VIEW_EXERCISE)

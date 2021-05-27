@@ -26,4 +26,8 @@
     <string name="screen_exercise_background_mode_none">Disabled</string>
     <string name="screen_exercise_background_mode_notification">Notification</string>
     <string name="screen_exercise_background_mode_floating_view">Notification + floating panel</string>
+    <string name="screen_exercise_draw_over_app_dialog_title">Need a permission to draw floating panel over other apps</string>
+    <string name="screen_exercise_draw_over_app_dialog_btn_ok">Go to settings</string>
+    <string name="screen_exercise_draw_over_app_dialog_request_failed">Draw over other app permission is not granted</string>
+    <string name="screen_exercise_draw_over_app_dialog_request_success">Floating panel has been enabled</string>
 </resources>

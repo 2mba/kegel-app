@@ -173,4 +173,12 @@
         app:popEnterAnim="@anim/fragment_open_enter"
         app:popExitAnim="@anim/fragment_open_exit" />
 
+    <activity
+        android:id="@+id/drawOverAppSettings"
+        app:action="android.settings.action.MANAGE_OVERLAY_PERMISSION"
+        app:data="package:org.tumba.kegel_app"/>
+
+    <action
+        android:id="@+id/action_global_drawOverAppSettings"
+        app:destination="@id/drawOverAppSettings" />
 </navigation>

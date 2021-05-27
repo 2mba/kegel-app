@@ -10,10 +10,7 @@ import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.analytics.Analytics
 import org.tumba.kegel_app.analytics.FirebaseAnalytics
-import org.tumba.kegel_app.core.system.NightModeManager
-import org.tumba.kegel_app.core.system.NightModeManagerImpl
-import org.tumba.kegel_app.core.system.ResourceProvider
-import org.tumba.kegel_app.core.system.ResourceProviderImpl
+import org.tumba.kegel_app.core.system.*
 import javax.inject.Singleton
 
 @Module
@@ -52,6 +49,9 @@ class AppModule(private val application: KegelApplication) {
 
     @Provides
     fun provideNightModeManager(impl: NightModeManagerImpl): NightModeManager = impl
+
+    @Provides
+    fun providePermissionProvider(impl: PermissionProviderImpl): PermissionProvider = impl
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"
