@@ -76,9 +76,13 @@ class BillingManager @Inject constructor(private val context: Context) {
 
     private suspend fun connect(): BillingResult {
         return suspendCoroutine { continuation ->
+            var isResumed = false
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    continuation.resume(billingResult)
+                    if (!isResumed) {
+                        isResumed = true
+                        continuation.resume(billingResult)
+                    }
                 }
 
                 override fun onBillingServiceDisconnected() {
