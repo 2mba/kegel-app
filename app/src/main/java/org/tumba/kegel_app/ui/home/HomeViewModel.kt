@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.tumba.kegel_app.config.RemoteConfigFetcher
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -19,7 +20,8 @@ import kotlin.time.seconds
 class HomeViewModel @Inject constructor(
     exerciseParametersProvider: ExerciseParametersProvider,
     private val progressViewedStore: ProgressViewedStore,
-    private val exerciseInteractor: ExerciseInteractor
+    private val exerciseInteractor: ExerciseInteractor,
+    private val remoteConfigFetcher: RemoteConfigFetcher
 ) : BaseViewModel() {
 
     val exerciseLevel = exerciseParametersProvider.observeLevel().asLiveData()
@@ -35,6 +37,10 @@ class HomeViewModel @Inject constructor(
 
     val progress = exerciseParametersProvider.observeProgress().asLiveData()
     val progressAnimation = MutableLiveData<Event<Boolean>>()
+
+    init {
+        remoteConfigFetcher.fetchAndActivate()
+    }
 
     fun onResume() {
         if (!exerciseInteractor.isUserAgreementConfirmed()) {

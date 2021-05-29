@@ -10,6 +10,8 @@ import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.analytics.Analytics
 import org.tumba.kegel_app.analytics.FirebaseAnalytics
+import org.tumba.kegel_app.config.RemoteConfigFetcher
+import org.tumba.kegel_app.config.RemoteConfigFetcherImpl
 import org.tumba.kegel_app.core.system.*
 import javax.inject.Singleton
 
@@ -52,6 +54,9 @@ class AppModule(private val application: KegelApplication) {
 
     @Provides
     fun providePermissionProvider(impl: PermissionProviderImpl): PermissionProvider = impl
+
+    @Provides
+    fun provideRemoteConfigFetcher(impl: RemoteConfigFetcherImpl): RemoteConfigFetcher = impl
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"
