@@ -16,6 +16,8 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.tumba.kegel_app.analytics.ExerciseTracker
+import org.tumba.kegel_app.billing.ProUpgradeManager
+import org.tumba.kegel_app.core.system.PermissionProvider
 import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
@@ -23,6 +25,7 @@ import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.factory.ExerciseStateFactory
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.ui.ad.ExerciseBannerAdShowBehaviour
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.util.MainDispatcherInitializerRule
 
@@ -57,6 +60,15 @@ class ExerciseViewModelTest {
 
     @RelaxedMockK
     lateinit var tracker: ExerciseTracker
+
+    @RelaxedMockK
+    lateinit var proUpgradeManager: ProUpgradeManager
+
+    @RelaxedMockK
+    lateinit var permissionProvider: PermissionProvider
+
+    @RelaxedMockK
+    lateinit var exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour
 
     private lateinit var viewModel: ExerciseViewModel
 
@@ -97,7 +109,7 @@ class ExerciseViewModelTest {
         }
         // Act
         createViewModel()
-        val timeRemainObserver = Observer<Any> {  println("$it") }
+        val timeRemainObserver = Observer<Any> { println("$it") }
         viewModel.timeRemain.observeForever(timeRemainObserver)
         //mainDispatcherInitializerRule.dispatcher.advanceTimeBy(3000)
         delay(3000)
@@ -112,8 +124,11 @@ class ExerciseViewModelTest {
             exerciseSettingsRepository,
             exerciseParametersProvider,
             exerciseNameProvider,
+            proUpgradeManager,
+            tracker,
             resourceProvider,
-            tracker
+            permissionProvider,
+            exerciseBannerAdShowBehaviour
         )
     }
 }

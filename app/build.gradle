@@ -18,6 +18,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 11
         versionName "1.5.2"
+
+        def properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def adMobInterstitialAdsUnitId = properties.getProperty("adMobInterstitialAdsUnitId")
+        def adMobExerciseBannerAdsUnitId = properties.getProperty("adMobExerciseBannerAdsUnitId")
+        def adMobAppId = properties.getProperty("adMobAppId")
+
+        if (adMobInterstitialAdsUnitId == null) {
+            throw new GradleException("Property adMobInterstitialAdsUnitId not found")
+        }
+        buildConfigField("String", "ADMOB_INTERSTITIAL_ADS_UNIT_ID", "\"${adMobInterstitialAdsUnitId}\"")
+        buildConfigField("String", "ADMOB_EXERCISE_BANNER_ADS_UNIT_ID", "\"${adMobExerciseBannerAdsUnitId}\"")
+
+        manifestPlaceholders = [adMobAppId: adMobAppId]
     }
     buildTypes {
         debug {
@@ -91,6 +105,7 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
     implementation "com.google.android.gms:play-services-maps:$google_services_version"
+    implementation "com.google.android.gms:play-services-ads:$googleServicesAd"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     // Dagger

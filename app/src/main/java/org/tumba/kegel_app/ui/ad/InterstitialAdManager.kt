@@ -1,0 +1,88 @@
+package org.tumba.kegel_app.ui.ad
+
+import android.content.Context
+import android.os.Bundle
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import org.tumba.kegel_app.R
+import org.tumba.kegel_app.config.AppBuildConfig
+import org.tumba.kegel_app.utils.Event
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class InterstitialAdManager @Inject constructor(
+    context: Context,
+    appBuildConfig: AppBuildConfig,
+    private val interstitialAdShowBehaviour: InterstitialAdShowBehaviour
+) : NavController.OnDestinationChangedListener {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    private val adWrapper = InterstitialAdWrapper(context, appBuildConfig)
+
+    val interstitialAdShowEvent: Flow<Event<InterstitialAd?>> = adWrapper.interstitialAdShowEvent
+
+    init {
+        adWrapper.loadInterstitialAd()
+    }
+
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        if (destination.id == R.id.screenHome) {
+            scope.launch {
+                if (interstitialAdShowBehaviour.canAdBeShown()) {
+                    delay(INTERSTITIAL_ADD_SHOW_DELAY_MILLIS)
+                    adWrapper.show()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val INTERSTITIAL_ADD_SHOW_DELAY_MILLIS = 500L
+    }
+}
+
+private class InterstitialAdWrapper(
+    private val context: Context,
+    private val appBuildConfig: AppBuildConfig
+) {
+
+    private var interstitialAd: InterstitialAd? = null
+
+    private val _interstitialAdShowEvent = MutableStateFlow<Event<InterstitialAd?>>(Event(null))
+    val interstitialAdShowEvent: Flow<Event<InterstitialAd?>> = _interstitialAdShowEvent
+
+
+    fun show() {
+        interstitialAd?.let { _interstitialAdShowEvent.value = Event(it) }
+    }
+
+    fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            context.applicationContext,
+            appBuildConfig.interstitialAdsUnitId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Timber.d("Failed to load ad ${adError.message}")
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Timber.d("Ad was loaded")
+                    this@InterstitialAdWrapper.interstitialAd = interstitialAd
+                }
+            })
+    }
+}

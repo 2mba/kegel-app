@@ -38,6 +38,7 @@ buildscript {
         coreTestingVersion = '2.1.0'
         workVersion = '2.4.0'
         billingVersion = '3.0.3'
+        googleServicesAd = '20.1.0'
     }
 
 

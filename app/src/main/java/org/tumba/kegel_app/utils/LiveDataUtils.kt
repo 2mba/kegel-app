@@ -40,7 +40,7 @@ fun <T> LifecycleOwner.observeEvent(lifeData: LiveData<Event<T>>, observer: (T) 
     }
 }
 
-fun <T> LiveData<Event<T>>.observeEvent(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
+fun <T: Any?> LiveData<Event<T>>.observeEvent(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
     observe(lifecycleOwner) { event ->
         event.consume { observer(it) }
     }

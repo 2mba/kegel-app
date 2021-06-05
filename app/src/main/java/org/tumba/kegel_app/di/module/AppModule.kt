@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import androidx.work.WorkManager
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dagger.Module
 import dagger.Provides
 import org.tumba.kegel_app.KegelApplication
@@ -57,6 +60,9 @@ class AppModule(private val application: KegelApplication) {
 
     @Provides
     fun provideRemoteConfigFetcher(impl: RemoteConfigFetcherImpl): RemoteConfigFetcher = impl
+
+    @Provides
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig = Firebase.remoteConfig
 
     companion object {
         private const val APP_PREFERENCES_NAME = "APP_PREFERENCES_NAME"

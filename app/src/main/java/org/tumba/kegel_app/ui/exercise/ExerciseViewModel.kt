@@ -18,6 +18,7 @@ import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
+import org.tumba.kegel_app.ui.ad.ExerciseBannerAdShowBehaviour
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
 import org.tumba.kegel_app.ui.common.showSnackbar
@@ -36,7 +37,8 @@ class ExerciseViewModel @Inject constructor(
     private val proUpgradeManager: ProUpgradeManager,
     private val tracker: ExerciseTracker,
     private val resourceProvider: ResourceProvider,
-    private val permissionProvider: PermissionProvider
+    private val permissionProvider: PermissionProvider,
+    private val exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour
 ) : BaseViewModel() {
 
     init {
@@ -98,6 +100,8 @@ class ExerciseViewModel @Inject constructor(
     val dismissShownDialogs = MutableLiveData(Event(false))
 
     val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
+
+    val isBannerAdsShown = exerciseBannerAdShowBehaviour.canAdBeShown()
 
     private var exerciseDuration = exerciseState.filterIsInstance<ExerciseState.SingleExercise>()
         .map { it.singleExerciseInfo.exerciseDurationSeconds }

@@ -3,10 +3,7 @@ package org.tumba.kegel_app.di.component
 import dagger.Component
 import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.MainActivity
-import org.tumba.kegel_app.di.module.AppModule
-import org.tumba.kegel_app.di.module.DomainModule
-import org.tumba.kegel_app.di.module.PresentationModule
-import org.tumba.kegel_app.di.module.ViewModelModule
+import org.tumba.kegel_app.di.module.*
 import org.tumba.kegel_app.service.ExerciseAndroidService
 import org.tumba.kegel_app.ui.exercise.ExerciseFragment
 import org.tumba.kegel_app.ui.exercise.ExerciseResultFragment
@@ -23,7 +20,10 @@ import org.tumba.vacuum_app.ui.home.FirstEntryDialogFragment
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class])
+@Component(
+    modules = [AppModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class,
+        ConfigModule::class]
+)
 interface AppComponent {
 
     fun inject(obj: KegelApplication)

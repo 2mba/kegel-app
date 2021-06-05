@@ -4,4 +4,25 @@
         <key>ads_enabled</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>interstitial_ads_enabled</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>interstitial_ads_min_exercises_number</key>
+        <value>5</value>
+    </entry>
+    <entry>
+        <key>interstitial_ads_frequency</key>
+        <value>2</value>
+    </entry>
+
+    <entry>
+        <key>exercise_banner_ads_enabled</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>exercise_banner_ads_min_exercises_number</key>
+        <value>5</value>
+    </entry>
 </defaultsMap>

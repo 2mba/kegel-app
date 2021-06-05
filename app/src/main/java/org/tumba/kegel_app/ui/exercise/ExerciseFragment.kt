@@ -19,9 +19,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.config.AppBuildConfig
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.exercise.ExerciseFragmentDirections.Companion.actionScreenExerciseToExerciseInfoFragment
@@ -44,6 +48,9 @@ class ExerciseFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var appBuildConfig: AppBuildConfig
 
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private var lastAnimation: Animation? = null
@@ -154,7 +161,7 @@ class ExerciseFragment : Fragment() {
 
     private fun observeViewModel() {
         observeExerciseState()
-
+        observeBannerAds()
         viewLifecycleOwner.observe(viewModel.exerciseProgress) { progressValue ->
             lastAnimation?.cancel()
             val progressAnimation = ProgressBarAnimation(
@@ -287,6 +294,17 @@ class ExerciseFragment : Fragment() {
     private fun dismissShownDialogs() {
         dialogs.forEach { it.dismiss() }
         dialogs.clear()
+    }
+
+    private fun observeBannerAds() {
+        val adView = AdView(requireContext())
+        adView.adUnitId = appBuildConfig.exerciseBannerAppAdsUnitId
+        adView.adSize = AdSize.BANNER
+        binding.adViewContainer.addView(adView)
+        if (viewModel.isBannerAdsShown) {
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        }
     }
 
     companion object {
