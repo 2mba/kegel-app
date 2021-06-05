@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -12,6 +13,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.analytics.AdsTracker
 import org.tumba.kegel_app.config.AppBuildConfig
 import org.tumba.kegel_app.utils.Event
 import timber.log.Timber
@@ -22,12 +24,13 @@ import javax.inject.Singleton
 class InterstitialAdManager @Inject constructor(
     context: Context,
     appBuildConfig: AppBuildConfig,
-    private val interstitialAdShowBehaviour: InterstitialAdShowBehaviour
+    private val interstitialAdShowBehaviour: InterstitialAdShowBehaviour,
+    private val adsTracker: AdsTracker
 ) : NavController.OnDestinationChangedListener {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    private val adWrapper = InterstitialAdWrapper(context, appBuildConfig)
+    private val adWrapper = InterstitialAdWrapper(context, appBuildConfig, adsTracker)
 
     val interstitialAdShowEvent: Flow<Event<InterstitialAd?>> = adWrapper.interstitialAdShowEvent
 
@@ -53,7 +56,8 @@ class InterstitialAdManager @Inject constructor(
 
 private class InterstitialAdWrapper(
     private val context: Context,
-    private val appBuildConfig: AppBuildConfig
+    private val appBuildConfig: AppBuildConfig,
+    private val adsTracker: AdsTracker
 ) {
 
     private var interstitialAd: InterstitialAd? = null
@@ -64,6 +68,11 @@ private class InterstitialAdWrapper(
 
     fun show() {
         interstitialAd?.let { _interstitialAdShowEvent.value = Event(it) }
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                adsTracker.trackInterstitialAdShown()
+            }
+        }
     }
 
     fun loadInterstitialAd() {
@@ -76,11 +85,13 @@ private class InterstitialAdWrapper(
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Timber.d("Failed to load ad ${adError.message}")
+                    adsTracker.trackInterstitialAdLoadFailed()
                     interstitialAd = null
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     Timber.d("Ad was loaded")
+                    adsTracker.trackInterstitialAdLoaded()
                     this@InterstitialAdWrapper.interstitialAd = interstitialAd
                 }
             })
