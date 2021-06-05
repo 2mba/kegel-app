@@ -37,5 +37,5 @@
     <string name="screen_settings_sound_pack_music_2">Музыкальный инструмент 2</string>
     <string name="screen_settings_sound_pack_clap">Хлопок</string>
     <string name="screen_settings_about_app_title">О приложении</string>
-    <string name="screen_settings_about_app_subtitle">Условия пользования, версия</string>
+    <string name="screen_settings_about_app_subtitle">Условия использования, версия</string>
 </resources>
