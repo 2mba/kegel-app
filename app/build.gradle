@@ -16,7 +16,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 13
+        versionCode 14
         versionName "1.5.3"
 
         def properties = new Properties()
