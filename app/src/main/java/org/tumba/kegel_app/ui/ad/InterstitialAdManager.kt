@@ -27,19 +27,21 @@ class InterstitialAdManager @Inject constructor(
     private val interstitialAdShowBehaviour: InterstitialAdShowBehaviour,
     private val adsTracker: AdsTracker
 ) : NavController.OnDestinationChangedListener {
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     private val adWrapper = InterstitialAdWrapper(context, appBuildConfig, adsTracker)
 
     val interstitialAdShowEvent: Flow<Event<InterstitialAd?>> = adWrapper.interstitialAdShowEvent
 
+    private var lastDestination: NavDestination? = null
+
+
     init {
         adWrapper.loadInterstitialAd()
     }
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        if (destination.id == R.id.screenHome) {
+        if (isNavigatedFromExercise(destination)) {
             scope.launch {
                 if (interstitialAdShowBehaviour.canAdBeShown()) {
                     delay(INTERSTITIAL_ADD_SHOW_DELAY_MILLIS)
@@ -47,6 +49,11 @@ class InterstitialAdManager @Inject constructor(
                 }
             }
         }
+        lastDestination = destination
+    }
+
+    private fun isNavigatedFromExercise(destination: NavDestination): Boolean {
+        return destination.id == R.id.screenHome && lastDestination?.id == R.id.screenExercise
     }
 
     companion object {
