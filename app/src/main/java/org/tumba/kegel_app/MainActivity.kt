@@ -22,6 +22,7 @@ import org.tumba.kegel_app.utils.gone
 import org.tumba.kegel_app.utils.observeEvent
 import org.tumba.kegel_app.utils.show
 import org.tumba.kegel_app.worker.ReminderNotificationManager
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -102,7 +103,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAds() {
-        MobileAds.initialize(this) {}
+        MobileAds.initialize(this) { status ->
+            Timber.d("MobileAds.initialize $status")
+            interstitialAdManager.onAdsSdkInitialized()
+        }
 
         interstitialAdManager.interstitialAdShowEvent
             .asLiveData(mainScope.coroutineContext)

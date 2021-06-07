@@ -36,8 +36,11 @@ class InterstitialAdManager @Inject constructor(
     private var lastDestination: NavDestination? = null
 
 
-    init {
-        adWrapper.loadInterstitialAd()
+    fun onAdsSdkInitialized() {
+        scope.launch {
+            delay(INTERSTITIAL_ADD_LOAD_DELAY_MILLIS)
+            adWrapper.loadInterstitialAd()
+        }
     }
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
@@ -59,6 +62,7 @@ class InterstitialAdManager @Inject constructor(
 
     companion object {
         private const val INTERSTITIAL_ADD_SHOW_DELAY_MILLIS = 500L
+        private const val INTERSTITIAL_ADD_LOAD_DELAY_MILLIS = 1000L
     }
 }
 
@@ -79,6 +83,15 @@ private class InterstitialAdWrapper(
         interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdShowedFullScreenContent() {
                 adsTracker.trackInterstitialAdShown()
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                interstitialAd = null
+                loadInterstitialAd()
+            }
+
+            override fun onAdImpression() {
+                adsTracker.trackInterstitialAdImpression()
             }
         }
     }

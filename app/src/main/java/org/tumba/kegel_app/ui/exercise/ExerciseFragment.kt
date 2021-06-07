@@ -19,12 +19,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.R
+import org.tumba.kegel_app.analytics.AdsTracker
 import org.tumba.kegel_app.config.AppBuildConfig
 import org.tumba.kegel_app.databinding.FragmentExerciseBinding
 import org.tumba.kegel_app.di.appComponent
@@ -39,6 +38,7 @@ import org.tumba.kegel_app.utils.fragment.observeSnackbar
 import org.tumba.kegel_app.utils.fragment.setToolbar
 import org.tumba.kegel_app.utils.observe
 import org.tumba.kegel_app.utils.observeEvent
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -51,6 +51,9 @@ class ExerciseFragment : Fragment() {
 
     @Inject
     lateinit var appBuildConfig: AppBuildConfig
+
+    @Inject
+    lateinit var adsTracker: AdsTracker
 
     private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
     private var lastAnimation: Animation? = null
@@ -304,6 +307,29 @@ class ExerciseFragment : Fragment() {
         if (viewModel.isBannerAdsShown) {
             val adRequest = AdRequest.Builder().build()
             adView.loadAd(adRequest)
+            adView.adListener = object : AdListener() {
+
+                override fun onAdOpened() {
+                    adsTracker.trackExerciseBannerAdOpened()
+                }
+
+                override fun onAdLoaded() {
+                    adsTracker.trackExerciseBannerAdLoaded()
+                }
+
+                override fun onAdClicked() {
+                    adsTracker.trackExerciseBannerAdClicked()
+                }
+
+                override fun onAdImpression() {
+                    adsTracker.trackExerciseBannerAdImpression()
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    Timber.e("Exercise banner onAdFailedToLoad ${p0.message}")
+                    adsTracker.trackExerciseBannerAdLoadFailed()
+                }
+            }
         }
     }
 

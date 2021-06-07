@@ -16,7 +16,27 @@ class AdsTracker @Inject constructor(private val analytics: Analytics) : Tracker
         analytics.track("interstitial_ad_load_failed")
     }
 
-    fun trackExerciseBannerAdShown() {
-        analytics.track("interstitial_ad_shown")
+    fun trackInterstitialAdImpression() {
+        analytics.track("interstitial_ad_impression")
+    }
+
+    fun trackExerciseBannerAdLoaded() {
+        analytics.track("exercise_banner_ad_loaded")
+    }
+
+    fun trackExerciseBannerAdOpened() {
+        analytics.track("exercise_banner_ad_opened")
+    }
+
+    fun trackExerciseBannerAdClicked() {
+        analytics.track("exercise_banner_ad_clicked")
+    }
+
+    fun trackExerciseBannerAdImpression() {
+        analytics.track("exercise_banner_ad_impression")
+    }
+
+    fun trackExerciseBannerAdLoadFailed() {
+        analytics.track("exercise_banner_ad_load_failed")
     }
 }

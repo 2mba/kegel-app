@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
-import org.tumba.kegel_app.analytics.AdsTracker
 import org.tumba.kegel_app.analytics.ExerciseTracker
 import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.core.system.PermissionProvider
@@ -39,8 +38,7 @@ class ExerciseViewModel @Inject constructor(
     private val tracker: ExerciseTracker,
     private val resourceProvider: ResourceProvider,
     private val permissionProvider: PermissionProvider,
-    private val exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour,
-    private val adsTracker: AdsTracker
+    private val exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour
 ) : BaseViewModel() {
 
     init {
@@ -112,9 +110,6 @@ class ExerciseViewModel @Inject constructor(
 
     init {
         ExerciseFinishHandler().observeExerciseState(exerciseState)
-        if (isBannerAdsShown) {
-            adsTracker.trackExerciseBannerAdShown()
-        }
     }
 
     fun onClickPlay() {
