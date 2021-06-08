@@ -3,7 +3,7 @@ package org.tumba.kegel_app.billing
 import android.app.Activity
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.plus
 import org.tumba.kegel_app.analytics.UserPropertyTracker
@@ -20,17 +20,19 @@ class ProUpgradeManager @Inject constructor(
     private val userPropertyTracker: UserPropertyTracker
 ) {
 
+    private val scope = MainScope()
+
     @Suppress("USELESS_CAST")
     private val purchases = billingManager.purchases
         .map { it as List<Purchase>? }
         .onStart { emit(null) }
-    val isProAvailable: Flow<Boolean> = purchases.map { purchases ->
+    val isProAvailable: StateFlow<Boolean> = purchases.map { purchases ->
         updateProAvailabilityInSettings(purchases)
         val isProPurchased = isProPurchased(purchases)
         val isProAvailableFromSettings = (settingsRepository.isProAvailable.value && isProPurchased == null)
         trackProPurchased(isProPurchased)
         isProAvailableFromSettings || isProPurchased == true
-    }.shareIn(GlobalScope + IgnoreErrorHandler.asCoroutineExceptionHandler(), SharingStarted.Eagerly, replay = 1)
+    }.stateIn(scope + IgnoreErrorHandler.asCoroutineExceptionHandler(), SharingStarted.Eagerly, false)
 
     val proUpgradeSkuDetails = billingManager.skuDetails
         .map { details -> details.firstOrNull { it.sku == SKU_UPGRADE_PRO } }

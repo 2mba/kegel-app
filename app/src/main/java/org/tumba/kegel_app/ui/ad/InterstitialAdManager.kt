@@ -56,8 +56,7 @@ class InterstitialAdManager @Inject constructor(
     }
 
     private fun isNavigatedFromExercise(destination: NavDestination): Boolean {
-        return destination.id == R.id.screenHome &&
-                (lastDestination?.id == R.id.screenExercise || lastDestination?.id == R.id.screenExerciseResultFragment)
+        return destination.id == R.id.screenHome && lastDestination?.id == R.id.screenExerciseResultFragment
     }
 
     companion object {

@@ -151,6 +151,20 @@ class BillingManager @Inject constructor(private val context: Context) {
             }
     }
 
+    /**
+     * For test purposes only
+     */
+    @Suppress("unused")
+    private suspend fun consumePurchase(purchasesResult: Purchase.PurchasesResult) {
+        withContext(Dispatchers.IO) {
+            val params1 = ConsumeParams.newBuilder().setPurchaseToken(
+                purchasesResult.purchasesList?.firstOrNull()?.purchaseToken.orEmpty()
+            ).build()
+            val result = billingClient.consumePurchase(params1)
+            Timber.d("consumePurchase ${result.billingResult.debugMessage}")
+        }
+    }
+
     private suspend fun getSkuDetails(sku: String): SkuDetails? {
         return skuDetails.firstOrNull()?.firstOrNull { it.sku == sku }
     }
