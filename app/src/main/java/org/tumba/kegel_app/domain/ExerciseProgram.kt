@@ -19,7 +19,8 @@ class ExerciseProgram @Inject constructor(
             preparationDuration = Time(PREPARATION_TIME_SECONDS, TimeUnit.SECONDS),
             holdingDuration = Time(holdingSeconds, TimeUnit.SECONDS),
             relaxDuration = Time(relaxSeconds, TimeUnit.SECONDS),
-            repeats = REPEATS
+            repeats = REPEATS,
+            isPredefined = true
         )
     }
 
@@ -28,7 +29,7 @@ class ExerciseProgram @Inject constructor(
     }
 
     companion object {
-        private const val PREPARATION_TIME_SECONDS = 3L
+        const val PREPARATION_TIME_SECONDS = 3L
         private const val HOLDING_TIME_MIN_SECONDS = 3L
         private const val HOLDING_TIME_MAX_SECONDS = 20L
         private const val HOLDING_TIME_COEFFICIENT = 1.0

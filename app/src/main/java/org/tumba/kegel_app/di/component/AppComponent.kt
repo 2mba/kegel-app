@@ -5,13 +5,11 @@ import org.tumba.kegel_app.KegelApplication
 import org.tumba.kegel_app.MainActivity
 import org.tumba.kegel_app.di.module.*
 import org.tumba.kegel_app.service.ExerciseAndroidService
+import org.tumba.kegel_app.ui.customexercise.CustomExerciseSetupFragment
 import org.tumba.kegel_app.ui.exercise.ExerciseFragment
 import org.tumba.kegel_app.ui.exercise.ExerciseResultFragment
-import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
-import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
 import org.tumba.kegel_app.ui.home.FirstExerciseChallengeDialogFragment
 import org.tumba.kegel_app.ui.home.HomeFragment
-import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment
 import org.tumba.kegel_app.ui.settings.AboutAppFragment
 import org.tumba.kegel_app.ui.settings.SettingsFragment
@@ -50,9 +48,5 @@ interface AppComponent {
 
     fun inject(obj: AboutAppFragment)
 
-    fun getExerciseViewModel(): ExerciseViewModel
-
-    fun getExerciseResultViewModel(): ExerciseResultViewModel
-
-    fun getHomeViewModel(): HomeViewModel
+    fun inject(obj: CustomExerciseSetupFragment)
 }

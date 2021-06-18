@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.di.appComponent
@@ -17,11 +18,13 @@ class FirstExerciseChallengeDialogFragment : DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: FirstExerciseChallengeViewModel by viewModels { viewModelFactory }
+    private val args by navArgs<FirstExerciseChallengeDialogFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         observeNavigation(viewModel)
+        viewModel.exerciseType = args.type
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

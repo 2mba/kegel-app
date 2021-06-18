@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.home.HomeViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/itemCustomExercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_top_padding"
+            android:layout_marginBottom="@dimen/margin_small">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemCustomExerciseTitle"
+                style="@style/Widget.MaterialComponents.TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_horizontal_padding"
+                android:text="@string/screen_home_custom_exercise_item_title"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/card_horizontal_padding"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/screen_home_custom_exercise_item_text"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/textColorSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemCustomExerciseTitle" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStart"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                bindGoneUnless="@{viewModel.isStartCustomExerciseVisible}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:layout_marginEnd="@dimen/card_horizontal_padding"
+                android:onClick="@{(view) -> viewModel.onStartCustomExerciseClicked()}"
+                android:text="@string/screen_home_custom_exercise_item_start"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_play_16"
+                app:iconTint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfigure"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_small"
+                android:onClick="@{(view) -> viewModel.onConfigureCustomExerciseClicked()}"
+                android:text="@string/screen_home_custom_exercise_item_configure"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_settings_16"
+                app:iconTint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/btnStart"
+                app:layout_constraintStart_toEndOf="@id/btnStart"
+                app:layout_constraintTop_toTopOf="@id/btnStart" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -5,8 +5,8 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
+import org.tumba.kegel_app.ui.customexercise.CustomExerciseSetupViewModel
 import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
-import org.tumba.kegel_app.ui.exercise.ExerciseViewModel
 import org.tumba.kegel_app.ui.home.FirstExerciseChallengeViewModel
 import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeViewModel
@@ -22,11 +22,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     internal abstract fun homeViewModel(viewModel: HomeViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ExerciseViewModel::class)
-    internal abstract fun exerciseViewModel(viewModel: ExerciseViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -57,6 +52,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AboutAppViewModel::class)
     internal abstract fun aboutAppViewModel(viewModel: AboutAppViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomExerciseSetupViewModel::class)
+    internal abstract fun customExerciseSetupViewModel(viewModel: CustomExerciseSetupViewModel): ViewModel
 }
 
 

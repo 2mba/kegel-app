@@ -31,6 +31,13 @@
         <action
             android:id="@+id/action_screenHome_to_firstEntryDialogFragment"
             app:destination="@id/firstEntryDialogFragment" />
+        <action
+            android:id="@+id/action_screenHome_to_customExerciseSetupFragment"
+            app:destination="@id/customExerciseSetupFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
 
     <fragment
@@ -38,6 +45,10 @@
         android:name="org.tumba.kegel_app.ui.exercise.ExerciseFragment"
         android:label="Exercise"
         tools:layout="@layout/fragment_exercise">
+        <argument
+            android:name="type"
+            app:argType="org.tumba.kegel_app.ui.exercise.ExerciseType"
+            app:nullable="false" />
         <action
             android:id="@+id/action_screen_exercise_to_exerciseResultFragment"
             app:destination="@id/screenExerciseResultFragment"
@@ -80,6 +91,12 @@
             android:name="showExerciseButton"
             app:argType="boolean"
             app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.tumba.kegel_app.ui.exercise.ExerciseType"
+            app:nullable="false" />
+
         <action
             android:id="@+id/action_screenExerciseInfoFragment_to_screenExercise"
             app:destination="@id/screenExercise"
@@ -108,6 +125,10 @@
         android:id="@+id/firstExerciseChallengeDialogFragment"
         android:name="org.tumba.kegel_app.ui.home.FirstExerciseChallengeDialogFragment"
         android:label="FirstExerciseChallengeDialogFragment">
+        <argument
+            android:name="type"
+            app:argType="org.tumba.kegel_app.ui.exercise.ExerciseType"
+            app:nullable="false" />
         <action
             android:id="@+id/action_firstExerciseChallengeDialogFragment_to_screenExercise"
             app:destination="@id/screenExercise"
@@ -150,12 +171,12 @@
     <activity
         android:id="@+id/externalPrivacyPolicy"
         app:action="android.intent.action.VIEW"
-        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/privacy.html"/>
+        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/privacy.html" />
 
     <activity
         android:id="@+id/externalTermOfUsage"
         app:action="android.intent.action.VIEW"
-        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/terms.html"/>
+        app:dataPattern="https://santaevpavel.github.io/kegel-landing/docs/terms.html" />
 
     <action
         android:id="@+id/action_global_externalPrivacyPolicy"
@@ -176,9 +197,30 @@
     <activity
         android:id="@+id/drawOverAppSettings"
         app:action="android.settings.action.MANAGE_OVERLAY_PERMISSION"
-        app:data="package:org.tumba.kegel_app"/>
+        app:data="package:org.tumba.kegel_app" />
 
     <action
         android:id="@+id/action_global_drawOverAppSettings"
         app:destination="@id/drawOverAppSettings" />
+
+    <fragment
+        android:id="@+id/customExerciseSetupFragment"
+        android:name="org.tumba.kegel_app.ui.customexercise.CustomExerciseSetupFragment"
+        android:label="CustomExerciseSetupFragment">
+        <action
+            android:id="@+id/action_customExerciseSetupFragment_to_screenExercise"
+            app:destination="@id/screenExercise"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
+            app:popUpTo="@id/screenHome" />
+        <action
+            android:id="@+id/action_customExerciseSetupFragment_to_firstExerciseChallengeDialogFragment"
+            app:destination="@id/firstExerciseChallengeDialogFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
 </navigation>

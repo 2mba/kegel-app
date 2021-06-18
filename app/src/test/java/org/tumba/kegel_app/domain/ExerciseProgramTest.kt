@@ -37,7 +37,7 @@ class ExerciseProgramTest {
         every { exerciseSettingsRepository.exerciseLevel } returns level
         every { exerciseSettingsRepository.exerciseDay } returns day
         every { exerciseSettingsRepository.numberOfCompletedExercises } returns numberOfExercises
-        every { exerciseSettingsRepository.lastCompletedExerciseDate } returns lastExerciseDate
+        every { exerciseSettingsRepository.lastCompletedPredefinedExerciseDate } returns lastExerciseDate
         every { exerciseSettingsRepository.exercisesDurationInSeconds } returns duration
     }
 

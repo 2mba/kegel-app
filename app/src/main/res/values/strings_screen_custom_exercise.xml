@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_custom_exercise_title">Custom exercise</string>
+    <string name="screen_custom_exercise_section_parameters">Exercise parameters</string>
+    <string name="screen_custom_exercise_seconds">%s seconds</string>
+    <string name="screen_custom_exercise_tense_duration">Tense duration</string>
+    <string name="screen_custom_exercise_relax_duration">Relax duration</string>
+    <string name="screen_custom_exercise_repeats">Repeats</string>
+    <string name="screen_custom_exercise_duration">Exercise duration</string>
+    <string name="screen_custom_exercise_tense_duration_picker_title">Tense duration (in seconds)</string>
+    <string name="screen_custom_exercise_relax_duration_picker_title">Relax duration (in seconds)</string>
+    <string name="screen_custom_exercise_repeats_picker_title">Repeats</string>
+    <string name="screen_custom_exercise_btn_start">Start</string>
+</resources>

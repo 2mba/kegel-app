@@ -14,6 +14,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFade
 import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.databinding.FragmentExerciseInfoBinding
+import org.tumba.kegel_app.ui.exercise.ExerciseType
 import org.tumba.kegel_app.ui.home.ExerciseInfoFragmentDirections.Companion.actionScreenExerciseInfoFragmentToScreenExercise
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.setToolbar
@@ -49,7 +50,9 @@ class ExerciseInfoFragment : Fragment() {
 
     private fun initViews() {
         binding.btnDone.setOnClickListener {
-            findNavController().navigate(actionScreenExerciseInfoFragmentToScreenExercise())
+            findNavController().navigate(
+                actionScreenExerciseInfoFragmentToScreenExercise(args.type ?: ExerciseType.Predefined)
+            )
         }
         if (args.showExerciseButton) {
             binding.btnDone.postDelayed(BUTTON_ANIMATION_DELAY_MILLIS) {

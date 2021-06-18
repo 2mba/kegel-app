@@ -23,7 +23,7 @@ class ExerciseParametersProvider @Inject constructor(
     fun observeDay(): Flow<Int> {
         return combine(
             exerciseSettingsRepository.exerciseDay.asFlow(),
-            exerciseSettingsRepository.lastCompletedExerciseDate.asFlow()
+            exerciseSettingsRepository.lastCompletedPredefinedExerciseDate.asFlow()
         ) { day, lastCompletedExerciseDate ->
             if (lastCompletedExerciseDate == 0L) 1 else calcDay(lastCompletedExerciseDate, day)
         }
@@ -32,7 +32,7 @@ class ExerciseParametersProvider @Inject constructor(
     fun observeProgress(): Flow<Progress> {
         return observeDay().map { day ->
             val completedDays = exerciseSettingsRepository.exerciseDay.value
-            val isThereNoCompletedExercises = exerciseSettingsRepository.lastCompletedExerciseDate.value == 0L
+            val isThereNoCompletedExercises = exerciseSettingsRepository.lastCompletedPredefinedExerciseDate.value == 0L
             if (isThereNoCompletedExercises) {
                 Progress(completed = 0, next = 0)
             } else {

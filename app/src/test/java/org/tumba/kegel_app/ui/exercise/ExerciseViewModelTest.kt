@@ -70,10 +70,12 @@ class ExerciseViewModelTest {
     @RelaxedMockK
     lateinit var exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour
 
+    private lateinit var exerciseType: ExerciseType
     private lateinit var viewModel: ExerciseViewModel
 
     @Before
     fun setUp() {
+        exerciseType = ExerciseType.Predefined
         MockKAnnotations.init(this)
     }
 
@@ -87,7 +89,7 @@ class ExerciseViewModelTest {
         // Assert
         coVerifySequence {
             exerciseInteractor.clearExercise()
-            exerciseInteractor.createExercise()
+            exerciseInteractor.createPredefinedExercise()
             exerciseInteractor.startExercise()
         }
     }
@@ -119,16 +121,17 @@ class ExerciseViewModelTest {
 
     private fun createViewModel() {
         viewModel = ExerciseViewModel(
-            exerciseInteractor,
-            exerciseServiceInteractor,
-            exerciseSettingsRepository,
-            exerciseParametersProvider,
-            exerciseNameProvider,
-            proUpgradeManager,
-            tracker,
-            resourceProvider,
-            permissionProvider,
-            exerciseBannerAdShowBehaviour
+            exerciseType = exerciseType,
+            exerciseInteractor = exerciseInteractor,
+            exerciseServiceInteractor = exerciseServiceInteractor,
+            exerciseSettingsRepository = exerciseSettingsRepository,
+            exerciseParametersProvider = exerciseParametersProvider,
+            exerciseNameProvider = exerciseNameProvider,
+            proUpgradeManager = proUpgradeManager,
+            tracker = tracker,
+            resourceProvider = resourceProvider,
+            permissionProvider = permissionProvider,
+            exerciseBannerAdShowBehaviour = exerciseBannerAdShowBehaviour
         )
     }
 }

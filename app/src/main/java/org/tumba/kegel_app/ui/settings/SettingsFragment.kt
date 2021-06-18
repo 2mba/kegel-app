@@ -17,7 +17,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.BuildConfig
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentSettingsBinding
-import org.tumba.kegel_app.databinding.LayoutLevelPickerDialogBinding
+import org.tumba.kegel_app.databinding.LayoutNumberPickerDialogBinding
 import org.tumba.kegel_app.databinding.LayoutSoundVolumePickerDialogBinding
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.utils.ViewModelFactory
@@ -101,7 +101,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showLevelPicker() {
-        val view = LayoutLevelPickerDialogBinding.inflate(layoutInflater)
+        val view = LayoutNumberPickerDialogBinding.inflate(layoutInflater)
         view.picker.value = viewModel.level.value
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.screen_settings_level_dialog_title)

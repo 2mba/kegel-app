@@ -8,6 +8,7 @@ import org.tumba.kegel_app.repository.ExerciseRepository
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.service.ExerciseService
 import org.tumba.kegel_app.ui.exercise.ExerciseBackgroundMode
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Suppress("EXPERIMENTAL_API_USAGE")
@@ -18,16 +19,35 @@ class ExerciseInteractor @Inject constructor(
     private val exerciseProgram: ExerciseProgram,
     private val exerciseEffectsHandler: ExerciseEffectsHandler,
     private val exerciseFinishHandler: ExerciseFinishHandler,
-    private val floatingViewManager: FloatingViewManager
+    private val floatingViewManager: FloatingViewManager,
+    private val customExerciseInteractor: CustomExerciseInteractor
 ) {
+
+    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     suspend fun getExercise(): Exercise? {
         return exerciseRepository.observeExercise().first()
     }
 
-    suspend fun createExercise() {
+    suspend fun createPredefinedExercise() {
         exerciseRepository.saveExercise(
             createExerciseFrom(exerciseProgram.getConfig())
+        )
+    }
+
+    suspend fun createCustomExercise() {
+        val tenseDuration = customExerciseInteractor.observeTenseDuration().first()
+        val relaxDuration = customExerciseInteractor.observeRelaxDuration().first()
+        exerciseRepository.saveExercise(
+            createExerciseFrom(
+                ExerciseConfig(
+                    preparationDuration = Time(ExerciseProgram.PREPARATION_TIME_SECONDS, TimeUnit.SECONDS),
+                    holdingDuration = Time(tenseDuration.toLong(), TimeUnit.SECONDS),
+                    relaxDuration = Time(relaxDuration.toLong(), TimeUnit.SECONDS),
+                    repeats = customExerciseInteractor.observeRepeats().first(),
+                    isPredefined = false
+                )
+            )
         )
     }
 
@@ -48,22 +68,34 @@ class ExerciseInteractor @Inject constructor(
         }
         val exercise = getExercise()
         if (exercise != null) {
-            with(CoroutineScope(GlobalScope.coroutineContext)) {
-                launch(Dispatchers.Default) {
-                    exercise.observeState().collect { exerciseFinishHandler.onExerciseStateChanged(it) }
-                }
-                launch(Dispatchers.Main) {
-                    exercise.observeState().collect { floatingViewManager.updateFloatingViewState(it) }
-                }
-                exerciseFinishHandler.onFinish {
-                    launch(Dispatchers.Main) { floatingViewManager.hideFloatingView() }
-                }
+            observeExerciseFinish(exercise)
+            scope.launch(Dispatchers.Main) {
+                exercise.observeState()
+                    .transformWhile { state ->
+                        emit(state)
+                        state !is ExerciseState.Finish
+                    }
+                    .collect { floatingViewManager.updateFloatingViewState(it) }
             }
             exerciseEffectsHandler.onStartExercise(exercise.observeState())
             if (observeBackgroundMode().first() == ExerciseBackgroundMode.FLOATING_VIEW) {
                 floatingViewManager.showFloatingView()
             }
             exercise.start()
+        }
+    }
+
+    private fun observeExerciseFinish(exercise: Exercise) {
+        scope.launch(Dispatchers.Default + SupervisorJob()) {
+            exercise.observeState()
+                .transformWhile { state ->
+                    emit(state)
+                    state !is ExerciseState.Finish
+                }
+                .collect { exerciseFinishHandler.onExerciseStateChanged(it) }
+        }
+        exerciseFinishHandler.onFinish {
+            scope.launch(Dispatchers.Main) { floatingViewManager.hideFloatingView() }
         }
     }
 
@@ -84,7 +116,8 @@ class ExerciseInteractor @Inject constructor(
     }
 
     fun isThereCompletedExercise(): Boolean {
-        return exerciseSettingsRepository.lastCompletedExerciseDate.value != 0L
+        return exerciseSettingsRepository.lastCompletedPredefinedExerciseDate.value != 0L ||
+                exerciseSettingsRepository.lastCompletedCustomExerciseDate.value != 0L
     }
 
     fun isFirstExerciseChallengeShown(): Boolean {

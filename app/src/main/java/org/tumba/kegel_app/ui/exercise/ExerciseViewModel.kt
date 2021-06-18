@@ -26,9 +26,9 @@ import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.home.HomeFragmentDirections
 import org.tumba.kegel_app.utils.Event
 import org.tumba.kegel_app.utils.formatExerciseDuration
-import javax.inject.Inject
 
-class ExerciseViewModel @Inject constructor(
+class ExerciseViewModel(
+    private val exerciseType: ExerciseType,
     private val exerciseInteractor: ExerciseInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
@@ -83,6 +83,9 @@ class ExerciseViewModel @Inject constructor(
     val exerciseProgressColor = exerciseState.map { getExerciseProgressColor(it) }.asLiveData()
     val level = exerciseParametersProvider.observeLevel().asLiveData()
     val day = exerciseParametersProvider.observeDay().asLiveData()
+    val isLevelVisible = exerciseType == ExerciseType.Predefined
+    val isDayVisible = exerciseType == ExerciseType.Predefined
+
     val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
         .asFlow()
         .asLiveData(Dispatchers.Default)
@@ -269,7 +272,10 @@ class ExerciseViewModel @Inject constructor(
     private suspend fun createExercise() {
         with(exerciseInteractor) {
             clearExercise()
-            createExercise()
+            when (exerciseType) {
+                ExerciseType.Predefined -> createPredefinedExercise()
+                ExerciseType.Custom -> createCustomExercise()
+            }
             startExercise()
         }
     }

@@ -14,7 +14,9 @@ class ExerciseSettingsRepository @Inject constructor(
     preferences: SharedPreferences
 ) {
 
-    val lastCompletedExerciseDate = Preference<Long>(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
+    val lastCompletedPredefinedExerciseDate = Preference<Long>(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
+
+    val lastCompletedCustomExerciseDate = Preference<Long>(preferences, "PREF_KEY_LAST_COMPLETED_CUSTOM_EXERCISE_DATE", 0)
 
     val exercisesDurationInSeconds = Preference<Long>(preferences, PREF_EXERCISES_DURATION, DEFAULT_EXERCISES_DURATIONS)
 
@@ -51,6 +53,14 @@ class ExerciseSettingsRepository @Inject constructor(
     val isProAvailable = Preference<Boolean>(preferences, PREF_KEY_PRO_AVAILABLE, DEFAULT_PRO_AVAILABLE)
 
     val isUserAgreementConfirmed = Preference<Boolean>(preferences, PREF_KEY_USER_AGREEMENT_CONFIRMATION, false)
+
+    val customExerciseTenseDuration = Preference<Int>(preferences, "PREF_KEY_CUSTOM_EXERCISE_TENSE", 3)
+
+    val customExerciseRelaxDuration = Preference<Int>(preferences, "PREF_KEY_CUSTOM_EXERCISE_RELAX", 3)
+
+    val customExerciseRepeats = Preference<Int>(preferences, "PREF_KEY_CUSTOM_EXERCISE_REPEATS", 10)
+
+    val isCustomExerciseConfigured = Preference<Boolean>(preferences, "PREF_KEY_CUSTOM_EXERCISE_CONFIGURED", false)
 
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"

@@ -47,6 +47,11 @@
                     app:viewModel="@{viewModel}" />
 
                 <include
+                    android:id="@+id/custom_exercise_item"
+                    layout="@layout/home_item_custom_exercise"
+                    app:viewModel="@{viewModel}" />
+
+                <include
                     layout="@layout/home_item_statistic"
                     app:viewModel="@{viewModel}" />
 

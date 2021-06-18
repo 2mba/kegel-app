@@ -16,7 +16,7 @@ class ExerciseFinishHandler @Inject constructor(
             onFinishListeners.forEach { it.invoke() }
             onFinishListeners.clear()
             if (!state.isForceFinished) {
-                updateLevelAndNumberOfExercises()
+                updateLevelAndNumberOfExercises(state)
                 updateExercisesDuration(state)
             }
         }
@@ -26,12 +26,14 @@ class ExerciseFinishHandler @Inject constructor(
         onFinishListeners.add(block)
     }
 
-    private suspend fun updateLevelAndNumberOfExercises() {
+    private suspend fun updateLevelAndNumberOfExercises(state: ExerciseState.Finish) {
         val day = exerciseParametersProvider.observeDay().first()
-        updateLastCompletedExerciseDate(day)
+        updateLastCompletedExerciseDate(day, state.exerciseInfo.isPredefined)
         exerciseSettingsRepository.numberOfCompletedExercises.value++
-        if (day % DAYS_IN_WEEK == 0) {
-            exerciseSettingsRepository.exerciseLevel.value++
+        if (state.exerciseInfo.isPredefined) {
+            if (day % DAYS_IN_WEEK == 0) {
+                exerciseSettingsRepository.exerciseLevel.value++
+            }
         }
     }
 
@@ -39,9 +41,13 @@ class ExerciseFinishHandler @Inject constructor(
         exerciseSettingsRepository.exercisesDurationInSeconds.value += state.exerciseInfo.durationSeconds
     }
 
-    private fun updateLastCompletedExerciseDate(day: Int) {
-        exerciseSettingsRepository.exerciseDay.value = day
-        exerciseSettingsRepository.lastCompletedExerciseDate.value = System.currentTimeMillis()
+    private fun updateLastCompletedExerciseDate(day: Int, isPredefinedExercise: Boolean) {
+        if (isPredefinedExercise) {
+            exerciseSettingsRepository.exerciseDay.value = day
+            exerciseSettingsRepository.lastCompletedPredefinedExerciseDate.value = System.currentTimeMillis()
+        } else {
+            exerciseSettingsRepository.lastCompletedCustomExerciseDate.value = System.currentTimeMillis()
+        }
     }
 
     companion object {

@@ -63,7 +63,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/infoSurface"
@@ -92,6 +92,7 @@
                     android:paddingBottom="@dimen/margin_small"
                     android:text="@{@string/screen_exercise_repeats(viewModel.repeats)}"
                     android:textAllCaps="true"
+                    app:layout_goneMarginBottom="@dimen/margin_medium"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_repeat_16"
@@ -127,6 +128,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/day"
                     style="@style/Widget.MaterialComponents.TextView"
+                    bindGoneUnless="@{viewModel.dayVisible}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -150,6 +152,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/level"
                     style="@style/Widget.MaterialComponents.TextView"
+                    bindGoneUnless="@{viewModel.levelVisible}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

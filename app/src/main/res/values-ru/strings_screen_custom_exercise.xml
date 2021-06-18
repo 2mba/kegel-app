@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_custom_exercise_title">Пользователькое упражнение</string>
+    <string name="screen_custom_exercise_section_parameters">Параметры упражнения</string>
+    <string name="screen_custom_exercise_seconds">%s секунд</string>
+    <string name="screen_custom_exercise_tense_duration">Длительность сжатия</string>
+    <string name="screen_custom_exercise_relax_duration">Длительность отдыха</string>
+    <string name="screen_custom_exercise_repeats">Повторы</string>
+    <string name="screen_custom_exercise_duration">Длительность тренировки</string>
+    <string name="screen_custom_exercise_tense_duration_picker_title">Длительность сжатия (в секундах)</string>
+    <string name="screen_custom_exercise_relax_duration_picker_title">Длительность отдыха (в скундах)</string>
+    <string name="screen_custom_exercise_repeats_picker_title">Повторы</string>
+    <string name="screen_custom_exercise_btn_start">Старт</string>
+</resources>

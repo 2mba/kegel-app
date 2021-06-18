@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import org.tumba.kegel_app.core.system.VibrationManager.Strength
 import org.tumba.kegel_app.domain.ExerciseStateInternal.ExerciseKind
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToLong
@@ -22,14 +21,14 @@ class Exercise(
     override val coroutineContext = Dispatchers.Default + SupervisorJob()
 
     private var tickJob: Job? = null
-    private val eventsChannel = MutableSharedFlow<ExerciseState>(
+    private val events = MutableSharedFlow<ExerciseState>(
         replay = 1,
         extraBufferCapacity = 10,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     private var exerciseState: ExerciseStateInternal = ExerciseStateInternal.NotStated
 
-    fun observeState(): Flow<ExerciseState> = eventsChannel
+    fun observeState(): Flow<ExerciseState> = events
 
     fun start() {
         check(exerciseState == ExerciseStateInternal.NotStated) { "Exercise should not be started" }
@@ -78,7 +77,6 @@ class Exercise(
             startedAt = now(),
             timeForSkip = Duration.ZERO
         )
-        vibrate(Strength.Low)
         notifyState()
     }
 
@@ -101,7 +99,6 @@ class Exercise(
                 startedAt = now(),
                 timeForSkip = Duration.ZERO
             )
-            vibrate(Strength.Medium)
         }
         notifyState()
     }
@@ -117,7 +114,6 @@ class Exercise(
                 startedAt = now(),
                 timeForSkip = Duration.ZERO
             )
-            vibrate(Strength.Medium)
         }
         notifyState()
     }
@@ -137,7 +133,6 @@ class Exercise(
                         startedAt = now(),
                         timeForSkip = Duration.ZERO
                     )
-                vibrate(Strength.Medium)
             }
         }
         notifyState()
@@ -153,12 +148,12 @@ class Exercise(
         launch {
             when (val state = exerciseState) {
                 ExerciseStateInternal.NotStated -> {
-                    eventsChannel.emit(ExerciseState.NotStarted)
+                    events.emit(ExerciseState.NotStarted)
                 }
                 is ExerciseStateInternal.InProgress -> notifyInProgressState(state)
                 is ExerciseStateInternal.Pause -> {
                     val remainSeconds = getExerciseRemainTimeSeconds(state.pausedState)
-                    eventsChannel.emit(
+                    events.emit(
                         ExerciseState.Pause(
                             singleExerciseInfo = SingleExerciseInfo(
                                 remainSeconds = remainSeconds,
@@ -173,9 +168,10 @@ class Exercise(
                         remainSeconds = 0,
                         repeatRemains = 0,
                         durationSeconds = getFullExerciseDuration(),
-                        repeats = config.repeats
+                        repeats = config.repeats,
+                        isPredefined = config.isPredefined
                     )
-                    eventsChannel.emit(ExerciseState.Finish(state.isForceFinished, exerciseInfo))
+                    events.emit(ExerciseState.Finish(state.isForceFinished, exerciseInfo))
                 }
             }
         }
@@ -189,17 +185,17 @@ class Exercise(
         )
         when (state.exerciseKind) {
             ExerciseKind.PREPARATION -> {
-                eventsChannel.emit(
+                events.emit(
                     ExerciseState.Preparation(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             ExerciseKind.HOLDING -> {
-                eventsChannel.emit(
+                events.emit(
                     ExerciseState.Holding(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
             ExerciseKind.RELAX -> {
-                eventsChannel.emit(
+                events.emit(
                     ExerciseState.Relax(singleExerciseInfo, getExerciseInfo(state))
                 )
             }
@@ -211,7 +207,8 @@ class Exercise(
             remainSeconds = getExerciseRemainSeconds(state),
             repeatRemains = state.repeatRemain,
             durationSeconds = getFullExerciseDuration(),
-            repeats = config.repeats
+            repeats = config.repeats,
+            isPredefined = config.isPredefined
         )
     }
 
@@ -241,9 +238,6 @@ class Exercise(
     private fun getExerciseRemainTimeSeconds(state: ExerciseStateInternal.InProgress): Long {
         val timePassed = (state.startedAt.elapsedNow() - state.timeForSkip).inSeconds.toInt()
         return (getSingleExerciseDuration(state) - timePassed)
-    }
-
-    private fun vibrate(strength: Strength) {
     }
 
     private fun startTickUpdates() {

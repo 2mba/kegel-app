@@ -125,6 +125,6 @@ class ExerciseParametersProviderTest {
 
     private fun mockExerciseSettingsRepository() {
         every { exerciseSettingsRepository.exerciseDay } returns day
-        every { exerciseSettingsRepository.lastCompletedExerciseDate } returns lastCompletedExerciseDate
+        every { exerciseSettingsRepository.lastCompletedPredefinedExerciseDate } returns lastCompletedExerciseDate
     }
 }

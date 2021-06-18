@@ -11,4 +11,8 @@
     <string name="screen_home_hint_statistic_duration">Duration</string>
     <string name="screen_home_progress_item_title">Progress</string>
     <string name="screen_home_progress_item_level">Level %s</string>
+    <string name="screen_home_custom_exercise_item_title">Custom exercise</string>
+    <string name="screen_home_custom_exercise_item_text">Customize and do the exercise that\'s right for you</string>
+    <string name="screen_home_custom_exercise_item_start">Start</string>
+    <string name="screen_home_custom_exercise_item_configure">Configure</string>
 </resources>

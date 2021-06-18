@@ -11,4 +11,8 @@
     <string name="screen_home_hint_statistic_duration">Длительность</string>
     <string name="screen_home_progress_item_title">Прогресс</string>
     <string name="screen_home_progress_item_level">Уровень %s</string>
+    <string name="screen_home_custom_exercise_item_title">Пользователькое упражнение</string>
+    <string name="screen_home_custom_exercise_item_text">Настройте упражнение под себя</string>
+    <string name="screen_home_custom_exercise_item_start">Старт</string>
+    <string name="screen_home_custom_exercise_item_configure">Настроить</string>
 </resources>

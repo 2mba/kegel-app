@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.gms.ads.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -30,7 +31,6 @@ import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.exercise.ExerciseFragmentDirections.Companion.actionScreenExerciseToExerciseInfoFragment
 import org.tumba.kegel_app.ui.exercise.ExercisePlaybackStateUiModel.*
 import org.tumba.kegel_app.ui.utils.MenuVisibilityObserver
-import org.tumba.kegel_app.ui.utils.ViewModelFactory
 import org.tumba.kegel_app.utils.Empty
 import org.tumba.kegel_app.utils.fragment.actionBar
 import org.tumba.kegel_app.utils.fragment.observeNavigation
@@ -47,7 +47,7 @@ class ExerciseFragment : Fragment() {
     private lateinit var binding: FragmentExerciseBinding
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var factoryProvider: ExerciseViewModelFactoryProvider
 
     @Inject
     lateinit var appBuildConfig: AppBuildConfig
@@ -55,11 +55,12 @@ class ExerciseFragment : Fragment() {
     @Inject
     lateinit var adsTracker: AdsTracker
 
-    private val viewModel: ExerciseViewModel by viewModels { viewModelFactory }
+    private val viewModel: ExerciseViewModel by viewModels { factoryProvider.build(args.type) }
     private var lastAnimation: Animation? = null
     private var timerAnimation: Animation? = null
 
     private var dialogs = mutableListOf<DialogInterface>()
+    private val args by navArgs<ExerciseFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +102,12 @@ class ExerciseFragment : Fragment() {
         return when (item.itemId) {
             R.id.help -> {
                 viewModel.onHelpClicked()
-                findNavController().navigate(actionScreenExerciseToExerciseInfoFragment(showExerciseButton = false))
+                findNavController().navigate(
+                    actionScreenExerciseToExerciseInfoFragment(
+                        showExerciseButton = false,
+                        type = ExerciseType.Predefined
+                    )
+                )
                 true
             }
             R.id.upgradeToPro -> {
