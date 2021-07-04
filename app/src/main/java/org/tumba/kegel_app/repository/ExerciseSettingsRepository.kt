@@ -16,7 +16,8 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val lastCompletedPredefinedExerciseDate = Preference<Long>(preferences, PREF_KEY_LAST_COMPLETED_EXERCISE_DATE, 0)
 
-    val lastCompletedCustomExerciseDate = Preference<Long>(preferences, "PREF_KEY_LAST_COMPLETED_CUSTOM_EXERCISE_DATE", 0)
+    val lastCompletedCustomExerciseDate =
+        Preference<Long>(preferences, "PREF_KEY_LAST_COMPLETED_CUSTOM_EXERCISE_DATE", 0)
 
     val exercisesDurationInSeconds = Preference<Long>(preferences, PREF_EXERCISES_DURATION, DEFAULT_EXERCISES_DURATIONS)
 
@@ -62,6 +63,10 @@ class ExerciseSettingsRepository @Inject constructor(
 
     val isCustomExerciseConfigured = Preference<Boolean>(preferences, "PREF_KEY_CUSTOM_EXERCISE_CONFIGURED", false)
 
+    val defaultFreePeriod = FreePeriodSettings(preferences, periodName = "default")
+
+    val adRewardFreePeriod = FreePeriodSettings(preferences, periodName = "adReward")
+
     companion object {
         private const val PREF_KEY_EXERCISE_LEVEL = "PREF_KEY_EXERCISE_LEVEL"
         private const val PREF_KEY_VIBRATION = "PREF_KEY_VIBRATION"
@@ -98,4 +103,14 @@ class ExerciseSettingsRepository @Inject constructor(
         private const val DEFAULT_BACKGROUND_MODE = 1
         private const val DEFAULT_PRO_AVAILABLE = false
     }
+}
+
+class FreePeriodSettings(preferences: SharedPreferences, periodName: String) {
+
+    val startDate = Preference<Long>(preferences, "FREE_PERIOD_START_DATE_$periodName", 0)
+
+    val days = Preference<Int>(preferences, "FREE_PERIOD_DAYS_$periodName", 0)
+
+    val isExpirationShown = Preference<Boolean>(preferences, "FREE_PERIOD_IS_EXPIRATION_SHOWN_$periodName", false)
+
 }

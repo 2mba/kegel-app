@@ -13,11 +13,12 @@ class InterstitialAdShowBehaviour @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository
 ) {
 
-
     fun canAdBeShown(): Boolean {
         val adsEnabled = firebaseConfig.getBoolean(ConfigConstants.adsEnabled)
         val interstitialAdsEnabled = firebaseConfig.getBoolean(ConfigConstants.interstitialAdsEnabled)
-        if (proUpgradeManager.isProAvailable.value || !adsEnabled || !interstitialAdsEnabled) {
+        val isAdCannotBeShownInPro = proUpgradeManager.isProAvailable.value &&
+                proUpgradeManager.adAwardFreePeriodState.value != ProUpgradeManager.FreePeriodState.Active
+        if (isAdCannotBeShownInPro || !adsEnabled || !interstitialAdsEnabled) {
             return false
         }
         val minExercisesNumber = firebaseConfig.getLong(ConfigConstants.interstitialAdsMinExercisesNumber)

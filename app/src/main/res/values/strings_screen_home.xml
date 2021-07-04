@@ -15,4 +15,8 @@
     <string name="screen_home_custom_exercise_item_text">Customize and do the exercise that\'s right for you</string>
     <string name="screen_home_custom_exercise_item_start">Start</string>
     <string name="screen_home_custom_exercise_item_configure">Configure</string>
+    <string name="screen_home_free_period_expired_dialog_title">Free period has been expired</string>
+    <string name="screen_home_free_period_expired_dialog_message">Do you want to upgrade to PRO or prolong free period?</string>
+    <string name="screen_home_free_period_expired_dialog_yes">Yes</string>
+    <string name="screen_home_free_period_expired_dialog_no">No</string>
 </resources>

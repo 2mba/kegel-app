@@ -11,6 +11,9 @@
     <string name="screen_pro_upgrade_pros_purchase_title">Lifetime purchase</string>
     <string name="screen_pro_upgrade_pros_purchase_text">Get full and lifetime access to the app\'s premium features. No more recurring purchases</string>
     <string name="screen_pro_upgrade_btn_restore">Restore purchases</string>
+    <string name="screen_pro_upgrade_btn_try_free_period">Try %d days free period</string>
+    <string name="screen_pro_upgrade_btn_try_ad_reward_free_period">Get PRO for free</string>
+    <string name="screen_pro_upgrade_message_free_period_activated">Free period has been activated. Enjoy the app.</string>
     <string name="screen_pro_upgrade_message_purchases_restored">Purchases have been restored</string>
     <string name="screen_pro_upgrade_message_upgraded_successfully">Upgraded to PRO successfully</string>
     <string name="screen_pro_upgrade_error_failed_restore_purchases">Failed to restore purchases</string>

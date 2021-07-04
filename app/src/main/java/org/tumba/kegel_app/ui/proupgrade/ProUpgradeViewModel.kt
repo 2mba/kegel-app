@@ -5,12 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.BillingClient
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.R
 import org.tumba.kegel_app.analytics.ProUpgradeTracker
 import org.tumba.kegel_app.billing.ProUpgradeManager
+import org.tumba.kegel_app.config.ConfigConstants
 import org.tumba.kegel_app.core.system.ResourceProvider
+import org.tumba.kegel_app.ui.ad.RewardedAdManager
 import org.tumba.kegel_app.ui.common.BaseViewModel
 import org.tumba.kegel_app.ui.common.showSnackbar
 import org.tumba.kegel_app.utils.Event
@@ -22,8 +27,9 @@ import javax.inject.Inject
 class ProUpgradeViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val proUpgradeManager: ProUpgradeManager,
-    private val tracker: ProUpgradeTracker
-
+    private val tracker: ProUpgradeTracker,
+    rewardedAdManager: RewardedAdManager,
+    remoteConfig: FirebaseRemoteConfig
 ) : BaseViewModel() {
 
     val price: LiveData<String?> = proUpgradeManager.proUpgradeSkuDetails
@@ -36,11 +42,22 @@ class ProUpgradeViewModel @Inject constructor(
         }
         .asLiveData()
 
+    val isTryProUpgradeButtonVisible =
+        proUpgradeManager.defaultFreePeriodState.value == ProUpgradeManager.FreePeriodState.NotActivated
+    val isAdRewardButtonVisible = combine(
+        proUpgradeManager.defaultFreePeriodState,
+        proUpgradeManager.adAwardFreePeriodState
+    ) { defaultFreePeriodState, adAwardFreePeriodState ->
+        defaultFreePeriodState is ProUpgradeManager.FreePeriodState.Expired &&
+                adAwardFreePeriodState != ProUpgradeManager.FreePeriodState.Active
+    }.asLiveData()
+    val freePeriodDays = remoteConfig[ConfigConstants.adRewardedFreePeriodDays].asLong().toInt()
     val startProPurchasingFlow = MutableLiveData(Event(false))
     val isLoading = MutableLiveData(false)
 
     init {
         loadBillingDetails()
+        rewardedAdManager.loadRewardAd()
     }
 
     fun onUpgradeToProClicked() {
@@ -69,8 +86,33 @@ class ProUpgradeViewModel @Inject constructor(
         }
     }
 
+    fun onGetFreePeriodClicked() {
+        viewModelScope.launch {
+            tracker.trackGetDefaultFreePeriodClicked()
+            proUpgradeManager.activateDefaultFreePeriod()
+            showSnackbar(resourceProvider.getString(R.string.screen_pro_upgrade_message_free_period_activated))
+            back()
+        }
+    }
+
+    fun onGetAdRewardFreePeriodClicked() {
+        viewModelScope.launch {
+            tracker.trackGetAdRewardFreePeriodClicked()
+            navigate(
+                ProUpgradeFragmentDirections.actionScreenProUpgradeToAdRewardProUpgradeDialogFragment(
+                    isCloseProUpgradeScreen = true
+                )
+            )
+        }
+    }
+
     fun onClickClose() {
         tracker.trackClose()
+        navigate(
+            ProUpgradeFragmentDirections.actionCloseScreenToAdRewardProUpgradeDialogFragment(
+                isCloseProUpgradeScreen = false
+            )
+        )
     }
 
     private fun loadBillingDetails() {

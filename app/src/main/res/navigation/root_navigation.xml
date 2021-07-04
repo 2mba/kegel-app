@@ -148,7 +148,25 @@
     <fragment
         android:id="@+id/screenProUpgrade"
         android:name="org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment"
-        android:label="ProUpgradeFragment" />
+        android:label="ProUpgradeFragment"
+        tools:layout="@layout/fragment_pro_upgrade">
+        <action
+            android:id="@+id/action_screenProUpgrade_to_adRewardProUpgradeDialogFragment"
+            app:destination="@id/adRewardProUpgradeDialogFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_closeScreen_to_adRewardProUpgradeDialogFragment"
+            app:destination="@id/adRewardProUpgradeDialogFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
+            app:popUpTo="@id/screenProUpgrade"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_screenProUpgrade"
@@ -160,7 +178,7 @@
 
     <dialog
         android:id="@+id/firstEntryDialogFragment"
-        android:name="org.tumba.vacuum_app.ui.home.FirstEntryDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.FirstEntryDialogFragment"
         android:label="FirstEntryDialogFragment" />
 
     <fragment
@@ -223,4 +241,30 @@
             app:popEnterAnim="@anim/fragment_open_enter"
             app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
+    <dialog
+        android:id="@+id/adRewardProUpgradeDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.AdRewardProUpgradeDialogFragment"
+        android:label="AdRewardProUpgradeDialogFragment"
+        tools:layout="@layout/fragment_ad_reward_pro_upgrade">
+        <argument
+            android:name="isCloseProUpgradeScreen"
+            app:argType="boolean"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_close_pro_upgrade_screen"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
+            app:popUpTo="@id/screenProUpgrade"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_adRewardProUpgradeDialogFragment"
+        app:destination="@id/adRewardProUpgradeDialogFragment"
+        app:enterAnim="@anim/fragment_open_enter"
+        app:exitAnim="@anim/fragment_open_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
+
 </navigation>

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import dev.chrisbanes.insetter.applyInsetter
 import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.databinding.FragmentProUpgradeBinding
@@ -53,7 +52,6 @@ class ProUpgradeFragment : Fragment() {
         viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), binding.root)
         binding.close.setOnClickListener {
             viewModel.onClickClose()
-            findNavController().navigateUp()
         }
     }
 

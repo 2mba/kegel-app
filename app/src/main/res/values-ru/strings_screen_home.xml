@@ -15,4 +15,8 @@
     <string name="screen_home_custom_exercise_item_text">Настройте упражнение под себя</string>
     <string name="screen_home_custom_exercise_item_start">Старт</string>
     <string name="screen_home_custom_exercise_item_configure">Настроить</string>
+    <string name="screen_home_free_period_expired_dialog_title">Бесплатный период истек</string>
+    <string name="screen_home_free_period_expired_dialog_message">Хотите обновиться до PRO или продлить бесплатный период?</string>
+    <string name="screen_home_free_period_expired_dialog_yes">Да</string>
+    <string name="screen_home_free_period_expired_dialog_no">Нет</string>
 </resources>

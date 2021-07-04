@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.applyInsetter
+import org.tumba.kegel_app.R
 import org.tumba.kegel_app.databinding.FragmentHomeBinding
 import org.tumba.kegel_app.databinding.LayoutProgressItemBinding
 import org.tumba.kegel_app.di.appComponent
@@ -52,6 +54,9 @@ class HomeFragment : Fragment() {
         viewModel.progressAnimation.observeEvent(viewLifecycleOwner) {
             animateProgress()
         }
+        viewModel.isShowExpirationDialog.observeEvent(viewLifecycleOwner) {
+            showDefaultFreePeriodExpirationDialog()
+        }
     }
 
     override fun onResume() {
@@ -90,6 +95,22 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun showDefaultFreePeriodExpirationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.screen_home_free_period_expired_dialog_title)
+            .setMessage(R.string.screen_home_free_period_expired_dialog_message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.screen_home_free_period_expired_dialog_no) { _, _ ->
+                viewModel.onUpgradeToProCanceled()
+            }
+            .setPositiveButton(R.string.screen_home_free_period_expired_dialog_yes) { _, _ ->
+                viewModel.onUpgradeToProClicked()
+            }
+            .create()
+            .show()
+    }
+
 
     companion object {
         private const val PROGRESS_ANIMATION_DELAY = 100L

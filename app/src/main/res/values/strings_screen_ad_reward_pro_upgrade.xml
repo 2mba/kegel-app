@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_ad_reward_pro_upgrade_title">Not ready to upgrade PRO?</string>
+    <string name="screen_ad_reward_pro_upgrade_message">You can get access to PRO features without buying a PRO version.\nJust watch an ad and use the PRO version for %d days.</string>
+    <string name="screen_ad_reward_pro_upgrade_btn_done">Try the PRO version</string>
+    <string name="screen_ad_reward_pro_upgrade_btn_cancel">Cancel</string>
+    <string name="screen_ad_reward_pro_upgrade_toast_success">PRO features will be available for %s days</string>
+</resources>

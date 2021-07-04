@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
+import timber.log.Timber
 import javax.inject.Inject
 import com.google.firebase.analytics.FirebaseAnalytics as OriginFirebaseAnalytics
 
@@ -35,6 +36,7 @@ class FirebaseAnalytics @Inject constructor() : Analytics {
             parametersNotNull.putString(OriginFirebaseAnalytics.Param.SCREEN_NAME, screenName)
         }
         firebase.logEvent(eventName, parameters)
+        Timber.e("!!!!! logEvent -> $eventName")
     }
 
     override fun setUserProperty(name: String, value: String) {

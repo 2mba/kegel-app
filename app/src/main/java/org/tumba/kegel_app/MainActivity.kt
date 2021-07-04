@@ -17,6 +17,7 @@ import org.tumba.kegel_app.analytics.ReminderNotificationTracker
 import org.tumba.kegel_app.analytics.ScreenTracker
 import org.tumba.kegel_app.di.appComponent
 import org.tumba.kegel_app.ui.ad.InterstitialAdManager
+import org.tumba.kegel_app.ui.ad.RewardedAdManager
 import org.tumba.kegel_app.ui.home.ProgressViewedStore
 import org.tumba.kegel_app.utils.gone
 import org.tumba.kegel_app.utils.observeEvent
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var interstitialAdManager: InterstitialAdManager
+
+    @Inject
+    lateinit var rewardedAdManager: RewardedAdManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -112,6 +116,11 @@ class MainActivity : AppCompatActivity() {
             .asLiveData(mainScope.coroutineContext)
             .observeEvent(this) { ad -> ad?.show(this) }
 
+        rewardedAdManager.rewardedAdShowEvent
+            .asLiveData(mainScope.coroutineContext)
+            .observeEvent(this) { ad ->
+                ad?.show(this) { rewardedAdManager.onUserEarnedReward() }
+            }
         findNavController(R.id.navFragment).addOnDestinationChangedListener(interstitialAdManager)
     }
 }

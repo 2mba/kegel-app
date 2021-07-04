@@ -7,12 +7,13 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import org.tumba.kegel_app.ui.customexercise.CustomExerciseSetupViewModel
 import org.tumba.kegel_app.ui.exercise.ExerciseResultViewModel
+import org.tumba.kegel_app.ui.home.AdRewardProUpgradeViewModel
+import org.tumba.kegel_app.ui.home.FirstEntryViewModel
 import org.tumba.kegel_app.ui.home.FirstExerciseChallengeViewModel
 import org.tumba.kegel_app.ui.home.HomeViewModel
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeViewModel
 import org.tumba.kegel_app.ui.settings.AboutAppViewModel
 import org.tumba.kegel_app.ui.settings.SettingsViewModel
-import org.tumba.vacuum_app.ui.home.FirstEntryViewModel
 import kotlin.reflect.KClass
 
 @Module
@@ -57,6 +58,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CustomExerciseSetupViewModel::class)
     internal abstract fun customExerciseSetupViewModel(viewModel: CustomExerciseSetupViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AdRewardProUpgradeViewModel::class)
+    internal abstract fun adRewardProUpgradeViewModel(viewModel: AdRewardProUpgradeViewModel): ViewModel
 }
 
 

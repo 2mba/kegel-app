@@ -45,4 +45,32 @@ class ProUpgradeTracker @Inject constructor(analytics: Analytics) : TrackerScope
     fun trackUpgradeFailed() {
         tracker.track("upgrade_status_successful")
     }
+
+    fun trackGetDefaultFreePeriodClicked() {
+        tracker.track(click("get_pro_default_free_period"))
+    }
+
+    fun trackGetAdRewardFreePeriodClicked() {
+        tracker.track(click("get_pro_ad_reward_free_period"))
+    }
+
+    fun trackAdRewardFreePeriodDialogShown() {
+        tracker.track("ad_reward_dialog_shown")
+    }
+
+    fun trackAdRewardFreePeriodAgreed() {
+        tracker.track("ad_reward_free_period_agreed")
+    }
+
+    fun trackAdRewardFreePeriodCanceled() {
+        tracker.track("ad_reward_free_period_cancelled")
+    }
+
+    fun trackDefaultFreePeriodActivated() {
+        tracker.track("default_free_period_activated")
+    }
+
+    fun trackAdRewardFreePeriodActivated() {
+        tracker.track("ad_reward_free_period_activated")
+    }
 }

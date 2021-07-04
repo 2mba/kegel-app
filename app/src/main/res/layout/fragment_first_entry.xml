@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="org.tumba.vacuum_app.ui.home.FirstEntryViewModel" />
+            type="org.tumba.kegel_app.ui.home.FirstEntryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

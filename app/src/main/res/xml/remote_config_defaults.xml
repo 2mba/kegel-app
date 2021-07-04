@@ -25,4 +25,12 @@
         <key>exercise_banner_ads_min_exercises_number</key>
         <value>5</value>
     </entry>
+    <entry>
+        <key>default_free_period_days</key>
+        <value>7</value>
+    </entry>
+    <entry>
+        <key>ad_rewarded_free_period_days</key>
+        <value>3</value>
+    </entry>
 </defaultsMap>

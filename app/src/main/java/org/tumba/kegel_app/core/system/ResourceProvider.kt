@@ -17,7 +17,7 @@ class ResourceProviderImpl(
 ) : ResourceProvider {
 
     override fun getString(@StringRes resId: Int, vararg args: Any): String {
-        return resources.getString(resId, args)
+        return resources.getString(resId, *args)
     }
 
     override fun getColor(resId: Int): Int {

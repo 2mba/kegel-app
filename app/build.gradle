@@ -6,6 +6,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     dataBinding {
@@ -21,25 +22,59 @@ android {
 
         def properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        def adMobInterstitialAdsUnitId = properties.getProperty("adMobInterstitialAdsUnitId")
-        def adMobExerciseBannerAdsUnitId = properties.getProperty("adMobExerciseBannerAdsUnitId")
-        def adMobAppId = properties.getProperty("adMobAppId")
+        def releaseAdMobInterstitialAdsUnitId = properties.getProperty("releaseAdMobInterstitialAdsUnitId")
+        def releaseAdMobExerciseBannerAdsUnitId = properties.getProperty("releaseAdMobExerciseBannerAdsUnitId")
+        def releaseAdMobRewardedAdsUnitId = properties.getProperty("releaseAdMobRewardedAdsUnitId")
+        def releaseAdMobAppId = properties.getProperty("releaseAdMobAppId")
 
-        if (adMobInterstitialAdsUnitId == null) {
-            throw new GradleException("Property adMobInterstitialAdsUnitId not found")
+        if (releaseAdMobInterstitialAdsUnitId == null) {
+            throw new GradleException("Property releaseAdMobInterstitialAdsUnitId not found")
         }
-        buildConfigField("String", "ADMOB_INTERSTITIAL_ADS_UNIT_ID", "\"${adMobInterstitialAdsUnitId}\"")
-        buildConfigField("String", "ADMOB_EXERCISE_BANNER_ADS_UNIT_ID", "\"${adMobExerciseBannerAdsUnitId}\"")
 
-        manifestPlaceholders = [adMobAppId: adMobAppId]
+        buildConfigField("String", "ADMOB_INTERSTITIAL_ADS_UNIT_ID", "\"${releaseAdMobInterstitialAdsUnitId}\"")
+        buildConfigField("String", "ADMOB_REWARDED_ADS_UNIT_ID", "\"${releaseAdMobRewardedAdsUnitId}\"")
+        buildConfigField("String", "ADMOB_EXERCISE_BANNER_ADS_UNIT_ID", "\"${releaseAdMobExerciseBannerAdsUnitId}\"")
+
+        manifestPlaceholders = [adMobAppId: releaseAdMobAppId]
     }
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+            def releaseAdMobInterstitialAdsUnitId = "ca-app-pub-3940256099942544/1033173712"
+            def releaseAdMobExerciseBannerAdsUnitId = "ca-app-pub-3940256099942544/6300978111"
+            def releaseAdMobRewardedAdsUnitId = "ca-app-pub-3940256099942544/5224354917"
+            def releaseAdMobAppId = "ca-app-pub-3940256099942544~3347511713"
+
+            if (releaseAdMobInterstitialAdsUnitId == null) {
+                throw new GradleException("Property releaseAdMobInterstitialAdsUnitId not found")
+            }
+
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ADS_UNIT_ID", "\"${releaseAdMobInterstitialAdsUnitId}\"")
+            buildConfigField("String", "ADMOB_REWARDED_ADS_UNIT_ID", "\"${releaseAdMobRewardedAdsUnitId}\"")
+            buildConfigField("String", "ADMOB_EXERCISE_BANNER_ADS_UNIT_ID", "\"${releaseAdMobExerciseBannerAdsUnitId}\"")
+
+            manifestPlaceholders = [adMobAppId: releaseAdMobAppId]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            def properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            def releaseAdMobInterstitialAdsUnitId = properties.getProperty("releaseAdMobInterstitialAdsUnitId")
+            def releaseAdMobExerciseBannerAdsUnitId = properties.getProperty("releaseAdMobExerciseBannerAdsUnitId")
+            def releaseAdMobRewardedAdsUnitId = properties.getProperty("releaseAdMobRewardedAdsUnitId")
+            def releaseAdMobAppId = properties.getProperty("releaseAdMobAppId")
+
+            if (releaseAdMobInterstitialAdsUnitId == null) {
+                throw new GradleException("Property releaseAdMobInterstitialAdsUnitId not found")
+            }
+
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ADS_UNIT_ID", "\"${releaseAdMobInterstitialAdsUnitId}\"")
+            buildConfigField("String", "ADMOB_REWARDED_ADS_UNIT_ID", "\"${releaseAdMobRewardedAdsUnitId}\"")
+            buildConfigField("String", "ADMOB_EXERCISE_BANNER_ADS_UNIT_ID", "\"${releaseAdMobExerciseBannerAdsUnitId}\"")
+
+            manifestPlaceholders = [adMobAppId: releaseAdMobAppId]
         }
     }
 

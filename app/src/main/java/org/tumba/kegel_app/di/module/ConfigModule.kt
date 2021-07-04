@@ -12,7 +12,8 @@ class ConfigModule {
     fun provideAppBuildConfig(): AppBuildConfig {
         return AppBuildConfig(
             interstitialAdsUnitId = BuildConfig.ADMOB_INTERSTITIAL_ADS_UNIT_ID,
-            exerciseBannerAppAdsUnitId = BuildConfig.ADMOB_EXERCISE_BANNER_ADS_UNIT_ID
+            exerciseBannerAppAdsUnitId = BuildConfig.ADMOB_EXERCISE_BANNER_ADS_UNIT_ID,
+            rewardedAdsUnitId = BuildConfig.ADMOB_REWARDED_ADS_UNIT_ID
         )
     }
 }
