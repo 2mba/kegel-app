@@ -51,7 +51,7 @@ class ProUpgradeViewModel @Inject constructor(
         defaultFreePeriodState is ProUpgradeManager.FreePeriodState.Expired &&
                 adAwardFreePeriodState != ProUpgradeManager.FreePeriodState.Active
     }.asLiveData()
-    val freePeriodDays = remoteConfig[ConfigConstants.adRewardedFreePeriodDays].asLong().toInt()
+    val freePeriodDays = remoteConfig[ConfigConstants.defaultFreePeriodDays].asLong().toInt()
     val startProPurchasingFlow = MutableLiveData(Event(false))
     val isLoading = MutableLiveData(false)
 
@@ -108,11 +108,15 @@ class ProUpgradeViewModel @Inject constructor(
 
     fun onClickClose() {
         tracker.trackClose()
-        navigate(
-            ProUpgradeFragmentDirections.actionCloseScreenToAdRewardProUpgradeDialogFragment(
-                isCloseProUpgradeScreen = false
+        if (isAdRewardButtonVisible.value == true) {
+            navigate(
+                ProUpgradeFragmentDirections.actionCloseScreenToAdRewardProUpgradeDialogFragment(
+                    isCloseProUpgradeScreen = false
+                )
             )
-        )
+        } else {
+            back()
+        }
     }
 
     private fun loadBillingDetails() {
