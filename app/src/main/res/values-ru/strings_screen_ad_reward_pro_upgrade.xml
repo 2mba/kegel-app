@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="screen_ad_reward_pro_upgrade_title">Не готовы купить PRO версию?</string>
-    <string name="screen_ad_reward_pro_upgrade_message">Вы можете получить к PRO версии без покупки PRO. Просто посмотрите рекламу и получите доступ к PRO функциям на %d дня (дней).</string>
+    <string name="screen_ad_reward_pro_upgrade_message">Вы можете получить PRO версию без покупки. Просто посмотрите рекламу и получите доступ к PRO функциям на %d дня (дней).</string>
     <string name="screen_ad_reward_pro_upgrade_btn_done">Посмотреть рекламу</string>
     <string name="screen_ad_reward_pro_upgrade_btn_cancel">Отмена</string>
     <string name="screen_ad_reward_pro_upgrade_toast_success">PRO функции будут доступны на %s дня (дней)</string>
