@@ -51,6 +51,14 @@ class ProUpgradeManager @Inject constructor(
         isProAvailableFromSettings || isProPurchased == true || isFreePeriodActive
     }.stateIn(scope + IgnoreErrorHandler.asCoroutineExceptionHandler(), SharingStarted.Eagerly, false)
 
+    val isProPurchased: StateFlow<Boolean> = purchases.map { purchases ->
+        updateProAvailabilityInSettings(purchases)
+        val isProPurchased = isProPurchased(purchases)
+        val isProAvailableFromSettings = (settingsRepository.isProAvailable.value && isProPurchased == null)
+        trackProPurchased(isProPurchased)
+        isProAvailableFromSettings || isProPurchased == true
+    }.stateIn(scope + IgnoreErrorHandler.asCoroutineExceptionHandler(), SharingStarted.Eagerly, false)
+
     val proUpgradeSkuDetails = billingManager.skuDetails
         .map { details -> details.firstOrNull { it.sku == SKU_UPGRADE_PRO } }
 

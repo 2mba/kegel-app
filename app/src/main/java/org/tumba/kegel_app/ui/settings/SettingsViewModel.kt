@@ -70,7 +70,8 @@ class SettingsViewModel @Inject constructor(
         .map { soundPackNames.getOrElse(it) { String.Empty } }
         .asLiveData()
 
-    val isProAvailable: LiveData<Boolean> = proUpgradeManager.isProAvailable.asLiveData()
+    val isProAvailable = proUpgradeManager.isProAvailable.asLiveData()
+    val isProPurchased = proUpgradeManager.isProPurchased.asLiveData()
 
     init {
         soundManager.build()
