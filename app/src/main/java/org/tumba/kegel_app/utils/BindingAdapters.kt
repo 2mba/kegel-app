@@ -56,12 +56,10 @@ fun bindBackgroundMode(view: TextView, backgroundMode: ExerciseBackgroundMode?) 
 
 @BindingAdapter("bindDrawableEndCompat")
 fun bindDrawableEndCompat(view: TextView, drawable: Drawable?) {
-    if (drawable != null) {
-        view.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            null,
-            null,
-            drawable,
-            null
-        )
-    }
+    view.setCompoundDrawablesRelativeWithIntrinsicBounds(
+        null,
+        null,
+        drawable,
+        null
+    )
 }
