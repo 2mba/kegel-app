@@ -40,9 +40,13 @@ class AdRewardProUpgradeDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.observeSnackbar(viewLifecycleOwner, requireContext(), activity?.findViewById(R.id.navFragment) ?: view)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.observeSnackbar(
+            viewLifecycleOwner,
+            requireContext(),
+            activity?.findViewById(R.id.navFragment) ?: requireView()
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
