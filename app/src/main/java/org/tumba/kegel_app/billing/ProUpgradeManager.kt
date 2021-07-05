@@ -40,6 +40,7 @@ class ProUpgradeManager @Inject constructor(
     private val purchases = billingManager.purchases
         .map { it as List<Purchase>? }
         .onStart { emit(null) }
+
     val isProAvailable: StateFlow<Boolean> = combine(
         isFreePeriodActive(),
         purchases
@@ -174,7 +175,6 @@ class ProUpgradeManager @Inject constructor(
                     time = Date(freePeriod.startDate.value)
                     add(Calendar.DAY_OF_YEAR, freePeriod.days.value)
                     Timber.d("Free period expiration date ${SimpleDateFormat.getInstance().format(this.time)}")
-                    // add(Calendar.MINUTE, 2)
                 }
                 if (endDate.after(dateHelper.now())) {
                     FreePeriodState.Active
