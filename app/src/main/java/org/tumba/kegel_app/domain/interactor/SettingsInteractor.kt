@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
+import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.core.system.NightModeManager
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.worker.ReminderWorkerManager
@@ -12,7 +13,8 @@ import javax.inject.Inject
 class SettingsInteractor @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val reminderWorkerManager: ReminderWorkerManager,
-    private val nightModeManager: NightModeManager
+    private val nightModeManager: NightModeManager,
+    private val proUpgradeManager: ProUpgradeManager
 ) {
 
     fun observeReminderEnabled(): Flow<Boolean> {
@@ -98,6 +100,15 @@ class SettingsInteractor @Inject constructor(
     suspend fun setSoundPack(id: Int) {
         withContext(Dispatchers.Default) {
             exerciseSettingsRepository.soundPack.value = id
+        }
+    }
+
+    fun observeSoundEnabled(): Flow<Boolean> {
+        return combine(
+            proUpgradeManager.isProAvailable,
+            exerciseSettingsRepository.isSoundEnabled.asFlow()
+        ) { isProAvailable, isSoundEnabled ->
+            isProAvailable && isSoundEnabled
         }
     }
 

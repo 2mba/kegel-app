@@ -2,6 +2,7 @@ package org.tumba.kegel_app.domain.interactor
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import org.tumba.kegel_app.billing.ProUpgradeManager
 import org.tumba.kegel_app.domain.*
 import org.tumba.kegel_app.floatingview.FloatingViewManager
 import org.tumba.kegel_app.repository.ExerciseRepository
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @Suppress("EXPERIMENTAL_API_USAGE")
 class ExerciseInteractor @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
+    private val proUpgradeManager: ProUpgradeManager,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val exerciseService: ExerciseService,
     private val exerciseProgram: ExerciseProgram,
@@ -131,9 +133,26 @@ class ExerciseInteractor @Inject constructor(
     }
 
     fun observeBackgroundMode(): Flow<ExerciseBackgroundMode> {
-        return exerciseSettingsRepository.backgroundMode
+        val backgroundModeFlow = exerciseSettingsRepository.backgroundMode
             .asFlow()
             .map { ExerciseBackgroundMode.values().getOrElse(it) { ExerciseBackgroundMode.NONE } }
+        return combine(
+            proUpgradeManager.isProAvailable,
+            backgroundModeFlow
+        ) { isProAvailable, backgroundMode ->
+            when {
+                isProAvailable -> {
+                    backgroundMode
+                }
+                backgroundMode == ExerciseBackgroundMode.FLOATING_VIEW -> {
+                    exerciseSettingsRepository.backgroundMode.value = ExerciseBackgroundMode.NONE.ordinal
+                    ExerciseBackgroundMode.NONE
+                }
+                else -> {
+                    backgroundMode
+                }
+            }
+        }
     }
 
     suspend fun setBackgroundMode(backgroundMode: ExerciseBackgroundMode) {

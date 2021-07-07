@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.tumba.kegel_app.core.system.SoundManager
 import org.tumba.kegel_app.core.system.VibrationManager
+import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.sound.SoundPack
 import org.tumba.kegel_app.sound.SoundPackManager
@@ -20,6 +21,7 @@ interface ExerciseEffectsHandler {
 
 class ExerciseEffectsHandlerImpl @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
+    private val settingsInteractor: SettingsInteractor,
     private val vibrationManager: VibrationManager,
     private val soundManager: SoundManager,
     soundPackManager: SoundPackManager
@@ -57,9 +59,7 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
     }
 
     private suspend fun handleExerciseKindChanges(state: Flow<ExerciseState>) {
-        state//.filterIsInstance<ExerciseState.SingleExercise>()
-            // .filter { it !is ExerciseState.Pause && it !is ExerciseState.Preparation }
-            .distinctUntilChanged { exercise1, exercise2 -> exercise1.javaClass == exercise2.javaClass }
+        state.distinctUntilChanged { exercise1, exercise2 -> exercise1.javaClass == exercise2.javaClass }
             .flowOn(Dispatchers.Default)
             .collect { exerciseState ->
                 vibrate(exerciseState)
@@ -81,12 +81,12 @@ class ExerciseEffectsHandlerImpl @Inject constructor(
         }
     }
 
-    private fun playSound(state: ExerciseState) {
+    private suspend fun playSound(state: ExerciseState) {
         if (state is ExerciseState.Pause || state is ExerciseState.Preparation) {
             return
         }
         val soundId = getSoundId(state)
-        if (exerciseSettingsRepository.isSoundEnabled.value && soundId != null) {
+        if (settingsInteractor.observeSoundEnabled().first() && soundId != null) {
             soundManager.play(exerciseSettingsRepository.soundVolume.value, soundId)
         }
     }

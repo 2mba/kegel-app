@@ -17,6 +17,7 @@ import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.ExerciseState
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
+import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.ad.ExerciseBannerAdShowBehaviour
 import org.tumba.kegel_app.ui.common.BaseViewModel
@@ -30,6 +31,7 @@ import org.tumba.kegel_app.utils.formatExerciseDuration
 class ExerciseViewModel(
     private val exerciseType: ExerciseType,
     private val exerciseInteractor: ExerciseInteractor,
+    private val settingsInteractor: SettingsInteractor,
     private val exerciseServiceInteractor: ExerciseServiceInteractor,
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
     private val exerciseParametersProvider: ExerciseParametersProvider,
@@ -89,11 +91,8 @@ class ExerciseViewModel(
     val isVibrationEnabled = exerciseSettingsRepository.isVibrationEnabled
         .asFlow()
         .asLiveData(Dispatchers.Default)
-    val isSoundEnabled = exerciseSettingsRepository.isSoundEnabled
-        .asFlow()
-        .asLiveData(Dispatchers.Default)
-    val backgroundMode = exerciseInteractor.observeBackgroundMode()
-        .asLiveData(Dispatchers.Default)
+    val isSoundEnabled = settingsInteractor.observeSoundEnabled().asLiveData(Dispatchers.Default)
+    val backgroundMode = exerciseInteractor.observeBackgroundMode().asLiveData(Dispatchers.Default)
     val exitConfirmationDialogVisible = MutableLiveData(Event(false))
     val exit = MutableLiveData(Event(false))
     val navigateToExerciseResult = MutableLiveData(Event(false))

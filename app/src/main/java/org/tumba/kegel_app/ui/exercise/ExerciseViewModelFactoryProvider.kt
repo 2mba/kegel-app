@@ -8,6 +8,7 @@ import org.tumba.kegel_app.core.system.ResourceProvider
 import org.tumba.kegel_app.domain.ExerciseParametersProvider
 import org.tumba.kegel_app.domain.interactor.ExerciseInteractor
 import org.tumba.kegel_app.domain.interactor.ExerciseServiceInteractor
+import org.tumba.kegel_app.domain.interactor.SettingsInteractor
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import org.tumba.kegel_app.ui.ad.ExerciseBannerAdShowBehaviour
 import org.tumba.kegel_app.ui.common.ExerciseNameProvider
@@ -24,7 +25,8 @@ class ExerciseViewModelFactoryProvider @Inject constructor(
     private val tracker: ExerciseTracker,
     private val resourceProvider: ResourceProvider,
     private val permissionProvider: PermissionProvider,
-    private val exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour
+    private val exerciseBannerAdShowBehaviour: ExerciseBannerAdShowBehaviour,
+    private val settingsInteractor: SettingsInteractor
 ) {
 
     fun build(exerciseType: ExerciseType): ViewModelProvider.Factory {
@@ -41,6 +43,7 @@ class ExerciseViewModelFactoryProvider @Inject constructor(
                 resourceProvider = resourceProvider,
                 permissionProvider = permissionProvider,
                 exerciseBannerAdShowBehaviour = exerciseBannerAdShowBehaviour,
+                settingsInteractor = settingsInteractor
             )
         }
     }
