@@ -2,6 +2,7 @@ package org.tumba.kegel_app.service
 
 import android.content.Context
 import android.content.Intent
+import timber.log.Timber
 
 interface ExerciseService {
 
@@ -29,6 +30,10 @@ class ExerciseServiceProxy(private val context: Context) : ExerciseService {
         val intent = Intent(context, ExerciseAndroidService::class.java).apply {
             action = ExerciseAndroidService.ACTION_CLEAR_NOTIFICATION
         }
-        context.startService(intent)
+        try {
+            context.startService(intent)
+        } catch (err: Throwable) {
+            Timber.e(err, "Unable to start service")
+        }
     }
 }
