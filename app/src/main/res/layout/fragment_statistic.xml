@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.tumba.kegel_app.ui.statistic.StatisticViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_medium">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/card_vertical_margin"
+                    android:foreground="?selectableItemBackground">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/titleStatistic2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last 30 days"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.db.williamchart.view.LineChartView
+                            android:id="@+id/weeklyStatisticChartView"
+                            android:layout_width="0dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            app:chart_barsBackgroundColor="#0000"
+                            app:chart_barsColor="?attr/colorAccent"
+                            app:chart_barsRadius="4dp"
+                            app:chart_grid="horizontal"
+                            app:chart_gridColor="#2000"
+                            app:chart_gridEffect="dotted"
+                            app:chart_gridStrokeWidth="1dp"
+                            app:chart_labelsColor="@color/gray"
+                            app:chart_labelsFont="@font/nunito_regular"
+                            app:chart_labelsSize="12dp"
+                            app:chart_lineColor="?attr/colorAccent"
+                            app:chart_lineThickness="4dp"
+                            app:chart_smoothLine="true"
+                            app:chart_spacing="14dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/titleStatistic2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/card_vertical_margin"
+                    android:foreground="?selectableItemBackground">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/titleStatistic3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Week days history"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.db.williamchart.view.BarChartView
+                            android:id="@+id/weekDaysStatisticChartView"
+                            android:layout_width="0dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            app:chart_barsBackgroundColor="#0000"
+                            app:chart_barsColor="?attr/colorAccent"
+                            app:chart_barsRadius="4dp"
+                            app:chart_grid="horizontal"
+                            app:chart_gridColor="#2000"
+                            app:chart_gridEffect="dashed"
+                            app:chart_gridStrokeWidth="1dp"
+                            app:chart_labelsColor="@color/gray"
+                            app:chart_labelsFont="@font/nunito_regular"
+                            app:chart_labelsSize="12dp"
+                            app:chart_lineColor="?attr/colorAccent"
+                            app:chart_smoothLine="true"
+                            app:chart_spacing="20dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/titleStatistic3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

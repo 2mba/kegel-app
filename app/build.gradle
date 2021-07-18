@@ -124,7 +124,6 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
-    implementation "androidx.room:room-rxjava2:$rootProject.roomVersion"
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlinVersion"
     // Coroutines
@@ -174,6 +173,7 @@ dependencies {
     implementation "com.android.billingclient:billing-ktx:$billingVersion"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.diogobernardino:williamchart:3.10.1'
 
     // Testing
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"

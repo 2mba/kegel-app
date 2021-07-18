@@ -30,7 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private val navBarScreens = listOf(
         R.id.screenHome,
-        R.id.screenSettings
+        R.id.screenStatistic,
+        R.id.screenSettings,
     )
 
     private val mainScope = MainScope()

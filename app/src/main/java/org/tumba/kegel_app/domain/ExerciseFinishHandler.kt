@@ -1,12 +1,14 @@
 package org.tumba.kegel_app.domain
 
 import kotlinx.coroutines.flow.first
+import org.tumba.kegel_app.db.CompletedExerciseDao
 import org.tumba.kegel_app.repository.ExerciseSettingsRepository
 import javax.inject.Inject
 
 class ExerciseFinishHandler @Inject constructor(
     private val exerciseSettingsRepository: ExerciseSettingsRepository,
-    private val exerciseParametersProvider: ExerciseParametersProvider
+    private val exerciseParametersProvider: ExerciseParametersProvider,
+    private val exerciseDao: CompletedExerciseDao
 ) {
 
     private var onFinishListeners = mutableListOf<() -> Unit>()

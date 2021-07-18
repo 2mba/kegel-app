@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Упражнение Кегеля</string>
     <string name="title_home">Главный</string>
+    <string name="title_statistic">Статистика</string>
     <string name="title_notifications">Уведомления</string>
     <string name="title_exercise">Упражнение</string>
     <string name="exercise_notification_title">Упражнение Кегеля</string>

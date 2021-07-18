@@ -15,13 +15,14 @@ import org.tumba.kegel_app.ui.home.HomeFragment
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment
 import org.tumba.kegel_app.ui.settings.AboutAppFragment
 import org.tumba.kegel_app.ui.settings.SettingsFragment
+import org.tumba.kegel_app.ui.statistic.StatisticFragment
 import org.tumba.kegel_app.worker.ReminderWorker
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [AppModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class,
-        ConfigModule::class]
+        ConfigModule::class, DatabaseModule::class]
 )
 interface AppComponent {
 
@@ -52,4 +53,6 @@ interface AppComponent {
     fun inject(obj: CustomExerciseSetupFragment)
 
     fun inject(obj: AdRewardProUpgradeDialogFragment)
+
+    fun inject(obj: StatisticFragment)
 }
