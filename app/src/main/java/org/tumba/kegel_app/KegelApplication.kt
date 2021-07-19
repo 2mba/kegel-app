@@ -2,6 +2,7 @@ package org.tumba.kegel_app
 
 import android.app.Application
 import org.tumba.kegel_app.billing.BillingManager
+import org.tumba.kegel_app.config.RemoteConfigInitializer
 import org.tumba.kegel_app.di.component.DaggerAppComponent
 import org.tumba.kegel_app.di.module.AppModule
 import org.tumba.kegel_app.di.module.ConfigModule
@@ -22,11 +23,15 @@ class KegelApplication : Application() {
     @Inject
     lateinit var billingManager: BillingManager
 
+    @Inject
+    lateinit var remoteConfigInitializer: RemoteConfigInitializer
+
     override fun onCreate() {
         super.onCreate()
         appComponent.inject(this)
         settingsInteractor.restoreNightMode()
         billingManager.onAppStarted()
         Timber.plant(Timber.DebugTree())
+        remoteConfigInitializer.init()
     }
 }

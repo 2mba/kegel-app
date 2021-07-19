@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="org.tumba.kegel_app.ui.home.AdRewardProUpgradeViewModel" />
+            type="org.tumba.kegel_app.ui.home.dialog.AdRewardProUpgradeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

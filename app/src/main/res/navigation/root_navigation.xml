@@ -123,7 +123,7 @@
 
     <dialog
         android:id="@+id/firstExerciseChallengeDialogFragment"
-        android:name="org.tumba.kegel_app.ui.home.FirstExerciseChallengeDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.dialog.FirstExerciseChallengeDialogFragment"
         android:label="FirstExerciseChallengeDialogFragment">
         <argument
             android:name="type"
@@ -178,7 +178,7 @@
 
     <dialog
         android:id="@+id/firstEntryDialogFragment"
-        android:name="org.tumba.kegel_app.ui.home.FirstEntryDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.dialog.FirstEntryDialogFragment"
         android:label="FirstEntryDialogFragment" />
 
     <fragment
@@ -243,7 +243,7 @@
     </fragment>
     <dialog
         android:id="@+id/adRewardProUpgradeDialogFragment"
-        android:name="org.tumba.kegel_app.ui.home.AdRewardProUpgradeDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.dialog.AdRewardProUpgradeDialogFragment"
         android:label="AdRewardProUpgradeDialogFragment"
         tools:layout="@layout/fragment_ad_reward_pro_upgrade">
         <argument
@@ -262,6 +262,17 @@
     <action
         android:id="@+id/action_global_adRewardProUpgradeDialogFragment"
         app:destination="@id/adRewardProUpgradeDialogFragment"
+        app:enterAnim="@anim/fragment_open_enter"
+        app:exitAnim="@anim/fragment_open_exit"
+        app:popEnterAnim="@anim/fragment_open_enter"
+        app:popExitAnim="@anim/fragment_open_exit" />
+    <dialog
+        android:id="@+id/freePeriodSuggestionDialogFragment"
+        android:name="org.tumba.kegel_app.ui.home.dialog.FreePeriodSuggestionDialogFragment"
+        android:label="FreePeriodSuggestionDialogFragment" />
+    <action
+        android:id="@+id/action_global_freePeriodSuggestionDialogFragment"
+        app:destination="@id/freePeriodSuggestionDialogFragment"
         app:enterAnim="@anim/fragment_open_enter"
         app:exitAnim="@anim/fragment_open_exit"
         app:popEnterAnim="@anim/fragment_open_enter"

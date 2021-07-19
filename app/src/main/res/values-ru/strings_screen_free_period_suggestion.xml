@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_free_period_suggestion_title">Попробуйте пробный период</string>
+    <string name="screen_free_period_suggestion_message">Хотите получить доступ к PRO функциям бесплатно на %d days?</string>
+    <string name="screen_free_period_suggestion_yes">Да</string>
+    <string name="screen_free_period_suggestion_no">Нет</string>
+</resources>

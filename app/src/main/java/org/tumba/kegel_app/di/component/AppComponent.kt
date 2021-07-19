@@ -8,10 +8,11 @@ import org.tumba.kegel_app.service.ExerciseAndroidService
 import org.tumba.kegel_app.ui.customexercise.CustomExerciseSetupFragment
 import org.tumba.kegel_app.ui.exercise.ExerciseFragment
 import org.tumba.kegel_app.ui.exercise.ExerciseResultFragment
-import org.tumba.kegel_app.ui.home.AdRewardProUpgradeDialogFragment
-import org.tumba.kegel_app.ui.home.FirstEntryDialogFragment
-import org.tumba.kegel_app.ui.home.FirstExerciseChallengeDialogFragment
 import org.tumba.kegel_app.ui.home.HomeFragment
+import org.tumba.kegel_app.ui.home.dialog.AdRewardProUpgradeDialogFragment
+import org.tumba.kegel_app.ui.home.dialog.FirstEntryDialogFragment
+import org.tumba.kegel_app.ui.home.dialog.FirstExerciseChallengeDialogFragment
+import org.tumba.kegel_app.ui.home.dialog.FreePeriodSuggestionDialogFragment
 import org.tumba.kegel_app.ui.proupgrade.ProUpgradeFragment
 import org.tumba.kegel_app.ui.settings.AboutAppFragment
 import org.tumba.kegel_app.ui.settings.SettingsFragment
@@ -52,4 +53,6 @@ interface AppComponent {
     fun inject(obj: CustomExerciseSetupFragment)
 
     fun inject(obj: AdRewardProUpgradeDialogFragment)
+
+    fun inject(obj: FreePeriodSuggestionDialogFragment)
 }

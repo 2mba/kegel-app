@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_free_period_suggestion_title">Check the trial period out</string>
+    <string name="screen_free_period_suggestion_message">Do you want to get access to the PRO features for free for %d days?</string>
+    <string name="screen_free_period_suggestion_yes">Yes</string>
+    <string name="screen_free_period_suggestion_no">No</string>
+</resources>

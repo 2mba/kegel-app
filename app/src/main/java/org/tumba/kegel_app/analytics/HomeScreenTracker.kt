@@ -45,4 +45,17 @@ class HomeScreenTracker @Inject constructor(analytics: Analytics) : TrackerScope
     fun trackNavigateToProUpgradeFromExpiredDialog() {
         tracker.track("navigate_to_pro_upgrade_expired_popup")
     }
+
+    fun trackFreePeriodSuggestionShown() {
+        tracker.track("free_period_suggestion_shown")
+    }
+
+    fun trackFreePeriodSuggestionOkClicked() {
+        tracker.track(click("free_period_suggestion_ok"))
+    }
+
+    fun trackFreePeriodSuggestionCancelClicked() {
+        tracker.track(click("free_period_suggestion_cancel"))
+    }
+
 }

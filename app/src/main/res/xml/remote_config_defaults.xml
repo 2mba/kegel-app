@@ -33,4 +33,17 @@
         <key>ad_rewarded_free_period_days</key>
         <value>3</value>
     </entry>
+    <entry>
+        <key>free_period_suggestion_dialog_start</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>free_period_suggestion_dialog_frequency</key>
+        <value>2</value>
+    </entry>
+    <entry>
+        <key>free_period_suggestion_dialog_enabled</key>
+        <value>true</value>
+    </entry>
+
 </defaultsMap>

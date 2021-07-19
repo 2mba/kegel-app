@@ -1,4 +1,4 @@
-package org.tumba.kegel_app.ui.home
+package org.tumba.kegel_app.ui.home.dialog
 
 import android.app.Dialog
 import android.os.Bundle
